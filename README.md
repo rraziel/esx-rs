@@ -14,30 +14,70 @@ Install the library using `npm`:
 npm install tsxrs --save
 ```
 
-Then create an interface that describes the endpoint:
+Then create a class for endpoint:
 
 ```typescript
 @Path('/users')
-interface UsersEndpoint {
+class UsersEndpoint {
 
     @POST
-    @Consumes('application/vnd.example.user+json')
-    @Produces('application/vnd.example.user+json')
-    createUser(user: User): Promise<User>;
+    async createUser(user: User): Promise<User> {
+        // ...
+    }
 
     @PUT @Path('/:userId')
-    @Consumes('application/vnd.example.user+json')
-    @Produces('application/vnd.example.user+json')
-    updateUser(@PathParam('userId') userId: string, user: User): Promise<User>;
+    async updateUser(@PathParam('userId') userId: string, user: User): Promise<User> {
+        // ...
+    }
 
     @GET @Path('/:userId')
-    @Produces('application/vnd.example.user+json')
-    getUser(@PathParam('userId') userId: string): Promise<User>;
+    async getUser(@PathParam('userId') userId: string): Promise<User> {
+        // ...
+    }
 
     @DELETE @Path('/:userId')
-    deleteUser(@PathParam('userId') userId: string): Promise<void>;
+    async deleteUser(@PathParam('userId') userId: string): Promise<void> {
+        // ...
+    }
 
 }
 ```
 
-Note: using a class would work just as well, however separating the interface (API) from the implementation is considered good practice.
+## Usage
+
+### Decorators
+
+Various decorators are available, each targetting a subset of the typical REST properties for a services.
+
+The HTTP method(s) can be specified with the following decorators:
+
+- `@DELETE`
+- `@GET`
+- `@HEAD`
+- `@OPTIONS`
+- `@PATCH`
+- `@POST`
+- `@PUT`
+
+The resource path can be specified using:
+
+- `@Path`
+
+The consumed - bound to the HTTP `content-type` header - and consumed - bound to the HTTP `accept` header - media types can be specified using:
+
+- `@Consumed`
+- `@Produced`
+
+### Endpoint vs. Operation
+
+Many decorators can be used on both a class and its methods.
+
+In this scenario, the `OperationInfo` object returned for a method contains merged information that includes both the operation and the endpoint information.
+
+The following decorators can be used on classes and methods:
+
+- `@DELETE`, `@GET`, `@HEAD`, `@OPTIONS`, `@PATCH`, `@POST` and `@PUT`
+- `@Consumes` and `@Produces`
+- `@Path`
+
+The `@Path` decorator is a bit of a special case: the operation path is appended to the endpoint path.

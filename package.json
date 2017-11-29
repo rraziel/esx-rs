@@ -1,0 +1,59 @@
+{
+  "name": "tsxrs",
+  "version": "0.1.0",
+  "description": "TypeScript decorators for REST endpoint declaration, inspired by JAX-RS.",
+  "homepage": "https://github.com/rraziel/tsxrs",
+  "bugs": "https://github.com/rraziel/tsxrs/issues",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rraziel/tsxrs.git"
+  },
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc -p .",
+    "test": "./node_modules/.bin/jest --watch --no-cache --verbose",
+    "coverage": "./node_modules/.bin/jest --no-cache --coverage",
+    "tslint": "tslint --project ./tsconfig.json --config ./conf/tslint.json '**/*.ts' --exclude '**/node_modules/**'"
+  },
+  "jest": {
+    "mapCoverage": true,
+    "collectCoverageFrom": [
+      "src/**/*.ts",
+      "!src/**/index.ts"
+    ],
+    "moduleDirectories": [
+      "node_modules",
+      "src"
+    ],
+    "moduleFileExtensions": [
+      "ts",
+      "js",
+      "json"
+    ],
+    "roots": [
+      "<rootDir>/src"
+    ],
+    "testResultsProcessor": "<rootDir>/node_modules/jest-junit-reporter",
+    "testRegex": "\\.spec\\.ts",
+    "transform": {
+      "^.+\\.ts$": "ts-jest"
+    }
+  },
+  "dependencies": {
+    "reflect-metadata": "^0.1.10"
+  },
+  "devDependencies": {
+    "@types/jest": "21.1.8",
+    "@types/node": "8.0.53",
+    "codecov": "3.0.0",
+    "jest": "21.2.1",
+    "jest-create-mock-instance": "1.0.2",
+    "jest-junit-reporter": "1.1.0",
+    "json-loader": "0.5.7",
+    "ts-jest": "21.2.3",
+    "ts-node": "3.3.0",
+    "tslint": "5.8.0",
+    "typescript": "2.6.1"
+  }
+}
