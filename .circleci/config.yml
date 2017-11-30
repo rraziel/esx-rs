@@ -1,0 +1,25 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/node:latest
+    working_directory: ~/repo
+    steps:
+      - run:
+          name: 'Version check'
+          command: |
+            node --version
+            npm --version
+      - checkout
+      - run:
+          name: 'Dependencies'
+          command: npm install
+      - run:
+          name: 'Lint'
+          command: npm run tslint
+      - run:
+          name: 'Build'
+          command: npm run build
+      - run:
+          name: 'Unit tests'
+          command: npm run coverage

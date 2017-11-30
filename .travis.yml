@@ -1,0 +1,21 @@
+env:
+  global:
+    - CC_TEST_REPORTER_ID=93973f7a27b2d3f7d86f6b34f04e33ef1e0b113800149017b77ee6628c0915c4
+language: node_js
+node_js:
+  - "8"
+before_install:
+  - npm install -g greenkeeper-lockfile@1
+before_script:
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
+  - greenkeeper-lockfile-update
+script:
+  - npm install
+  - npm run tslint
+  - npm run build
+  - npm run coverage
+after_script:
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+  - greenkeeper-lockfile-upload

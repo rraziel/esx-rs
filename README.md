@@ -65,8 +65,8 @@ The resource path can be specified using:
 
 The consumed - bound to the HTTP `content-type` header - and consumed - bound to the HTTP `accept` header - media types can be specified using:
 
-- `@Consumed`
-- `@Produced`
+- `@Consumes`
+- `@Produces`
 
 ### Endpoint vs. Operation
 
