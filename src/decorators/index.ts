@@ -1,3 +1,3 @@
-export {Consumes} from './consumes';
+export {Consumes, Produces} from './resource-type';
 export {DELETE, GET, HEAD, OPTIONS, PATCH, POST, PUT} from './http-method';
-export {Produces} from './produces';
+export {FormParam, HeaderParam, PathParam, QueryParam} from './param';

@@ -5,8 +5,8 @@ import {OperationParameterType} from './operation-parameter-type';
  */
 interface OperationParameterInfo {
     name: string;
-    parameterType: OperationParameterType;
-    type?: Function;
+    class: Function;
+    type: OperationParameterType;
 }
 
 export {

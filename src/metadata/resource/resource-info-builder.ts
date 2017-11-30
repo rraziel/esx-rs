@@ -1,3 +1,4 @@
+import {OperationParameterType} from '../operation/operation-parameter-type';
 
 /**
  * Resource information builder
@@ -14,6 +15,17 @@ class ResourceInfoBuilder {
     private constructor(target: Object, propertyKey?: string|symbol) {
         this.target = target;
         this.propertyKey = propertyKey;
+    }
+
+    /**
+     * Set a property
+     * @param propertyKey   Property key
+     * @param parameterType Parameter type
+     * @param propertyClass Property class
+     * @param parameterName Parameter name
+     */
+    property(propertyKey: string|symbol, parameterType: OperationParameterType, propertyClass: Function, parameterName?: string): ResourceInfoBuilder {
+        return this;
     }
 
     /**

@@ -1,6 +1,8 @@
 import {HttpMethod} from '../http-method';
 import {OperationInfo} from './operation-info';
 import {OperationInfoMetadata} from './operation-info-metadata';
+import {OperationParameterInfo} from './operation-parameter-info';
+import {OperationParameterType} from './operation-parameter-type';
 import 'reflect-metadata';
 
 /**
@@ -63,6 +65,29 @@ class OperationInfoBuilder {
         return this.update(operationInfo => {
             let producedMediaTypes: (string|Function)[] = operationInfo.producedMediaTypes = operationInfo.producedMediaTypes || [];
             producedMediaTypes.push(mediaType);
+        });
+    }
+
+    /**
+     * Set a parameter's type
+     * @param parameterIndex Parameter index
+     * @param parameterType  Parameter type
+     * @param parameterClass Parameter class
+     * @param parameterName  Parameter name
+     */
+    parameter(parameterIndex: number, parameterType: OperationParameterType, parameterClass: Function, parameterName?: string): OperationInfoBuilder {
+        return this.update(operationInfo => {
+            let parameters: OperationParameterInfo[] = operationInfo.parameters = operationInfo.parameters || [];
+
+            while (!(parameterIndex < parameters.length)) {
+                parameters.push(null);
+            }
+
+            parameters[parameterIndex] = {
+                name: parameterName,
+                class: parameterClass,
+                type: parameterType
+            };
         });
     }
 

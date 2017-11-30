@@ -8,7 +8,7 @@ class DecoratorInfo {
     name: string;
 }
 
-function createHttpMethodSpecification(decoratorInfo: DecoratorInfo) {
+function createHttpMethodSpecification(decoratorInfo: DecoratorInfo): void {
     let decoratorName: string = decoratorInfo.name;
     let decorator: ClassOrMethodDecorator = decoratorInfo.decorator;
     let method: HttpMethod = decoratorInfo.method;
@@ -102,7 +102,7 @@ describe('Multiple HTTP method decorators can be applied to', () => {
 
 });
 
-const decoratorNamePairs: DecoratorInfo[] = [
+const decoratorInfos: DecoratorInfo[] = [
     {decorator: DELETE, method: HttpMethod.DELETE, name: 'DELETE'},
     {decorator: GET, method: HttpMethod.GET, name: 'GET'},
     {decorator: HEAD, method: HttpMethod.HEAD, name: 'HEAD'},
@@ -111,4 +111,4 @@ const decoratorNamePairs: DecoratorInfo[] = [
     {decorator: POST, method: HttpMethod.POST, name: 'POST'},
     {decorator: PUT, method: HttpMethod.PUT, name: 'PUT'}
 ];
-decoratorNamePairs.forEach(createHttpMethodSpecification);
+decoratorInfos.forEach(createHttpMethodSpecification);

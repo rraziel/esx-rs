@@ -12,10 +12,7 @@ interface OperationInfo {
     httpMethods?: HttpMethod[];
     consumedMediaTypes?: string[];
     producedMediaTypes?: string[];
-    bodyParameterIndex?: number;
-    headerParameters?: {[parameterIndex: number]: string};
-    pathParameters?: {[parameterIndex: number]: string};
-    queryParameters?: {[parameterIndex: number]: string|Function};
+    parameters?: OperationParameterInfo[];
 }
 
 /**
