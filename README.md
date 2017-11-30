@@ -1,5 +1,18 @@
 # TSX-RS
 
+[![AppVeyor](https://img.shields.io/appveyor/ci/rraziel/tsxrs/master.svg?label=Win32&style=flat)](https://ci.appveyor.com/project/rraziel/tsxrs)
+[![CircleCI](https://img.shields.io/circleci/project/github/rraziel/tsxrs/master.svg?label=MacOS&style=flat)](https://circleci.com/gh/rraziel/tsxrs)
+[![Travis CI](https://img.shields.io/travis/rraziel/tsxrs/master.svg?label=Linux&style=flat)](https://travis-ci.org/rraziel/tsxrs)
+[![AppVeyor tests](https://img.shields.io/appveyor/tests/rraziel/tsxrs/master.svg?label=Tests&style=flat)](https://ci.appveyor.com/project/rraziel/tsxrs/build/tests)
+[![Codecov](https://img.shields.io/codecov/c/github/rraziel/tsxrs.svg?label=Coverage&style=flat)](https://codecov.io/gh/rraziel/tsxrs)
+[![Code Climate](https://img.shields.io/codeclimate/maintainability/rraziel/tsxrs.svg?label=Maintainability&style=flat)](https://codeclimate.com/github/rraziel/tsxrs)
+[![Code Climate](https://img.shields.io/codeclimate/issues/github/rraziel/tsxrs.svg?label=Code%20Issues&style=flat)](https://codeclimate.com/github/rraziel/tsxrs/issues)
+
+[![Dependencies](https://img.shields.io/david/rraziel/tsxrs.svg?label=Dependencies&style=flat)](https://david-dm.org/rraziel/tsxrs)
+[![Development dependencies](https://img.shields.io/david/dev/rraziel/tsxrs.svg?label=Dev%20Dependencies&style=flat)](https://david-dm.org/rraziel/tsxrs?type=dev)
+[![Known Vulnerabilities](https://snyk.io/test/github/rraziel/tsxrs/badge.svg)](https://snyk.io/test/github/rraziel/tsxrs)
+[![Greenkeeper](https://badges.greenkeeper.io/rraziel/tsxrs.svg)](https://greenkeeper.io/)
+
 A library inspired by [JAX-RS](https://en.wikipedia.org/wiki/Java_API_for_RESTful_Web_Services), allowing the description of REST endpoints through simple [TypeScript](https://www.typescriptlang.org/) decorators.
 
 It has currently been integrated with:
