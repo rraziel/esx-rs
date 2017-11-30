@@ -79,7 +79,7 @@ class EndpointInfoBuilder<C extends Function> {
     /**
      * Get an operation information builder for the specified class
      * @param target Class constructor
-     * @param <T>    Class constructor type
+     * @param <C>    Class constructor type
      * @return Endpoint information builder
      */
     static of<C extends Function>(target: C): EndpointInfoBuilder<C> {

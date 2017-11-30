@@ -2,7 +2,7 @@
 /**
  * Endpoint information metadata
  */
-const EndpointInfoMetadata: Symbol = Symbol('tsxrs:endpoint');
+const EndpointInfoMetadata: Symbol = Symbol('esx-rs:endpoint');
 
 export {
     EndpointInfoMetadata

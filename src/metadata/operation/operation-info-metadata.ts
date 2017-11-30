@@ -2,7 +2,7 @@
 /**
  * Operation information metadata
  */
-const OperationInfoMetadata: Symbol = Symbol('tsxrs:operation');
+const OperationInfoMetadata: Symbol = Symbol('esx-rs:operation');
 
 export {
     OperationInfoMetadata

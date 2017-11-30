@@ -1,13 +1,13 @@
 {
-  "name": "tsxrs",
+  "name": "esx-rs",
   "version": "0.1.0",
-  "description": "TypeScript decorators for REST endpoint declaration, inspired by JAX-RS.",
-  "homepage": "https://github.com/rraziel/tsxrs",
-  "bugs": "https://github.com/rraziel/tsxrs/issues",
+  "description": "ECMAScript decorators for REST endpoint declaration, inspired by JAX-RS.",
+  "homepage": "https://github.com/rraziel/esx-rs",
+  "bugs": "https://github.com/rraziel/esx-rs/issues",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/rraziel/tsxrs.git"
+    "url": "https://github.com/rraziel/esx-rs.git"
   },
   "main": "index.js",
   "scripts": {
