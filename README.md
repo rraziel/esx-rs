@@ -17,14 +17,19 @@ A library inspired by [JAX-RS](https://en.wikipedia.org/wiki/Java_API_for_RESTfu
 
 It has currently been integrated with:
 
-- [Koa](https://github.com/koajs/koa) via the [koa-tsxrs](https://github.com/rraziel/koa-tsxrs) middleware
+- [Express](https://expressjs.com/) via the [esx-rs-express](https://github.com/rraziel/esx-rs-express) middleware
+- [Koa](http://koajs.com/) via the [esx-rs-koa](https://github.com/rraziel/esx-rs-koa) middleware
+
+It can also integrate:
+
+- [es-validation](https://github.com/rraziel/es-validation) to validate request parameters
 
 ## Getting Started
 
 Install the library using `npm`:
 
 ```
-npm install tsxrs --save
+npm install esx-rs --save
 ```
 
 Then create a class for endpoint:
