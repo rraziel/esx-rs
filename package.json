@@ -45,7 +45,7 @@
   },
   "devDependencies": {
     "@types/jest": "21.1.8",
-    "@types/node": "8.0.56",
+    "@types/node": "8.0.57",
     "codecov": "3.0.0",
     "jest": "21.2.1",
     "jest-create-mock-instance": "1.0.2",
