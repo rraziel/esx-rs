@@ -51,7 +51,7 @@
     "jest-create-mock-instance": "1.0.2",
     "jest-junit-reporter": "1.1.0",
     "json-loader": "0.5.7",
-    "ts-jest": "21.2.4",
+    "ts-jest": "22.0.0",
     "ts-node": "4.0.2",
     "tslint": "5.8.0",
     "typescript": "2.6.2"
