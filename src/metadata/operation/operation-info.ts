@@ -67,6 +67,6 @@ function getOperationInfo<T extends Object>(instance: T, methodName: string): Op
 }
 
 export {
-    getOperationInfo,
-    OperationInfo
+    OperationInfo,
+    getOperationInfo
 };

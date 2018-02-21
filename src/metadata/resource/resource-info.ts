@@ -19,6 +19,6 @@ function getResourceInfo<C extends Function>(resourceClass: C): ResourceInfo {
 }
 
 export {
-    getResourceInfo,
-    ResourceInfo
+    ResourceInfo,
+    getResourceInfo
 };

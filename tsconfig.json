@@ -1,25 +1,21 @@
 {
     "compileOnSave": false,
     "compilerOptions": {
-        "allowJs": true,
+        "allowJs": false,
         "baseUrl": "src",
-        "declaration": false,
+        "declaration": true,
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
-        "lib": [
-            "es2017"
-        ],
         "moduleResolution": "node",
         "noImplicitAny": false,
-        "outDir": "./dist/out-tsc",
+        "outDir": "./dist",
         "sourceMap": true,
         "removeComments": false,
-        "target": "es2017",
+        "target": "es6",
         "typeRoots": [
             "node_modules/@types"
         ],
         "types": [
-            "node",
             "jest"
         ]
     },
