@@ -2,7 +2,7 @@
 /**
  * Resource information metadata
  */
-const ResourceInfoMetadata: Symbol = Symbol('tsxrs:resource');
+const ResourceInfoMetadata: Symbol = Symbol('esx-rs:resource');
 
 export {
     ResourceInfoMetadata
