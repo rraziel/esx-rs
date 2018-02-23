@@ -17,12 +17,13 @@ A library inspired by [JAX-RS](https://en.wikipedia.org/wiki/Java_API_for_RESTfu
 
 It has currently been integrated with:
 
-- [Express](https://expressjs.com/) via the [esx-rs-express](https://github.com/rraziel/esx-rs-express) middleware
-- [Koa](http://koajs.com/) via the [esx-rs-koa](https://github.com/rraziel/esx-rs-koa) middleware
-
-It can also integrate:
-
-- [es-validation](https://github.com/rraziel/es-validation) to validate request parameters
+| Integration                                                                             | Type       | Description                                                                         |
+|:----------------------------------------------------------------------------------------|:-----------|:------------------------------------------------------------------------------------|
+| [esx-rs-client-http](https://github.com/rraziel/esx-rs-client-http)                     | Client     | Proxy generator for [Node http](https://nodejs.org/api/http.html).                  |
+| [esx-rs-client-xmlhttprequest](https://github.com/rraziel/esx-rs-client-xmlhttprequest) | Client     | Proxy generator for [XMLHttpRequest](https://en.wikipedia.org/wiki/XMLHttpRequest). |
+| [esx-rs-server-express](https://github.com/rraziel/esx-rs-server-express)               | Server     | Middleware for [Express](https://expressjs.com/).                                   |
+| [esx-rs-server-koa](https://github.com/rraziel/esx-rs-server-koa)                       | Server     | Middleware for [Koa](http://koajs.com/).                                            |
+| [es-validation](https://github.com/rraziel/es-validation)                               | Validation | Validate request and response constraints using decorators.                         |
 
 ## Getting Started
 
