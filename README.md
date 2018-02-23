@@ -100,3 +100,7 @@ The following decorators can be applied to both classes and methods:
 - `@Path`
 
 The `@Path` decorator is handled a bit differently: the operation path is appended to the endpoint path.
+
+## Client Proxy
+
+TODO: `ClientFactory`, `WebClient`.
