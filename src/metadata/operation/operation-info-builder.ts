@@ -1,4 +1,5 @@
-import {HttpMethod} from '../http-method';
+import {HttpMethod} from '../../http';
+import {ClassConstructor} from '../../utils';
 import {OperationInfo} from './operation-info';
 import {OperationInfoMetadata} from './operation-info-metadata';
 import {OperationParameterInfo} from './operation-parameter-info';
@@ -75,7 +76,7 @@ class OperationInfoBuilder {
      * @param parameterClass Parameter class
      * @param parameterName  Parameter name
      */
-    parameter(parameterIndex: number, parameterType: OperationParameterType, parameterClass: Function, parameterName?: string): OperationInfoBuilder {
+    parameter(parameterIndex: number, parameterType: OperationParameterType, parameterClass: Function, parameterName?: string|ClassConstructor<any>): OperationInfoBuilder {
         return this.update(operationInfo => {
             let parameters: OperationParameterInfo[] = operationInfo.parameters = operationInfo.parameters || [];
 

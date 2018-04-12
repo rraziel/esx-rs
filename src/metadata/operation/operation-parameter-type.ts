@@ -4,6 +4,7 @@
  */
 enum OperationParameterType {
     BODY,
+    CONTEXT,
     FORM,
     HEADER,
     PATH,

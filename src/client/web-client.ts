@@ -1,4 +1,4 @@
-import {Cookie, EntityTag} from '../core';
+import {HttpCookie, EntityTag} from '../http';
 
 /**
  * Web client interface
@@ -30,7 +30,7 @@ interface WebClient {
      * @param cookie Cookie
      * @return this
      */
-    cookie(cookie: Cookie): WebClient;
+    cookie(cookie: HttpCookie): WebClient;
 
     /**
      * Set the HTTP content-encoding header

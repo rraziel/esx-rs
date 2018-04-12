@@ -1,5 +1,5 @@
 import {getEndpointInfo, EndpointInfo} from '../endpoint';
-import {HttpMethod} from '../http-method';
+import {HttpMethod} from '../../http';
 import {OperationParameterInfo} from './operation-parameter-info';
 import {OperationInfoMetadata} from './operation-info-metadata';
 import 'reflect-metadata';

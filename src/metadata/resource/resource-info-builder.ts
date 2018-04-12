@@ -1,4 +1,5 @@
 import {OperationParameterType} from '../operation/operation-parameter-type';
+import {ClassConstructor} from '../../utils';
 
 /**
  * Resource information builder
@@ -24,7 +25,7 @@ class ResourceInfoBuilder {
      * @param propertyClass Property class
      * @param parameterName Parameter name
      */
-    property(propertyKey: string|symbol, parameterType: OperationParameterType, propertyClass: Function, parameterName?: string): ResourceInfoBuilder {
+    property(propertyKey: string|symbol, parameterType: OperationParameterType, propertyClass: Function, parameterName?: string|ClassConstructor<any>): ResourceInfoBuilder {
         return this;
     }
 

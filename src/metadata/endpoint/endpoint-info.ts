@@ -1,5 +1,5 @@
 import {EndpointInfoMetadata} from './endpoint-info-metadata';
-import {HttpMethod} from '../http-method';
+import {HttpMethod} from '../../http';
 import 'reflect-metadata';
 
 /**
