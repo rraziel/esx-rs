@@ -1,5 +1,6 @@
 import {ClassOrMethodDecorator, throwInvalidDecoratorUsage} from './helper';
-import {HttpMethod, OperationInfoBuilder, EndpointInfoBuilder} from '../metadata';
+import {HttpMethod} from '../http';
+import {OperationInfoBuilder, EndpointInfoBuilder} from '../metadata';
 
 /**
  * Create an HTTP method decorator

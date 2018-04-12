@@ -1,4 +1,4 @@
-import {FormParam, HeaderParam, PathParam, QueryParam} from './param';
+import {ContextParam, FormParam, HeaderParam, PathParam, QueryParam} from './param';
 import {PropertyOrParameterDecorator} from './helper';
 import {OperationParameterType} from '../metadata';
 
@@ -7,6 +7,34 @@ class DecoratorInfo {
     decorator: (parameterName?: string) => PropertyOrParameterDecorator;
     type: OperationParameterType;
 }
+
+class ContextClass {}
+
+describe('@ContextParam decorator', () => {
+
+    it('can be used on a method parameter', () => {
+        // given
+        class TestClass {
+            testMethod(@ContextParam(ContextClass) p: any): void { /* empty */ }
+        }
+        // when
+        // then
+    });
+
+    describe('throws an exception when', () => {
+
+        it('used on a static method', () => {
+            // expect
+            expect(() => {
+                class TestClass {
+                    static staticMethod(@ContextParam(ContextClass) p: any): void { /* empty */ }
+                }
+            }).toThrowError(/decorator cannot be used on a static method/);
+        });
+
+    });
+
+});
 
 function createParameterSpecification(decoratorInfo: DecoratorInfo): void {
     let name: string = decoratorInfo.name;
@@ -18,7 +46,7 @@ function createParameterSpecification(decoratorInfo: DecoratorInfo): void {
         it('can be used on a method parameter', () => {
             // given
             class TestClass {
-                testMethod(@decorator('test') p: number): void { /* empty */ }
+                testMethod(@decorator('test') p: string): void { /* empty */ }
             }
             // when
             // then
@@ -30,7 +58,7 @@ function createParameterSpecification(decoratorInfo: DecoratorInfo): void {
                 // expect
                 expect(() => {
                     class TestClass {
-                        static staticMethod(@QueryParam('test') p: string): void { /* empty */ }
+                        static staticMethod(@decorator('test') p: string): void { /* empty */ }
                     }
                 }).toThrowError(/decorator cannot be used on a static method/);
             });

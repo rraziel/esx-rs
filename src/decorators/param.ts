@@ -1,6 +1,6 @@
 import {PropertyOrParameterDecorator, throwInvalidDecoratorUsage} from './helper';
 import {OperationInfoBuilder, OperationParameterType, ResourceInfoBuilder} from '../metadata';
-
+import {ClassConstructor} from '../utils';
 import 'reflect-metadata';
 
 const METADATAKEY_PARAMETERTYPES: string = 'design:paramtypes';
@@ -35,7 +35,7 @@ function getResourcePropertyClass(target: Object, propertyKey: string|symbol): F
  * @param parameterType Parameter type
  * @param parameterName Parameter name
  */
-function createParameterDecorator(decoratorName: string, parameterType: OperationParameterType, parameterName?: string): PropertyOrParameterDecorator {
+function createParameterDecorator(decoratorName: string, parameterType: OperationParameterType, parameterName?: string|ClassConstructor<any>): PropertyOrParameterDecorator {
     return (target, propertyKey, parameterIndex) => {
         if (target instanceof Function) {
             throwInvalidDecoratorUsage(target, propertyKey, 'the @' + decoratorName + ' decorator cannot be used on a static method or property');
@@ -49,6 +49,16 @@ function createParameterDecorator(decoratorName: string, parameterType: Operatio
             ResourceInfoBuilder.of(target).property(propertyKey, parameterType, propertyClass, parameterName);
         }
     };
+}
+
+
+/**
+ * Create a ContextParam decorator, declaring the class of the context information bound to a method parameter or to a class property
+ * @param contextClass Context class
+ * @return ContextParam decorator
+ */
+function ContextParam(contextClass: ClassConstructor<any>): PropertyOrParameterDecorator {
+    return createParameterDecorator('ContextParam', OperationParameterType.CONTEXT, contextClass);
 }
 
 /**
@@ -88,6 +98,7 @@ function QueryParam(parameterName?: string): PropertyOrParameterDecorator {
 }
 
 export {
+    ContextParam,
     FormParam,
     HeaderParam,
     PathParam,

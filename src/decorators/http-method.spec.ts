@@ -1,6 +1,7 @@
 import {DELETE, GET, HEAD, OPTIONS, PATCH, POST, PUT} from './http-method';
 import {ClassOrMethodDecorator} from './helper';
-import {EndpointInfo, getEndpointInfo, getOperationInfo, HttpMethod, OperationInfo} from '../metadata';
+import {HttpMethod} from '../http';
+import {EndpointInfo, getEndpointInfo, getOperationInfo, OperationInfo} from '../metadata';
 
 class DecoratorInfo {
     decorator: ClassOrMethodDecorator;
