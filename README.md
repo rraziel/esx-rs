@@ -6,7 +6,7 @@
 [![AppVeyor tests](https://img.shields.io/appveyor/tests/rraziel/esx-rs/master.svg?label=Tests&style=flat)](https://ci.appveyor.com/project/rraziel/esx-rs/build/tests)
 [![Codecov](https://img.shields.io/codecov/c/github/rraziel/esx-rs.svg?label=Coverage&style=flat)](https://codecov.io/gh/rraziel/esx-rs)
 [![Code Climate](https://img.shields.io/codeclimate/maintainability/rraziel/esx-rs.svg?label=Maintainability&style=flat)](https://codeclimate.com/github/rraziel/esx-rs)
-[![Code Climate](https://img.shields.io/codeclimate/issues/github/rraziel/esx-rs.svg?label=Code%20Issues&style=flat)](https://codeclimate.com/github/rraziel/esx-rs/issues)
+[![Code Climate](https://img.shields.io/codeclimate/issues/rraziel/esx-rs.svg?label=Code%20Issues&style=flat)](https://codeclimate.com/github/rraziel/esx-rs/issues)
 
 [![Dependencies](https://img.shields.io/david/rraziel/esx-rs.svg?label=Dependencies&style=flat)](https://david-dm.org/rraziel/esx-rs)
 [![Development dependencies](https://img.shields.io/david/dev/rraziel/esx-rs.svg?label=Dev%20Dependencies&style=flat)](https://david-dm.org/rraziel/esx-rs?type=dev)
