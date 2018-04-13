@@ -15,7 +15,7 @@
     "watch": "tsc --watch -p .",
     "test": "./node_modules/.bin/jest --watch --no-cache --verbose",
     "coverage": "./node_modules/.bin/jest --no-cache --coverage",
-    "tslint": "tslint --project ./tsconfig.json --config ./conf/tslint.json '**/*.ts' --exclude '**/node_modules/**'"
+    "tslint": "tslint --project ./tsconfig.json --config ./conf/tslint.json"
   },
   "jest": {
     "mapCoverage": true,
