@@ -1,8 +1,8 @@
 
 /**
- * Operation parameter type
+ * Parameter type
  */
-enum OperationParameterType {
+enum ParameterType {
     BODY,
     CONTEXT,
     FORM,
@@ -12,5 +12,5 @@ enum OperationParameterType {
 }
 
 export {
-    OperationParameterType
+    ParameterType
 };

@@ -7,9 +7,9 @@ import 'reflect-metadata';
  */
 interface EndpointInfo {
     resourcePath?: string;
-    httpMethods?: HttpMethod[];
-    consumedMediaTypes?: string[];
-    producedMediaTypes?: string[];
+    httpMethods?: Set<HttpMethod>;
+    consumedMediaTypes?: Set<string|Function>;
+    producedMediaTypes?: Set<string|Function>;
 }
 
 /**

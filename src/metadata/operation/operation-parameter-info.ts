@@ -1,4 +1,4 @@
-import {OperationParameterType} from './operation-parameter-type';
+import {ParameterType} from '../parameter-type';
 import {ClassConstructor} from '../../utils';
 
 /**
@@ -7,7 +7,7 @@ import {ClassConstructor} from '../../utils';
 interface OperationParameterInfo {
     name: string|ClassConstructor<any>;
     class: Function;
-    type: OperationParameterType;
+    type: ParameterType;
 }
 
 export {

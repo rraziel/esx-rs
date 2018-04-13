@@ -1,5 +1,5 @@
 import {PropertyOrParameterDecorator, throwInvalidDecoratorUsage} from './helper';
-import {OperationInfoBuilder, OperationParameterType, ResourceInfoBuilder} from '../metadata';
+import {OperationInfoBuilder, ParameterType, PropertyInfoBuilder} from '../metadata';
 import {ClassConstructor} from '../utils';
 import 'reflect-metadata';
 
@@ -35,7 +35,7 @@ function getResourcePropertyClass(target: Object, propertyKey: string|symbol): F
  * @param parameterType Parameter type
  * @param parameterName Parameter name
  */
-function createParameterDecorator(decoratorName: string, parameterType: OperationParameterType, parameterName?: string|ClassConstructor<any>): PropertyOrParameterDecorator {
+function createParameterDecorator(decoratorName: string, parameterType: ParameterType, parameterName?: string|ClassConstructor<any>): PropertyOrParameterDecorator {
     return (target, propertyKey, parameterIndex) => {
         if (target instanceof Function) {
             throwInvalidDecoratorUsage(target, propertyKey, 'the @' + decoratorName + ' decorator cannot be used on a static method or property');
@@ -46,7 +46,7 @@ function createParameterDecorator(decoratorName: string, parameterType: Operatio
             OperationInfoBuilder.of(target, propertyKey).parameter(parameterIndex, parameterType, parameterClass, parameterName);
         } else {
             let propertyClass: Function = getResourcePropertyClass(target, propertyKey);
-            ResourceInfoBuilder.of(target).property(propertyKey, parameterType, propertyClass, parameterName);
+            PropertyInfoBuilder.of(target, propertyKey).set(parameterType, propertyClass, parameterName);
         }
     };
 }
@@ -57,7 +57,7 @@ function createParameterDecorator(decoratorName: string, parameterType: Operatio
  * @return ContextParam decorator
  */
 function ContextParam(contextClass: ClassConstructor<any>): PropertyOrParameterDecorator {
-    return createParameterDecorator('ContextParam', OperationParameterType.CONTEXT, contextClass);
+    return createParameterDecorator('ContextParam', ParameterType.CONTEXT, contextClass);
 }
 
 /**
@@ -66,7 +66,7 @@ function ContextParam(contextClass: ClassConstructor<any>): PropertyOrParameterD
  * @return FormParam decorator
  */
 function FormParam(parameterName?: string): PropertyOrParameterDecorator {
-    return createParameterDecorator('FormParam', OperationParameterType.FORM, parameterName);
+    return createParameterDecorator('FormParam', ParameterType.FORM, parameterName);
 }
 
 /**
@@ -75,7 +75,7 @@ function FormParam(parameterName?: string): PropertyOrParameterDecorator {
  * @return HeaderParam decorator
  */
 function HeaderParam(parameterName?: string): PropertyOrParameterDecorator {
-    return createParameterDecorator('HeaderParam', OperationParameterType.HEADER, parameterName);
+    return createParameterDecorator('HeaderParam', ParameterType.HEADER, parameterName);
 }
 
 /**
@@ -84,7 +84,7 @@ function HeaderParam(parameterName?: string): PropertyOrParameterDecorator {
  * @return PathParam decorator
  */
 function PathParam(parameterName: string): PropertyOrParameterDecorator {
-    return createParameterDecorator('PathParam', OperationParameterType.PATH, parameterName);
+    return createParameterDecorator('PathParam', ParameterType.PATH, parameterName);
 }
 
 /**
@@ -93,7 +93,7 @@ function PathParam(parameterName: string): PropertyOrParameterDecorator {
  * @return QueryParam decorator
  */
 function QueryParam(parameterName?: string): PropertyOrParameterDecorator {
-    return createParameterDecorator('QueryParam', OperationParameterType.QUERY, parameterName);
+    return createParameterDecorator('QueryParam', ParameterType.QUERY, parameterName);
 }
 
 export {

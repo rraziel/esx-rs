@@ -24,8 +24,8 @@ class EndpointInfoBuilder<C extends Function> {
      */
     method(httpMethod: HttpMethod): EndpointInfoBuilder<C> {
         return this.update(endpointInfo => {
-            let httpMethods: HttpMethod[] = endpointInfo.httpMethods = endpointInfo.httpMethods || [];
-            httpMethods.push(httpMethod);
+            let httpMethods: Set<HttpMethod> = endpointInfo.httpMethods = endpointInfo.httpMethods || new Set<HttpMethod>();
+            httpMethods.add(httpMethod);
         });
     }
 
@@ -46,8 +46,8 @@ class EndpointInfoBuilder<C extends Function> {
      */
     consumes<T extends Function>(mediaType: string|T): EndpointInfoBuilder<C> {
         return this.update(endpointInfo => {
-            let consumedMediaTypes: (string|Function)[] = endpointInfo.consumedMediaTypes = endpointInfo.consumedMediaTypes || [];
-            consumedMediaTypes.push(mediaType);
+            let consumedMediaTypes: Set<string|Function> = endpointInfo.consumedMediaTypes = endpointInfo.consumedMediaTypes || new Set<string|Function>();
+            consumedMediaTypes.add(mediaType);
         });
     }
 
@@ -59,8 +59,8 @@ class EndpointInfoBuilder<C extends Function> {
      */
     produces<T extends Function>(mediaType: string|T): EndpointInfoBuilder<C> {
         return this.update(endpointInfo => {
-            let producedMediaTypes: (string|Function)[] = endpointInfo.producedMediaTypes = endpointInfo.producedMediaTypes || [];
-            producedMediaTypes.push(mediaType);
+            let producedMediaTypes: Set<string|Function> = endpointInfo.producedMediaTypes = endpointInfo.producedMediaTypes || new Set<string|Function>();
+            producedMediaTypes.add(mediaType);
         });
     }
 

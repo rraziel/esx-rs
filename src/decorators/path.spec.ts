@@ -1,5 +1,5 @@
 import {Path} from './path';
-import {EndpointInfo, getEndpointInfo, getOperationInfo, OperationInfo} from '../metadata';
+import {EndpointInfo, getEndpointInfo, getMergedOperationInfo, OperationInfo} from '../metadata';
 
 describe('@Path decorator', () => {
 
@@ -23,7 +23,7 @@ describe('@Path decorator', () => {
                 method(): void { /* empty */ }
             }
             // when
-            let operationInfo: OperationInfo = getOperationInfo(new TestClass(), 'method');
+            let operationInfo: OperationInfo = getMergedOperationInfo(new TestClass(), 'method');
             // then
             expect(operationInfo).not.toBeUndefined();
             expect(operationInfo.resourcePath).toEqual('/test');
@@ -37,7 +37,7 @@ describe('@Path decorator', () => {
                 method(): void { /* empty */ }
             }
             // when
-            let operationInfo: OperationInfo = getOperationInfo(new TestClass(), 'method');
+            let operationInfo: OperationInfo = getMergedOperationInfo(new TestClass(), 'method');
             // then
             expect(operationInfo).not.toBeUndefined();
             expect(operationInfo.resourcePath).toEqual('/class-test/test');

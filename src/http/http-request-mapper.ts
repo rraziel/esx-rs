@@ -1,6 +1,6 @@
 import {HttpRequest} from './http-request';
 import {HttpResponse} from './http-response';
-import {OperationInfo, OperationParameterInfo, OperationParameterType} from '../metadata';
+import {OperationInfo, OperationParameterInfo, ParameterType} from '../metadata';
 
 /**
  * HTTP request mapper

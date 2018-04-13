@@ -1,5 +1,5 @@
 import {Consumes, Produces} from './resource-type';
-import {EndpointInfo, getEndpointInfo, getOperationInfo, OperationInfo} from '../metadata';
+import {EndpointInfo, getEndpointInfo, getMergedOperationInfo, OperationInfo} from '../metadata';
 import {ClassOrMethodDecorator} from './helper';
 
 class DecoratorInfo {
@@ -29,7 +29,7 @@ function createResourceTypeSpecification(decoratorInfo: DecoratorInfo): void {
                     let endpointInfo: EndpointInfo = getEndpointInfo(TestClass);
                     // expect
                     expect(endpointInfo).not.toBeUndefined();
-                    expect(endpointValue(endpointInfo)).toEqual(expect.arrayContaining(['test']));
+                    expect(endpointValue(endpointInfo)).toEqual(new Set<string|Function>(['test']));
                 });
 
                 it('multiple media types', () => {
@@ -40,7 +40,7 @@ function createResourceTypeSpecification(decoratorInfo: DecoratorInfo): void {
                     let endpointInfo: EndpointInfo = getEndpointInfo(TestClass);
                     // expect
                     expect(endpointInfo).not.toBeUndefined();
-                    expect(endpointValue(endpointInfo)).toEqual(expect.arrayContaining(['test1', 'test2']));
+                    expect(endpointValue(endpointInfo)).toEqual(new Set<string|Function>(['test1', 'test2']));
                 });
 
                 it('multiple media types over multiple decorators', () => {
@@ -52,7 +52,7 @@ function createResourceTypeSpecification(decoratorInfo: DecoratorInfo): void {
                     let endpointInfo: EndpointInfo = getEndpointInfo(TestClass);
                     // expect
                     expect(endpointInfo).not.toBeUndefined();
-                    expect(endpointValue(endpointInfo)).toEqual(expect.arrayContaining(['test1', 'test2']));
+                    expect(endpointValue(endpointInfo)).toEqual(new Set<string|Function>(['test1', 'test2']));
                 });
 
             });
@@ -66,10 +66,10 @@ function createResourceTypeSpecification(decoratorInfo: DecoratorInfo): void {
                         testMethod(): void { /* empty */ }
                     }
                     // when
-                    let operationInfo: OperationInfo = getOperationInfo(new TestClass(), 'testMethod');
+                    let operationInfo: OperationInfo = getMergedOperationInfo(new TestClass(), 'testMethod');
                     // expect
                     expect(operationInfo).not.toBeUndefined();
-                    expect(operationValue(operationInfo)).toEqual(expect.arrayContaining(['test']));
+                    expect(operationValue(operationInfo)).toEqual(new Set<string|Function>(['test']));
                 });
 
                 it('multiple media types', () => {
@@ -79,10 +79,10 @@ function createResourceTypeSpecification(decoratorInfo: DecoratorInfo): void {
                         testMethod(): void { /* empty */ }
                     }
                     // when
-                    let operationInfo: OperationInfo = getOperationInfo(new TestClass(), 'testMethod');
+                    let operationInfo: OperationInfo = getMergedOperationInfo(new TestClass(), 'testMethod');
                     // expect
                     expect(operationInfo).not.toBeUndefined();
-                    expect(operationValue(operationInfo)).toEqual(expect.arrayContaining(['test1', 'test2']));
+                    expect(operationValue(operationInfo)).toEqual(new Set<string|Function>(['test1', 'test2']));
                 });
 
                 it('multiple media types over multiple decorators', () => {
@@ -93,10 +93,10 @@ function createResourceTypeSpecification(decoratorInfo: DecoratorInfo): void {
                         testMethod(): void { /* empty */ }
                     }
                     // when
-                    let operationInfo: OperationInfo = getOperationInfo(new TestClass(), 'testMethod');
+                    let operationInfo: OperationInfo = getMergedOperationInfo(new TestClass(), 'testMethod');
                     // expect
                     expect(operationInfo).not.toBeUndefined();
-                    expect(operationValue(operationInfo)).toEqual(expect.arrayContaining(['test1', 'test2']));
+                    expect(operationValue(operationInfo)).toEqual(new Set<string|Function>(['test1', 'test2']));
                 });
 
             });
@@ -109,10 +109,10 @@ function createResourceTypeSpecification(decoratorInfo: DecoratorInfo): void {
                     testMethod(): void { /* empty */ }
                 }
                 // when
-                let operationInfo: OperationInfo = getOperationInfo(new TestClass(), 'testMethod');
+                let operationInfo: OperationInfo = getMergedOperationInfo(new TestClass(), 'testMethod');
                 // expect
                 expect(operationInfo).not.toBeUndefined();
-                expect(operationValue(operationInfo)).toEqual(expect.arrayContaining(['test1', 'test2']));
+                expect(operationValue(operationInfo)).toEqual(new Set<string|Function>(['test1', 'test2']));
             });
 
         });

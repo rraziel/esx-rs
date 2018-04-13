@@ -1,17 +1,17 @@
 import {getEndpointInfo, EndpointInfo} from '../endpoint';
 import {HttpMethod} from '../../http';
 import {OperationParameterInfo} from './operation-parameter-info';
-import {OperationInfoMetadata} from './operation-info-metadata';
 import 'reflect-metadata';
+
+/**
+ * Operation information metadata
+ */
+const OperationInfoMetadata: Symbol = Symbol('esx-rs:operation');
 
 /**
  * Operation information
  */
-interface OperationInfo {
-    resourcePath?: string;
-    httpMethods?: HttpMethod[];
-    consumedMediaTypes?: string[];
-    producedMediaTypes?: string[];
+interface OperationInfo extends EndpointInfo {
     parameters?: OperationParameterInfo[];
 }
 
@@ -23,8 +23,8 @@ interface OperationInfo {
  */
 function mergeHttpMethods(operationInfo: OperationInfo, endpointInfo: EndpointInfo): OperationInfo {
     if (endpointInfo.httpMethods) {
-        operationInfo.httpMethods = operationInfo.httpMethods || [];
-        endpointInfo.httpMethods.forEach(httpMethod => operationInfo.httpMethods.push(httpMethod));
+        operationInfo.httpMethods = operationInfo.httpMethods || new Set<HttpMethod>();
+        endpointInfo.httpMethods.forEach(httpMethod => operationInfo.httpMethods.add(httpMethod));
     }
 
     return operationInfo;
@@ -52,8 +52,8 @@ function mergeResourcePaths(operationInfo: OperationInfo, endpointInfo: Endpoint
  */
 function mergeConsumedMediaTypes(operationInfo: OperationInfo, endpointInfo: EndpointInfo): OperationInfo {
     if (endpointInfo.consumedMediaTypes) {
-        operationInfo.consumedMediaTypes = operationInfo.consumedMediaTypes || [];
-        endpointInfo.consumedMediaTypes.forEach(consumedMediaType => operationInfo.consumedMediaTypes.push(consumedMediaType));
+        operationInfo.consumedMediaTypes = operationInfo.consumedMediaTypes || new Set<string|Function>();
+        endpointInfo.consumedMediaTypes.forEach(consumedMediaType => operationInfo.consumedMediaTypes.add(consumedMediaType));
     }
 
     return operationInfo;
@@ -67,8 +67,8 @@ function mergeConsumedMediaTypes(operationInfo: OperationInfo, endpointInfo: End
  */
 function mergeProducedMediaTypes(operationInfo: OperationInfo, endpointInfo: EndpointInfo): OperationInfo {
     if (endpointInfo.producedMediaTypes) {
-        operationInfo.producedMediaTypes = operationInfo.producedMediaTypes || [];
-        endpointInfo.producedMediaTypes.forEach(producedMediaTypes => operationInfo.producedMediaTypes.push(producedMediaTypes));
+        operationInfo.producedMediaTypes = operationInfo.producedMediaTypes || new Set<string|Function>();
+        endpointInfo.producedMediaTypes.forEach(producedMediaTypes => operationInfo.producedMediaTypes.add(producedMediaTypes));
     }
 
     return operationInfo;
@@ -98,12 +98,34 @@ function mergeEndpointInfoIntoOperationInfo(operationInfo: OperationInfo, endpoi
 }
 
 /**
- * Get operation information for an instance's method
- * @param instance Instance
- * @param <T>      Instance type
+ * Get an operation information
+ * @param target      Class prototype
+ * @param propertyKey Property key
  * @return Operation information
  */
-function getOperationInfo<T extends Object>(instance: T, methodName: string): OperationInfo {
+function getOperationInfo(target: Object, propertyKey: string|symbol): OperationInfo {
+    let operationInfo: OperationInfo = Reflect.getMetadata(OperationInfoMetadata, target, propertyKey) || {};
+    return operationInfo;
+}
+
+/**
+ * Set an operation information
+ * @param target        Class prototype
+ * @param propertyKey   Property key
+ * @param operationInfo Operation information
+ * @return Operation information
+ */
+function setOperationInfo(target: Object, propertyKey: string|symbol, operationInfo: OperationInfo): void {
+    Reflect.defineMetadata(OperationInfoMetadata, operationInfo, target, propertyKey);
+}
+
+/**
+ * Get merged operation information for an instance's method
+ * @param instance Instance
+ * @param <T>      Instance type
+ * @return Merged operation information
+ */
+function getMergedOperationInfo<T extends Object>(instance: T, methodName: string): OperationInfo {
     let classPrototype: Object = Object.getPrototypeOf(instance);
     let operationInfo: OperationInfo = Reflect.getMetadata(OperationInfoMetadata, classPrototype, methodName);
     let endpointClass: Function = classPrototype.constructor;
@@ -113,5 +135,7 @@ function getOperationInfo<T extends Object>(instance: T, methodName: string): Op
 
 export {
     OperationInfo,
-    getOperationInfo
+    getMergedOperationInfo,
+    getOperationInfo,
+    setOperationInfo
 };

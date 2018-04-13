@@ -1,3 +1,5 @@
 export {EndpointInfo, EndpointInfoBuilder, getEndpointInfo} from './endpoint';
-export {getOperationInfo, OperationInfo, OperationInfoBuilder, OperationParameterInfo, OperationParameterType} from './operation';
-export {ResourceInfo, ResourceInfoBuilder, getResourceInfo} from './resource';
+export {getMergedOperationInfo, OperationInfo, OperationInfoBuilder, OperationParameterInfo} from './operation';
+export {ParameterType} from './parameter-type';
+export {getPropertyInfo, PropertyInfo, PropertyInfoBuilder} from './property';
+export {getResourceInfo, ResourceInfo, ResourceInfoBuilder} from './resource';

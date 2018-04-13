@@ -1,10 +1,8 @@
 import {HttpMethod} from '../../http';
 import {ClassConstructor} from '../../utils';
-import {OperationInfo} from './operation-info';
-import {OperationInfoMetadata} from './operation-info-metadata';
+import {getOperationInfo, setOperationInfo, OperationInfo} from './operation-info';
 import {OperationParameterInfo} from './operation-parameter-info';
-import {OperationParameterType} from './operation-parameter-type';
-import 'reflect-metadata';
+import {ParameterType} from '../parameter-type';
 
 /**
  * Operation information builder
@@ -29,8 +27,8 @@ class OperationInfoBuilder {
      */
     method(httpMethod: HttpMethod): OperationInfoBuilder {
         return this.update(operationInfo => {
-            let httpMethods: HttpMethod[] = operationInfo.httpMethods = operationInfo.httpMethods || [];
-            httpMethods.push(httpMethod);
+            let httpMethods: Set<HttpMethod> = operationInfo.httpMethods = operationInfo.httpMethods || new Set<HttpMethod>();
+            httpMethods.add(httpMethod);
         });
     }
 
@@ -51,8 +49,8 @@ class OperationInfoBuilder {
      */
     consumes<T extends Function>(mediaType: string|T): OperationInfoBuilder {
         return this.update(operationInfo => {
-            let consumedMediaTypes: (string|Function)[] = operationInfo.consumedMediaTypes = operationInfo.consumedMediaTypes || [];
-            consumedMediaTypes.push(mediaType);
+            let consumedMediaTypes: Set<string|Function> = operationInfo.consumedMediaTypes = operationInfo.consumedMediaTypes || new Set<string|Function>();
+            consumedMediaTypes.add(mediaType);
         });
     }
 
@@ -64,8 +62,8 @@ class OperationInfoBuilder {
      */
     produces<T extends Function>(mediaType: string|T): OperationInfoBuilder {
         return this.update(operationInfo => {
-            let producedMediaTypes: (string|Function)[] = operationInfo.producedMediaTypes = operationInfo.producedMediaTypes || [];
-            producedMediaTypes.push(mediaType);
+            let producedMediaTypes: Set<string|Function> = operationInfo.producedMediaTypes = operationInfo.producedMediaTypes || new Set<string|Function>();
+            producedMediaTypes.add(mediaType);
         });
     }
 
@@ -76,7 +74,7 @@ class OperationInfoBuilder {
      * @param parameterClass Parameter class
      * @param parameterName  Parameter name
      */
-    parameter(parameterIndex: number, parameterType: OperationParameterType, parameterClass: Function, parameterName?: string|ClassConstructor<any>): OperationInfoBuilder {
+    parameter(parameterIndex: number, parameterType: ParameterType, parameterClass: Function, parameterName?: string|ClassConstructor<any>): OperationInfoBuilder {
         return this.update(operationInfo => {
             let parameters: OperationParameterInfo[] = operationInfo.parameters = operationInfo.parameters || [];
 
@@ -98,9 +96,9 @@ class OperationInfoBuilder {
      * @return this
      */
     private update(callback: (operationInfo: OperationInfo) => void): OperationInfoBuilder {
-        let operationInfo: OperationInfo = Reflect.getMetadata(OperationInfoMetadata, this.target, this.propertyKey) || {};
+        let operationInfo: OperationInfo = getOperationInfo(this.target, this.propertyKey) || {};
         callback(operationInfo);
-        Reflect.defineMetadata(OperationInfoMetadata, operationInfo, this.target, this.propertyKey);
+        setOperationInfo(this.target, this.propertyKey, operationInfo);
         return this;
     }
 

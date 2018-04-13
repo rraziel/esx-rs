@@ -1,19 +1,21 @@
-import {OperationParameterType} from '../operation/operation-parameter-type';
+import {getResourceInfo, setResourceInfo, ResourceInfo} from './resource-info';
+import {ParameterType} from '../parameter-type';
 import {ClassConstructor} from '../../utils';
 
 /**
  * Resource information builder
+ * @param <C> Constructor type
  */
-class ResourceInfoBuilder {
+class ResourceInfoBuilder<C extends Function> {
     private propertyKey: string|symbol;
-    private target: Object;
+    private target: C;
 
     /**
      * Class constructor
      * @param target      Target
      * @param propertyKey Property key
      */
-    private constructor(target: Object, propertyKey?: string|symbol) {
+    private constructor(target: C, propertyKey?: string|symbol) {
         this.target = target;
         this.propertyKey = propertyKey;
     }
@@ -25,18 +27,29 @@ class ResourceInfoBuilder {
      * @param propertyClass Property class
      * @param parameterName Parameter name
      */
-    property(propertyKey: string|symbol, parameterType: OperationParameterType, propertyClass: Function, parameterName?: string|ClassConstructor<any>): ResourceInfoBuilder {
+    property(propertyKey: string|symbol, parameterType: ParameterType, propertyClass: Function, parameterName?: string|ClassConstructor<any>): ResourceInfoBuilder<C> {
+        return this;
+    }
+
+    /**
+     * Update an endpoint information
+     * @param callback Callback
+     * @return this
+     */
+    private update(callback: (resourceInfo: ResourceInfo) => void): ResourceInfoBuilder<C> {
+        let resourceInfo: ResourceInfo = getResourceInfo<C>(this.target) || {};
+        callback(resourceInfo);
+        setResourceInfo(this.target, resourceInfo);
         return this;
     }
 
     /**
      * Get an operation information builder for the specified class
-     * @param target      Class prototype
-     * @param propertyKey Property key
+     * @param target Class constructor
      * @return Operation information builder
      */
-    static of(target: Object, propertyKey?: string|symbol): ResourceInfoBuilder {
-        return new ResourceInfoBuilder(target, propertyKey);
+    static of<C extends Function>(target: C): ResourceInfoBuilder<C> {
+        return new ResourceInfoBuilder(target);
     }
 
 }

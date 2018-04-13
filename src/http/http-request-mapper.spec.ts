@@ -1,6 +1,6 @@
 import {HttpRequestMapper} from './http-request-mapper';
 import {HttpRequest} from './http-request';
-import {OperationInfo, OperationParameterInfo, OperationParameterType} from '../metadata';
+import {OperationInfo, OperationParameterInfo, ParameterType} from '../metadata';
 
 describe('HTTP request mapper', () => {
     let httpRequestMapper: HttpRequestMapper;
