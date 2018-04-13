@@ -16,6 +16,65 @@ interface OperationInfo {
 }
 
 /**
+ * Merge HTTP methods
+ * @param operationInfo Operation information
+ * @param endpointInfo  Endpoint information
+ * @return Merged operation information
+ */
+function mergeHttpMethods(operationInfo: OperationInfo, endpointInfo: EndpointInfo): OperationInfo {
+    if (endpointInfo.httpMethods) {
+        operationInfo.httpMethods = operationInfo.httpMethods || [];
+        endpointInfo.httpMethods.forEach(httpMethod => operationInfo.httpMethods.push(httpMethod));
+    }
+
+    return operationInfo;
+}
+
+/**
+ * Merge resource paths
+ * @param operationInfo Operation information
+ * @param endpointInfo  Endpoint information
+ * @return Merged operation information
+ */
+function mergeResourcePaths(operationInfo: OperationInfo, endpointInfo: EndpointInfo): OperationInfo {
+    if (endpointInfo.resourcePath) {
+        operationInfo.resourcePath = endpointInfo.resourcePath + operationInfo.resourcePath;
+    }
+
+    return operationInfo;
+}
+
+/**
+ * Merge consumed media types
+ * @param operationInfo Operation information
+ * @param endpointInfo  Endpoint information
+ * @return Merged operation information
+ */
+function mergeConsumedMediaTypes(operationInfo: OperationInfo, endpointInfo: EndpointInfo): OperationInfo {
+    if (endpointInfo.consumedMediaTypes) {
+        operationInfo.consumedMediaTypes = operationInfo.consumedMediaTypes || [];
+        endpointInfo.consumedMediaTypes.forEach(consumedMediaType => operationInfo.consumedMediaTypes.push(consumedMediaType));
+    }
+
+    return operationInfo;
+}
+
+/**
+ * Merge produced media types
+ * @param operationInfo Operation information
+ * @param endpointInfo  Endpoint information
+ * @return Merged operation information
+ */
+function mergeProducedMediaTypes(operationInfo: OperationInfo, endpointInfo: EndpointInfo): OperationInfo {
+    if (endpointInfo.producedMediaTypes) {
+        operationInfo.producedMediaTypes = operationInfo.producedMediaTypes || [];
+        endpointInfo.producedMediaTypes.forEach(producedMediaTypes => operationInfo.producedMediaTypes.push(producedMediaTypes));
+    }
+
+    return operationInfo;
+}
+
+/**
  * Merge endpoint information into operation information
  * @param operationInfo Operation information
  * @param endpointInfo  Endpoint information
@@ -30,24 +89,10 @@ function mergeEndpointInfoIntoOperationInfo(operationInfo: OperationInfo, endpoi
         operationInfo = {};
     }
 
-    if (endpointInfo.httpMethods) {
-        operationInfo.httpMethods = operationInfo.httpMethods || [];
-        endpointInfo.httpMethods.forEach(httpMethod => operationInfo.httpMethods.push(httpMethod));
-    }
-
-    if (endpointInfo.resourcePath) {
-        operationInfo.resourcePath = endpointInfo.resourcePath + operationInfo.resourcePath;
-    }
-
-    if (endpointInfo.consumedMediaTypes) {
-        operationInfo.consumedMediaTypes = operationInfo.consumedMediaTypes || [];
-        endpointInfo.consumedMediaTypes.forEach(consumedMediaType => operationInfo.consumedMediaTypes.push(consumedMediaType));
-    }
-
-    if (endpointInfo.producedMediaTypes) {
-        operationInfo.producedMediaTypes = operationInfo.producedMediaTypes || [];
-        endpointInfo.producedMediaTypes.forEach(producedMediaTypes => operationInfo.producedMediaTypes.push(producedMediaTypes));
-    }
+    operationInfo = mergeHttpMethods(operationInfo, endpointInfo);
+    operationInfo = mergeResourcePaths(operationInfo, endpointInfo);
+    operationInfo = mergeConsumedMediaTypes(operationInfo, endpointInfo);
+    operationInfo = mergeProducedMediaTypes(operationInfo, endpointInfo);
 
     return operationInfo;
 }
