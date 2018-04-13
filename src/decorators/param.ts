@@ -51,7 +51,6 @@ function createParameterDecorator(decoratorName: string, parameterType: Operatio
     };
 }
 
-
 /**
  * Create a ContextParam decorator, declaring the class of the context information bound to a method parameter or to a class property
  * @param contextClass Context class

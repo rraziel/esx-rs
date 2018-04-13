@@ -24,7 +24,7 @@ function createHttpMethodSpecification(decoratorInfo: DecoratorInfo): void {
                 class TestClass { }
                 // when
                 let endpointInfo: EndpointInfo = getEndpointInfo(TestClass);
-                // expect
+                // then
                 expect(endpointInfo).not.toBeUndefined();
                 expect(endpointInfo.httpMethods).toEqual(expect.arrayContaining([method]));
             });
@@ -69,7 +69,7 @@ describe('Multiple HTTP method decorators can be applied to', () => {
         class TestClass { }
         // when
         let endpointInfo: EndpointInfo = getEndpointInfo(TestClass);
-        // expect
+        // then
         expect(endpointInfo).not.toBeUndefined();
         expect(endpointInfo.httpMethods).toEqual(expect.arrayContaining([HttpMethod.PATCH, HttpMethod.POST, HttpMethod.PUT]));
     });

@@ -18,10 +18,10 @@ describe('HTTP request mapper', () => {
             // when
             let operationArguments: any[] = await httpRequestMapper.buildArguments(operationInfo, httpRequest);
             // then
-            operationArguments !== undefined
-            operationArguments.length === 0
+            expect(operationArguments).not.toBeUndefined();
+            expect(operationArguments.length).toEqual(0);
         });
-    
+
     });
 
 });

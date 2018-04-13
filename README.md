@@ -19,6 +19,7 @@ It has currently been integrated with:
 
 | Integration                                                                             | Type       | Description                                                                         |
 |:----------------------------------------------------------------------------------------|:-----------|:------------------------------------------------------------------------------------|
+| [esx-rs-client-fetch](https://github.com/rraziel/esx-rs-client-fetch)                   | Client     | Proxy generator for [Fetch](https://fetch.spec.whatwg.org/).                        |
 | [esx-rs-client-http](https://github.com/rraziel/esx-rs-client-http)                     | Client     | Proxy generator for [Node http](https://nodejs.org/api/http.html).                  |
 | [esx-rs-client-xmlhttprequest](https://github.com/rraziel/esx-rs-client-xmlhttprequest) | Client     | Proxy generator for [XMLHttpRequest](https://en.wikipedia.org/wiki/XMLHttpRequest). |
 | [esx-rs-server-express](https://github.com/rraziel/esx-rs-server-express)               | Server     | Middleware for [Express](https://expressjs.com/).                                   |
