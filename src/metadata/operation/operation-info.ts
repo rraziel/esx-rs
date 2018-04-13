@@ -127,7 +127,7 @@ function setOperationInfo(target: Object, propertyKey: string|symbol, operationI
  */
 function getMergedOperationInfo<T extends Object>(instance: T, methodName: string): OperationInfo {
     let classPrototype: Object = Object.getPrototypeOf(instance);
-    let operationInfo: OperationInfo = Reflect.getMetadata(OperationInfoMetadata, classPrototype, methodName);
+    let operationInfo: OperationInfo = getOperationInfo(classPrototype, methodName);
     let endpointClass: Function = classPrototype.constructor;
     let endpointInfo: EndpointInfo = getEndpointInfo(endpointClass);
     return mergeEndpointInfoIntoOperationInfo(operationInfo, endpointInfo);

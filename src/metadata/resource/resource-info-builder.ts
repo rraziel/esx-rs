@@ -21,17 +21,6 @@ class ResourceInfoBuilder<C extends Function> {
     }
 
     /**
-     * Set a property
-     * @param propertyKey   Property key
-     * @param parameterType Parameter type
-     * @param propertyClass Property class
-     * @param parameterName Parameter name
-     */
-    property(propertyKey: string|symbol, parameterType: ParameterType, propertyClass: Function, parameterName?: string|ClassConstructor<any>): ResourceInfoBuilder<C> {
-        return this;
-    }
-
-    /**
      * Update an endpoint information
      * @param callback Callback
      * @return this
