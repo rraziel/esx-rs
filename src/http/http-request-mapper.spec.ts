@@ -158,7 +158,7 @@ describe('HTTP request mapper', () => {
             expect(operationArguments[1]).toEqual(4);
         });
 
-        it.only('with a path parameter', async () => {
+        it('with a path parameter', async () => {
             // given
             let httpRequest: HttpRequest = new HttpRequest('POST', '/path/value/subpath/4');
             let resourcePathKeys: pathToRegexp.Key[] = [];
