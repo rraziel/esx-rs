@@ -1,4 +1,4 @@
-import {ContextParam, FormParam, HeaderParam, PathParam, QueryParam} from './param';
+import {ContextParam, CookieParam, FormParam, HeaderParam, MatrixParam, PathParam, QueryParam} from './param';
 import {PropertyOrParameterDecorator} from './helper';
 import {getMergedOperationInfo, getPropertyInfo, OperationInfo, ParameterType, PropertyInfo} from '../metadata';
 
@@ -120,8 +120,10 @@ function createParameterSpecification(decoratorInfo: DecoratorInfo): void {
 }
 
 const decoratorInfos: DecoratorInfo[] = [
+    {name: 'CookieParam', decorator: CookieParam, type: ParameterType.COOKIE},
     {name: 'FormParam', decorator: FormParam, type: ParameterType.FORM},
     {name: 'HeaderParam', decorator: HeaderParam, type: ParameterType.HEADER},
+    {name: 'MatrixParam', decorator: MatrixParam, type: ParameterType.MATRIX},
     {name: 'PathParam', decorator: PathParam, type: ParameterType.PATH},
     {name: 'QueryParam', decorator: QueryParam, type: ParameterType.QUERY}
 ];

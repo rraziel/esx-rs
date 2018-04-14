@@ -1,6 +1,12 @@
+import {HttpHeader} from './http-header';
 import {HttpRequest} from './http-request';
 import {HttpResponse} from './http-response';
+import {HttpUtils} from './http-utils';
 import {OperationInfo, OperationParameterInfo, ParameterType} from '../metadata';
+import {ClassConstructor} from '../utils';
+
+const HEADER_CONTENT_TYPE: string = 'content-type';
+const FORM_CONTENT_TYPE: string = 'application/x-www-form-urlencoded';
 
 /**
  * HTTP request mapper
@@ -27,10 +33,158 @@ class HttpRequestMapper {
      * @param operationInfo          Operation information
      * @param operationParameterInfo Operation parameter information
      * @param httpRequest            HTTP request
+     * @param <T>                    Argument type
      * @return Built argument
      */
     private buildArgument<T>(operationInfo: OperationInfo, operationParameterInfo: OperationParameterInfo, httpRequest: HttpRequest): T {
-        return null;
+        let argumentString: string;
+
+        switch (operationParameterInfo.type) {
+        case ParameterType.CONTEXT:
+            return this.buildContextArgument<T>(operationInfo, operationParameterInfo, httpRequest);
+        case ParameterType.COOKIE:
+            argumentString = this.buildCookieArgument(operationInfo, operationParameterInfo, httpRequest);
+            break;
+        case ParameterType.FORM:
+            argumentString = this.buildFormArgument(operationInfo, operationParameterInfo, httpRequest);
+            break;
+        case ParameterType.HEADER:
+            argumentString = this.buildHeaderArgument(operationInfo, operationParameterInfo, httpRequest);
+            break;
+        case ParameterType.MATRIX:
+            argumentString = this.buildMatrixArgument(operationInfo, operationParameterInfo, httpRequest);
+            break;
+        case ParameterType.PATH:
+            argumentString = this.buildPathArgument(operationInfo, operationParameterInfo, httpRequest);
+            break;
+        case ParameterType.QUERY:
+            argumentString = this.buildQueryArgument(operationInfo, operationParameterInfo, httpRequest);
+            break;
+        default:
+            throw new Error('unknwon parameter type ' + operationParameterInfo.type);
+        }
+
+        return this.convertPrimitiveArgument<T>(operationInfo, operationParameterInfo, argumentString);
+    }
+
+    /**
+     * Build an argument based on contextual information
+     * @param operationInfo          Operation information
+     * @param operationParameterInfo Operation parameter information
+     * @param httpRequest            HTTP request
+     * @param <T>                    Argument type
+     * @return Built argument
+     */
+    private buildContextArgument<T>(operationInfo: OperationInfo, operationParameterInfo: OperationParameterInfo, httpRequest: HttpRequest): T {
+        let contextClass: ClassConstructor<T> = <ClassConstructor<T>><any> operationParameterInfo.name;
+
+        if (<Function> contextClass === HttpRequest) {
+            return <T><any> httpRequest;
+        }
+
+        throw new Error('unknown context class ' + contextClass.name);
+    }
+
+    /**
+     * Build an argument based on an HTTP request cookie
+     * @param operationInfo          Operation information
+     * @param operationParameterInfo Operation parameter information
+     * @param httpRequest            HTTP request
+     * @return Built argument
+     */
+    private buildCookieArgument(operationInfo: OperationInfo, operationParameterInfo: OperationParameterInfo, httpRequest: HttpRequest): string {
+        let cookieName: string = <string> operationParameterInfo.name;
+        return httpRequest.getCookieValue(cookieName);
+    }
+
+    /**
+     * Build an argument based on an HTTP request form parameter
+     * @param operationInfo          Operation information
+     * @param operationParameterInfo Operation parameter information
+     * @param httpRequest            HTTP request
+     * @return Built argument
+     */
+    private buildFormArgument(operationInfo: OperationInfo, operationParameterInfo: OperationParameterInfo, httpRequest: HttpRequest): string {
+        let parameterName: string = <string> operationParameterInfo.name;
+        let contentType: string = httpRequest.getHeaderValue(HEADER_CONTENT_TYPE);
+        let body: string = httpRequest.body;
+
+        if (contentType !== FORM_CONTENT_TYPE || !body) {
+            return undefined;
+        }
+
+        return HttpUtils.getFormParameterValue(body, parameterName);
+    }
+
+    /**
+     * Build an argument based on an HTTP request header
+     * @param operationInfo          Operation information
+     * @param operationParameterInfo Operation parameter information
+     * @param httpRequest            HTTP request
+     * @return Built argument
+     */
+    private buildHeaderArgument(operationInfo: OperationInfo, operationParameterInfo: OperationParameterInfo, httpRequest: HttpRequest): string {
+        let headerName: string = <string> operationParameterInfo.name;
+        return httpRequest.getHeaderValue(headerName);
+    }
+
+    /**
+     * Build an argument based on an HTTP request matrix parameter
+     * @param operationInfo          Operation information
+     * @param operationParameterInfo Operation parameter information
+     * @param httpRequest            HTTP request
+     * @return Built argument
+     */
+    private buildMatrixArgument(operationInfo: OperationInfo, operationParameterInfo: OperationParameterInfo, httpRequest: HttpRequest): string {
+        let parameterName: string = <string> operationParameterInfo.name;
+        // TODO
+        return undefined;
+    }
+
+    /**
+     * Build an argument based on an HTTP request path
+     * @param operationInfo          Operation information
+     * @param operationParameterInfo Operation parameter information
+     * @param httpRequest            HTTP request
+     * @return Built argument
+     */
+    private buildPathArgument(operationInfo: OperationInfo, operationParameterInfo: OperationParameterInfo, httpRequest: HttpRequest): string {
+        let headerName: string = <string> operationParameterInfo.name;
+        return httpRequest.getHeaderValue(headerName);
+    }
+
+    /**
+     * Build an argument based on an HTTP request query parameter
+     * @param operationInfo          Operation information
+     * @param operationParameterInfo Operation parameter information
+     * @param httpRequest            HTTP request
+     * @return Built argument
+     */
+    private buildQueryArgument(operationInfo: OperationInfo, operationParameterInfo: OperationParameterInfo, httpRequest: HttpRequest): string {
+        let parameterName: string = <string> operationParameterInfo.name;
+        return httpRequest.getQueryParameter(parameterName);
+    }
+
+    /**
+     * Convert a primitive argument to a specific type
+     * @param operationInfo          Operation information
+     * @param operationParameterInfo Operation parameter information
+     * @param argumentString         Argument value as a string
+     * @param <T>                    Argument type
+     * @return Built argument
+     */
+    private convertPrimitiveArgument<T>(operationInfo: OperationInfo, operationParameterInfo: OperationParameterInfo, argumentString: string): T {
+        let argumentClass: Function = operationParameterInfo.class;
+
+        if (argumentClass === String) {
+            return <T><any> argumentString;
+        }
+
+        if (argumentClass === Number) {
+            return <T><any> parseInt(argumentString, 10);
+        }
+
+        throw new Error('unknwon primitive argument class ' + argumentClass.name);
     }
 
 }

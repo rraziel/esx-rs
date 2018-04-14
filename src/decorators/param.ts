@@ -61,7 +61,16 @@ function ContextParam(contextClass: ClassConstructor<any>): PropertyOrParameterD
 }
 
 /**
- * Create a FormParam decorator, declaring the path parameter bound to a method parameter or to a class property
+ * Create a CookieParam decorator, declaring the cookie parameter bound to a method parameter or to a class property
+ * @param parameterName Parameter name
+ * @return CookieParam decorator
+ */
+function CookieParam(parameterName?: string): PropertyOrParameterDecorator {
+    return createParameterDecorator('CookieParam', ParameterType.COOKIE, parameterName);
+}
+
+/**
+ * Create a FormParam decorator, declaring the form parameter bound to a method parameter or to a class property
  * @param parameterName Parameter name
  * @return FormParam decorator
  */
@@ -76,6 +85,15 @@ function FormParam(parameterName?: string): PropertyOrParameterDecorator {
  */
 function HeaderParam(parameterName?: string): PropertyOrParameterDecorator {
     return createParameterDecorator('HeaderParam', ParameterType.HEADER, parameterName);
+}
+
+/**
+ * Create a MatrixParam decorator, declaring the matrix parameter bound to a method parameter or to a class property
+ * @param parameterName Parameter name
+ * @return MatrixParam decorator
+ */
+function MatrixParam(parameterName: string): PropertyOrParameterDecorator {
+    return createParameterDecorator('MatrixParam', ParameterType.MATRIX, parameterName);
 }
 
 /**
@@ -98,8 +116,10 @@ function QueryParam(parameterName?: string): PropertyOrParameterDecorator {
 
 export {
     ContextParam,
+    CookieParam,
     FormParam,
     HeaderParam,
+    MatrixParam,
     PathParam,
     QueryParam
 };

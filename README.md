@@ -24,7 +24,7 @@ It has currently been integrated with:
 | [esx-rs-client-xmlhttprequest](https://github.com/rraziel/esx-rs-client-xmlhttprequest) | Client     | Proxy generator for [XMLHttpRequest](https://en.wikipedia.org/wiki/XMLHttpRequest). |
 | [esx-rs-server-express](https://github.com/rraziel/esx-rs-server-express)               | Server     | Middleware for [Express](https://expressjs.com/).                                   |
 | [esx-rs-server-koa](https://github.com/rraziel/esx-rs-server-koa)                       | Server     | Middleware for [Koa](http://koajs.com/).                                            |
-| [es-validation](https://github.com/rraziel/es-validation)                               | Validation | Validate request and response constraints using decorators.                         |
+| [esx-rs-validation](https://github.com/rraziel/esx-rs-validation)                       | Validation | Validation through [es-validation](https://github.com/rraziel/es-validation).       |
 
 ## Getting Started
 
@@ -87,6 +87,21 @@ The consumed - mapped to `content-type` - and produced - mapped to `accept` - me
 
 - `@Consumes`
 - `@Produces`
+
+Operation parameters and resource properties are mapped using a specific decorator for each parameter type:
+
+- `@CookieParam`
+- `@FormParam`
+- `@HeaderParam`
+- `@MatrixParam`
+- `@QueryParam`
+- `@PathParam`
+
+It is also possible to map the following context information to a parameter using `@ContextParam`:
+
+- `HttpContext`
+- `HttpRequest`
+- `HttpResponse`
 
 ### Endpoint vs. Operation
 
