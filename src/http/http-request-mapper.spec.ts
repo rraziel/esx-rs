@@ -3,6 +3,12 @@ import {HttpCookie} from './http-cookie';
 import {HttpHeader} from './http-header';
 import {HttpRequest} from './http-request';
 import {OperationInfo, OperationParameterInfo, ParameterType} from '../metadata';
+import * as pathToRegexp from 'path-to-regexp';
+
+const HEADER_CONTENT_TYPE: string = 'content-type';
+const FORM_CONTENT_TYPE: string = 'application/x-www-form-urlencoded';
+
+class TestClass {}
 
 describe('HTTP request mapper', () => {
     let httpRequestMapper: HttpRequestMapper;
@@ -70,7 +76,7 @@ describe('HTTP request mapper', () => {
         it('with a form parameter', async () => {
             // given
             let httpRequest: HttpRequest = new HttpRequest('POST', '/');
-            httpRequest.headers = [new HttpHeader('content-type', 'application/x-www-form-urlencoded')];
+            httpRequest.headers = [new HttpHeader(HEADER_CONTENT_TYPE, FORM_CONTENT_TYPE)];
             httpRequest.body = 'test=value&other=x&test2=4';
             let operationInfo: OperationInfo = {
                 parameters: [{
@@ -97,7 +103,7 @@ describe('HTTP request mapper', () => {
         it('with a header parameter', async () => {
             // given
             let httpRequest: HttpRequest = new HttpRequest('POST', '/');
-            httpRequest.headers = [new HttpHeader('content-type', 'application/json'), new HttpHeader('test', 'value'), new HttpHeader('test3', 'true'), new HttpHeader('accept', 'application/json'), new HttpHeader('test2', '4')];
+            httpRequest.headers = [new HttpHeader(HEADER_CONTENT_TYPE, 'application/json'), new HttpHeader('test', 'value'), new HttpHeader('test3', 'true'), new HttpHeader('accept', 'application/json'), new HttpHeader('test2', '4')];
             let operationInfo: OperationInfo = {
                 parameters: [{
                     name: 'test',
@@ -152,11 +158,14 @@ describe('HTTP request mapper', () => {
             expect(operationArguments[1]).toEqual(4);
         });
 
-        it.skip('with a path parameter', async () => {
+        it.only('with a path parameter', async () => {
             // given
-            let httpRequest: HttpRequest = new HttpRequest('POST', '/path/value/subpath');
+            let httpRequest: HttpRequest = new HttpRequest('POST', '/path/value/subpath/4');
+            let resourcePathKeys: pathToRegexp.Key[] = [];
             let operationInfo: OperationInfo = {
                 resourcePath: '/path/:test/subpath/:id',
+                resourcePathKeys: resourcePathKeys,
+                resourcePathRegExp: pathToRegexp('/path/:test/subpath/:id', resourcePathKeys),
                 parameters: [{
                     name: 'test',
                     class: String,
@@ -214,6 +223,70 @@ describe('HTTP request mapper', () => {
             // then
             expect(operationArguments).not.toBeUndefined();
             expect(operationArguments.length).toEqual(0);
+        });
+
+    });
+
+    describe('cannot build an argument when', () => {
+
+        it('a context class is unknown', async () => {
+            // given
+            let httpRequest: HttpRequest = new HttpRequest('POST', '/');
+            let operationInfo: OperationInfo = {
+                parameters: [{
+                    name: TestClass,
+                    class: TestClass,
+                    type: ParameterType.CONTEXT
+                }]
+            };
+            // when
+            let errorMessage: string;
+            try {
+                await httpRequestMapper.buildArguments(operationInfo, httpRequest);
+            } catch (e) {
+                errorMessage = e.message;
+            }
+            // then
+            expect(errorMessage).toEqual('unknown context class TestClass');
+        });
+
+        it('a form parameter is needed but the content type is incorrect', async () => {
+            // given
+            let httpRequest: HttpRequest = new HttpRequest('POST', '/');
+            httpRequest.headers = [new HttpHeader(HEADER_CONTENT_TYPE, 'application/json')];
+            httpRequest.body = 'test=value&other=x&test2=4';
+            let operationInfo: OperationInfo = {
+                parameters: [{
+                    name: 'test',
+                    class: String,
+                    type: ParameterType.FORM
+                }]
+            };
+            // when
+            let operationArguments: any[] = await httpRequestMapper.buildArguments(operationInfo, httpRequest);
+            // then
+            expect(operationArguments).not.toBeUndefined();
+            expect(operationArguments.length).toEqual(1);
+            expect(operationArguments[0]).toBeUndefined();
+        });
+
+        it('a form parameter is needed but there is no body', async () => {
+            // given
+            let httpRequest: HttpRequest = new HttpRequest('POST', '/');
+            httpRequest.headers = [new HttpHeader(HEADER_CONTENT_TYPE, FORM_CONTENT_TYPE)];
+            let operationInfo: OperationInfo = {
+                parameters: [{
+                    name: 'test',
+                    class: String,
+                    type: ParameterType.FORM
+                }]
+            };
+            // when
+            let operationArguments: any[] = await httpRequestMapper.buildArguments(operationInfo, httpRequest);
+            // then
+            expect(operationArguments).not.toBeUndefined();
+            expect(operationArguments.length).toEqual(1);
+            expect(operationArguments[0]).toBeUndefined();
         });
 
     });

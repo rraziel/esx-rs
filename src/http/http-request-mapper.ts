@@ -40,7 +40,7 @@ class HttpRequestMapper {
         let parameterClass: Function = operationParameterInfo.class;
         let argumentValue: T;
 
-        if (parameterClass !== String && parameterClass !== Number && parameterClass !== Boolean) {
+        if (this.isPrimitiveClass(parameterClass)) {
             if (operationParameterInfo.type === ParameterType.CONTEXT) {
                 argumentValue = this.buildContextArgument<T>(operationInfo, operationParameterInfo, httpRequest);
             } else {
@@ -162,8 +162,11 @@ class HttpRequestMapper {
      * @return Built argument
      */
     private buildPathArgument(operationInfo: OperationInfo, operationParameterInfo: OperationParameterInfo, httpRequest: HttpRequest): string {
-        let headerName: string = <string> operationParameterInfo.name;
-        return httpRequest.getHeaderValue(headerName);
+        let parameterName: string = <string> operationParameterInfo.name;
+        let resourcePathRegExp: RegExp = operationInfo.resourcePathRegExp;
+        let path: string = httpRequest.path;
+
+        return HttpUtils.getPathParameterValue(path, resourcePathRegExp, operationInfo.resourcePathKeys, parameterName);
     }
 
     /**
@@ -201,7 +204,16 @@ class HttpRequestMapper {
             return <T><any> (argumentString.toLowerCase() === 'true');
         }
 
-        throw new Error('unknwon primitive argument class ' + argumentClass.name);
+        throw new Error('unknown primitive argument class ' + argumentClass.name);
+    }
+
+    /**
+     * Test whether a parameter class represents a primitive: string, number or boolean
+     * @param parameterClass Parameter class
+     * @return true if the class represents a primitive
+     */
+    private isPrimitiveClass(parameterClass: Function): boolean {
+        return parameterClass !== String && parameterClass !== Number && parameterClass !== Boolean;
     }
 
 }

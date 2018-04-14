@@ -1,4 +1,5 @@
 import {HttpUtils} from './http-utils';
+import * as pathToRegexp from 'path-to-regexp';
 
 describe('HTTP utility functions', () => {
 
@@ -30,6 +31,46 @@ describe('HTTP utility functions', () => {
             let parameterName: string = 'test';
             // when
             let parameterValue: string = HttpUtils.getFormParameterValue(body, parameterName);
+            // then
+            expect(parameterValue).toBeUndefined();
+        });
+
+    });
+
+    describe('can extract a path parameter value', () => {
+
+        it('for a normal parameter', () => {
+            // given
+            let pathSpecificationKeys: pathToRegexp.Key[] = [];
+            let pathSpecification: RegExp = pathToRegexp('/a/b/:test/c', pathSpecificationKeys);
+            let path: string = '/a/b/value/c';
+            let parameterName: string = 'test';
+            // when
+            let parameterValue: string = HttpUtils.getPathParameterValue(path, pathSpecification, pathSpecificationKeys, parameterName);
+            // then
+            expect(parameterValue).toEqual('value');
+        });
+
+        it('for a parameter at the end of the path', () => {
+            // given
+            let pathSpecificationKeys: pathToRegexp.Key[] = [];
+            let pathSpecification: RegExp = pathToRegexp('/a/b/:test/c/:end', pathSpecificationKeys);
+            let path: string = '/a/b/x/c/value';
+            let parameterName: string = 'end';
+            // when
+            let parameterValue: string = HttpUtils.getPathParameterValue(path, pathSpecification, pathSpecificationKeys, parameterName);
+            // then
+            expect(parameterValue).toEqual('value');
+        });
+
+        it('returns undefined if the parameter is absent', () => {
+            // given
+            let pathSpecificationKeys: pathToRegexp.Key[] = [];
+            let pathSpecification: RegExp = pathToRegexp('/a/b/c', pathSpecificationKeys);
+            let path: string = '/a/b/c';
+            let parameterName: string = 'test';
+            // when
+            let parameterValue: string = HttpUtils.getPathParameterValue(path, pathSpecification, pathSpecificationKeys, parameterName);
             // then
             expect(parameterValue).toBeUndefined();
         });

@@ -1,7 +1,7 @@
 import {DELETE, GET, HEAD, OPTIONS, PATCH, POST, PUT} from './http-method';
 import {ClassOrMethodDecorator} from './helper';
 import {HttpMethod} from '../http';
-import {EndpointInfo, getEndpointInfo, getMergedOperationInfo, OperationInfo} from '../metadata';
+import {EndpointInfo, getEndpointInfo, getFullOperationInfo, OperationInfo} from '../metadata';
 
 class DecoratorInfo {
     decorator: ClassOrMethodDecorator;
@@ -36,7 +36,7 @@ function createHttpMethodSpecification(decoratorInfo: DecoratorInfo): void {
                     method(): void { /* empty */ }
                 }
                 // when
-                let operationInfo: OperationInfo = getMergedOperationInfo(new TestClass(), 'method');
+                let operationInfo: OperationInfo = getFullOperationInfo(new TestClass(), 'method');
                 // then
                 expect(operationInfo).not.toBeUndefined();
                 expect(operationInfo.httpMethods).toEqual(new Set<HttpMethod>([method]));
@@ -81,7 +81,7 @@ describe('Multiple HTTP method decorators can be applied to', () => {
             method(): void { /* empty */ }
         }
         // when
-        let operationInfo: OperationInfo = getMergedOperationInfo(new TestClass(), 'method');
+        let operationInfo: OperationInfo = getFullOperationInfo(new TestClass(), 'method');
         // then
         expect(operationInfo).not.toBeUndefined();
         expect(operationInfo.httpMethods).toEqual(new Set<HttpMethod>([HttpMethod.GET, HttpMethod.DELETE, HttpMethod.OPTIONS]));
@@ -95,7 +95,7 @@ describe('Multiple HTTP method decorators can be applied to', () => {
             method(): void { /* empty */ }
         }
         // when
-        let operationInfo: OperationInfo = getMergedOperationInfo(new TestClass(), 'method');
+        let operationInfo: OperationInfo = getFullOperationInfo(new TestClass(), 'method');
         // then
         expect(operationInfo).not.toBeUndefined();
         expect(operationInfo.httpMethods).toEqual(new Set<HttpMethod>([HttpMethod.POST, HttpMethod.PUT]));

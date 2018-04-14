@@ -1,5 +1,6 @@
 import {EndpointInfoMetadata} from './endpoint-info-metadata';
 import {HttpMethod} from '../../http';
+import * as pathToRegexp from 'path-to-regexp';
 import 'reflect-metadata';
 
 /**
@@ -7,6 +8,8 @@ import 'reflect-metadata';
  */
 interface EndpointInfo {
     resourcePath?: string;
+    resourcePathRegExp?: RegExp;
+    resourcePathKeys?: pathToRegexp.Key[];
     httpMethods?: Set<HttpMethod>;
     consumedMediaTypes?: Set<string|Function>;
     producedMediaTypes?: Set<string|Function>;

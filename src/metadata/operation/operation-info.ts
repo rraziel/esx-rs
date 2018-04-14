@@ -1,6 +1,7 @@
 import {getEndpointInfo, EndpointInfo} from '../endpoint';
 import {HttpMethod} from '../../http';
 import {OperationParameterInfo} from './operation-parameter-info';
+import * as pathToRegexp from 'path-to-regexp';
 import 'reflect-metadata';
 
 /**
@@ -120,22 +121,46 @@ function setOperationInfo(target: Object, propertyKey: string|symbol, operationI
 }
 
 /**
- * Get merged operation information for an instance's method
- * @param instance Instance
- * @param <T>      Instance type
- * @return Merged operation information
+ * Finalize operation information
+ * @param classPrototype Class prototype
+ * @param methodName     Method name
+ * @param operationInfo  Operation information
+ * @return Finalized operation information
  */
-function getMergedOperationInfo<T extends Object>(instance: T, methodName: string): OperationInfo {
-    let classPrototype: Object = Object.getPrototypeOf(instance);
-    let operationInfo: OperationInfo = getOperationInfo(classPrototype, methodName);
+function finalizeOperationInfo(classPrototype: Object, methodName: string, operationInfo: OperationInfo): OperationInfo {
     let endpointClass: Function = classPrototype.constructor;
     let endpointInfo: EndpointInfo = getEndpointInfo(endpointClass);
-    return mergeEndpointInfoIntoOperationInfo(operationInfo, endpointInfo);
+
+    operationInfo = mergeEndpointInfoIntoOperationInfo(operationInfo, endpointInfo);
+    if (operationInfo.resourcePath) {
+        operationInfo.resourcePathKeys = [];
+        operationInfo.resourcePathRegExp = pathToRegexp(operationInfo.resourcePath, operationInfo.resourcePathKeys);
+    }
+
+    setOperationInfo(classPrototype, methodName, operationInfo);
+
+    return operationInfo;
+}
+
+/**
+ * Get full operation information for an instance's method
+ * @param instance Instance
+ * @param <T>      Instance type
+ * @return Full operation information
+ */
+function getFullOperationInfo<T extends Object>(instance: T, methodName: string): OperationInfo {
+    let classPrototype: Object = Object.getPrototypeOf(instance);
+    let operationInfo: OperationInfo = getOperationInfo(classPrototype, methodName);
+    if (operationInfo.resourcePathRegExp) {
+        return operationInfo;
+    }
+
+    return finalizeOperationInfo(classPrototype, methodName, operationInfo);
 }
 
 export {
     OperationInfo,
-    getMergedOperationInfo,
+    getFullOperationInfo,
     getOperationInfo,
     setOperationInfo
 };

@@ -1,6 +1,6 @@
 import {ContextParam, CookieParam, FormParam, HeaderParam, MatrixParam, PathParam, QueryParam} from './param';
 import {PropertyOrParameterDecorator} from './helper';
-import {getMergedOperationInfo, getPropertyInfo, OperationInfo, ParameterType, PropertyInfo} from '../metadata';
+import {getFullOperationInfo, getPropertyInfo, OperationInfo, ParameterType, PropertyInfo} from '../metadata';
 
 class DecoratorInfo {
     name: string;
@@ -20,7 +20,7 @@ describe('@ContextParam decorator', () => {
                 testMethod(@ContextParam(ContextClass) p: ContextClass): void { /* empty */ }
             }
             // when
-            let operationInfo: OperationInfo = getMergedOperationInfo(new TestClass(), 'testMethod');
+            let operationInfo: OperationInfo = getFullOperationInfo(new TestClass(), 'testMethod');
             // then
             expect(operationInfo).not.toBeUndefined();
             expect(operationInfo.parameters).not.toBeUndefined();
@@ -76,7 +76,7 @@ function createParameterSpecification(decoratorInfo: DecoratorInfo): void {
                     testMethod(@decorator('test') p: string): void { /* empty */ }
                 }
                 // when
-                let operationInfo: OperationInfo = getMergedOperationInfo(new TestClass(), 'testMethod');
+                let operationInfo: OperationInfo = getFullOperationInfo(new TestClass(), 'testMethod');
                 // then
                 expect(operationInfo).not.toBeUndefined();
                 expect(operationInfo.parameters).not.toBeUndefined();

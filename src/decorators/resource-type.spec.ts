@@ -1,5 +1,5 @@
 import {Consumes, Produces} from './resource-type';
-import {EndpointInfo, getEndpointInfo, getMergedOperationInfo, OperationInfo} from '../metadata';
+import {EndpointInfo, getEndpointInfo, getFullOperationInfo, OperationInfo} from '../metadata';
 import {ClassOrMethodDecorator} from './helper';
 
 class DecoratorInfo {
@@ -66,7 +66,7 @@ function createResourceTypeSpecification(decoratorInfo: DecoratorInfo): void {
                         testMethod(): void { /* empty */ }
                     }
                     // when
-                    let operationInfo: OperationInfo = getMergedOperationInfo(new TestClass(), 'testMethod');
+                    let operationInfo: OperationInfo = getFullOperationInfo(new TestClass(), 'testMethod');
                     // expect
                     expect(operationInfo).not.toBeUndefined();
                     expect(operationValue(operationInfo)).toEqual(new Set<string|Function>(['test']));
@@ -79,7 +79,7 @@ function createResourceTypeSpecification(decoratorInfo: DecoratorInfo): void {
                         testMethod(): void { /* empty */ }
                     }
                     // when
-                    let operationInfo: OperationInfo = getMergedOperationInfo(new TestClass(), 'testMethod');
+                    let operationInfo: OperationInfo = getFullOperationInfo(new TestClass(), 'testMethod');
                     // expect
                     expect(operationInfo).not.toBeUndefined();
                     expect(operationValue(operationInfo)).toEqual(new Set<string|Function>(['test1', 'test2']));
@@ -93,7 +93,7 @@ function createResourceTypeSpecification(decoratorInfo: DecoratorInfo): void {
                         testMethod(): void { /* empty */ }
                     }
                     // when
-                    let operationInfo: OperationInfo = getMergedOperationInfo(new TestClass(), 'testMethod');
+                    let operationInfo: OperationInfo = getFullOperationInfo(new TestClass(), 'testMethod');
                     // expect
                     expect(operationInfo).not.toBeUndefined();
                     expect(operationValue(operationInfo)).toEqual(new Set<string|Function>(['test1', 'test2']));
@@ -109,7 +109,7 @@ function createResourceTypeSpecification(decoratorInfo: DecoratorInfo): void {
                     testMethod(): void { /* empty */ }
                 }
                 // when
-                let operationInfo: OperationInfo = getMergedOperationInfo(new TestClass(), 'testMethod');
+                let operationInfo: OperationInfo = getFullOperationInfo(new TestClass(), 'testMethod');
                 // expect
                 expect(operationInfo).not.toBeUndefined();
                 expect(operationValue(operationInfo)).toEqual(new Set<string|Function>(['test1', 'test2']));
