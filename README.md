@@ -22,9 +22,10 @@ It has currently been integrated with:
 | [esx-rs-client-fetch](https://github.com/rraziel/esx-rs-client-fetch)                   | Client     | Proxy generator for [Fetch](https://fetch.spec.whatwg.org/).                        |
 | [esx-rs-client-http](https://github.com/rraziel/esx-rs-client-http)                     | Client     | Proxy generator for [Node http](https://nodejs.org/api/http.html).                  |
 | [esx-rs-client-xmlhttprequest](https://github.com/rraziel/esx-rs-client-xmlhttprequest) | Client     | Proxy generator for [XMLHttpRequest](https://en.wikipedia.org/wiki/XMLHttpRequest). |
-| [esx-rs-server-express](https://github.com/rraziel/esx-rs-server-express)               | Server     | Middleware for [Express](https://expressjs.com/).                                   |
-| [esx-rs-server-koa](https://github.com/rraziel/esx-rs-server-koa)                       | Server     | Middleware for [Koa](http://koajs.com/).                                            |
+| [esx-rs-router-express](https://github.com/rraziel/esx-rs-router-express)               | Server     | Router middleware for [Express](https://expressjs.com/).                            |
+| [esx-rs-router-koa](https://github.com/rraziel/esx-rs-router-koa)                       | Server     | Router middleware for [Koa](http://koajs.com/).                                     |
 | [esx-rs-validation](https://github.com/rraziel/esx-rs-validation)                       | Validation | Validation through [es-validation](https://github.com/rraziel/es-validation).       |
+| [esx-rs-schema-openapi](https://github.com/rraziel/esx-rs-schema-openapi)               | Schema     | Schema generation for [OpenAPI 3.0](https://www.openapis.org/).                     |
 
 ## Getting Started
 
