@@ -42,7 +42,7 @@
   },
   "dependencies": {
     "path-to-regexp": "2.2.0",
-    "reflect-metadata": "^0.1.10"
+    "reflect-metadata": "0.1.12"
   },
   "devDependencies": {
     "@types/jest": "22.2.3",
@@ -50,7 +50,6 @@
     "jest": "22.4.3",
     "jest-create-mock-instance": "1.0.3",
     "jest-junit-reporter": "1.1.0",
-    "json-loader": "0.5.7",
     "ts-jest": "22.4.2",
     "ts-node": "5.0.1",
     "tslint": "5.9.1",
