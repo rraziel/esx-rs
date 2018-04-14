@@ -97,7 +97,7 @@ describe('HTTP request mapper', () => {
         it('with a header parameter', async () => {
             // given
             let httpRequest: HttpRequest = new HttpRequest('POST', '/');
-            httpRequest.headers = [new HttpHeader('content-type', 'application/json'), new HttpHeader('test', 'value'), new HttpHeader('accept', 'application/json'), new HttpHeader('test2', '4')];
+            httpRequest.headers = [new HttpHeader('content-type', 'application/json'), new HttpHeader('test', 'value'), new HttpHeader('test3', 'true'), new HttpHeader('accept', 'application/json'), new HttpHeader('test2', '4')];
             let operationInfo: OperationInfo = {
                 parameters: [{
                     name: 'test',
@@ -107,17 +107,23 @@ describe('HTTP request mapper', () => {
                     name: 'test2',
                     class: Number,
                     type: ParameterType.HEADER
+                }, {
+                    name: 'test3',
+                    class: Boolean,
+                    type: ParameterType.HEADER
                 }]
             };
             // when
             let operationArguments: any[] = await httpRequestMapper.buildArguments(operationInfo, httpRequest);
             // then
             expect(operationArguments).not.toBeUndefined();
-            expect(operationArguments.length).toEqual(2);
+            expect(operationArguments.length).toEqual(3);
             expect(operationArguments[0]).not.toBeUndefined();
             expect(operationArguments[0]).toEqual('value');
             expect(operationArguments[1]).not.toBeUndefined();
             expect(operationArguments[1]).toEqual(4);
+            expect(operationArguments[2]).not.toBeUndefined();
+            expect(operationArguments[2]).toEqual(true);
         });
 
         it.skip('with a matrix parameter', async () => { // TODO

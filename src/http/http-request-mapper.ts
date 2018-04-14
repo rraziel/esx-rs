@@ -37,34 +37,47 @@ class HttpRequestMapper {
      * @return Built argument
      */
     private buildArgument<T>(operationInfo: OperationInfo, operationParameterInfo: OperationParameterInfo, httpRequest: HttpRequest): T {
-        let argumentString: string;
+        let parameterClass: Function = operationParameterInfo.class;
+        let argumentValue: T;
 
+        if (parameterClass !== String && parameterClass !== Number && parameterClass !== Boolean) {
+            if (operationParameterInfo.type === ParameterType.CONTEXT) {
+                argumentValue = this.buildContextArgument<T>(operationInfo, operationParameterInfo, httpRequest);
+            } else {
+                throw new Error('composite parameters not implemented yet');
+            }
+        } else {
+            let argumentString: string = this.buildPrimitiveArgument<T>(operationInfo, operationParameterInfo, httpRequest);
+            argumentValue = this.convertPrimitiveArgument<T>(operationInfo, operationParameterInfo, argumentString);
+        }
+
+        return argumentValue;
+    }
+
+    /**
+     * Build a primitive argument based on an HTTP request
+     * @param operationInfo          Operation information
+     * @param operationParameterInfo Operation parameter information
+     * @param httpRequest            HTTP request
+     * @return Built argument string
+     */
+    private buildPrimitiveArgument<T>(operationInfo: OperationInfo, operationParameterInfo: OperationParameterInfo, httpRequest: HttpRequest): string {
         switch (operationParameterInfo.type) {
-        case ParameterType.CONTEXT:
-            return this.buildContextArgument<T>(operationInfo, operationParameterInfo, httpRequest);
         case ParameterType.COOKIE:
-            argumentString = this.buildCookieArgument(operationInfo, operationParameterInfo, httpRequest);
-            break;
+            return this.buildCookieArgument(operationInfo, operationParameterInfo, httpRequest);
         case ParameterType.FORM:
-            argumentString = this.buildFormArgument(operationInfo, operationParameterInfo, httpRequest);
-            break;
+            return this.buildFormArgument(operationInfo, operationParameterInfo, httpRequest);
         case ParameterType.HEADER:
-            argumentString = this.buildHeaderArgument(operationInfo, operationParameterInfo, httpRequest);
-            break;
+            return this.buildHeaderArgument(operationInfo, operationParameterInfo, httpRequest);
         case ParameterType.MATRIX:
-            argumentString = this.buildMatrixArgument(operationInfo, operationParameterInfo, httpRequest);
-            break;
+            return this.buildMatrixArgument(operationInfo, operationParameterInfo, httpRequest);
         case ParameterType.PATH:
-            argumentString = this.buildPathArgument(operationInfo, operationParameterInfo, httpRequest);
-            break;
+            return this.buildPathArgument(operationInfo, operationParameterInfo, httpRequest);
         case ParameterType.QUERY:
-            argumentString = this.buildQueryArgument(operationInfo, operationParameterInfo, httpRequest);
-            break;
+            return this.buildQueryArgument(operationInfo, operationParameterInfo, httpRequest);
         default:
             throw new Error('unknwon parameter type ' + operationParameterInfo.type);
         }
-
-        return this.convertPrimitiveArgument<T>(operationInfo, operationParameterInfo, argumentString);
     }
 
     /**
@@ -182,6 +195,10 @@ class HttpRequestMapper {
 
         if (argumentClass === Number) {
             return <T><any> parseInt(argumentString, 10);
+        }
+
+        if (argumentClass === Boolean) {
+            return <T><any> (argumentString.toLowerCase() === 'true');
         }
 
         throw new Error('unknwon primitive argument class ' + argumentClass.name);
