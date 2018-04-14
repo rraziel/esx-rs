@@ -18,7 +18,6 @@
     "tslint": "tslint --project ./tsconfig.json --config ./conf/tslint.json"
   },
   "jest": {
-    "mapCoverage": true,
     "collectCoverageFrom": [
       "src/**/*.ts",
       "!src/**/index.ts"
