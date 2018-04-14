@@ -29,10 +29,16 @@ It has currently been integrated with:
 
 ## Getting Started
 
-Install the library using `npm`:
+The library can be installed using `npm`:
 
 ```
 npm install esx-rs --save
+```
+
+Or using `yarn`:
+
+```
+yarn add esx-rs
 ```
 
 Then create a class for endpoint:
