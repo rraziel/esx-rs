@@ -86,10 +86,6 @@ function mergeEndpointInfoIntoOperationInfo(operationInfo: OperationInfo, endpoi
         return operationInfo;
     }
 
-    if (operationInfo === undefined) {
-        operationInfo = {};
-    }
-
     operationInfo = mergeHttpMethods(operationInfo, endpointInfo);
     operationInfo = mergeResourcePaths(operationInfo, endpointInfo);
     operationInfo = mergeConsumedMediaTypes(operationInfo, endpointInfo);
