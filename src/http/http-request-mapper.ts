@@ -120,13 +120,13 @@ class HttpRequestMapper {
     private buildFormArgument(operationInfo: OperationInfo, operationParameterInfo: OperationParameterInfo, httpRequest: HttpRequest): string {
         let parameterName: string = <string> operationParameterInfo.name;
         let contentType: string = httpRequest.getHeaderValue(HEADER_CONTENT_TYPE);
-        let body: string = httpRequest.body;
 
-        if (contentType !== FORM_CONTENT_TYPE || !body) {
-            return undefined;
+        if (contentType === FORM_CONTENT_TYPE && httpRequest.hasPayload()) {
+            let payload: string = httpRequest.getPayload();
+            return HttpUtils.getFormParameterValue(payload, parameterName);
         }
 
-        return HttpUtils.getFormParameterValue(body, parameterName);
+        return undefined;
     }
 
     /**

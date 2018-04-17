@@ -2,8 +2,8 @@
 /**
  * HTTP response
  */
-interface HttpResponse {
-    status?: number;
+class HttpResponse {
+    statusCode?: number;
 }
 
 export {

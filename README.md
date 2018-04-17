@@ -41,7 +41,7 @@ Or using `yarn`:
 yarn add esx-rs
 ```
 
-Then create a class for endpoint:
+Endpoints are described using decorators:
 
 ```typescript
 @Path('/users')

@@ -1,12 +1,13 @@
 import {HttpRequestMapper} from './http-request-mapper';
-import {HttpCookie} from './http-cookie';
+import {Cookie} from './cookie';
 import {HttpHeader} from './http-header';
 import {HttpRequest} from './http-request';
 import {OperationInfo, OperationParameterInfo, ParameterType} from '../metadata';
 import * as pathToRegexp from 'path-to-regexp';
 
 const HEADER_CONTENT_TYPE: string = 'content-type';
-const FORM_CONTENT_TYPE: string = 'application/x-www-form-urlencoded';
+const CONTENT_TYPE_JSON: string = 'application/json';
+const CONTENT_TYPE_FORM: string = 'application/x-www-form-urlencoded';
 
 class TestClass {}
 
@@ -49,8 +50,8 @@ describe('HTTP request mapper', () => {
 
         it('with a cookie parameter', async() => {
             // given
-            let httpRequest: HttpRequest = new HttpRequest('POST', '/');
-            httpRequest.cookies = [new HttpCookie('test', 'value'), new HttpCookie('other', 'x'), new HttpCookie('test2', '4')];
+            let cookies: Array<Cookie> = [new Cookie('test', 'value'), new Cookie('other', 'x'), new Cookie('test2', '4')];
+            let httpRequest: HttpRequest = new HttpRequest('POST', '/', undefined, undefined, cookies);
             let operationInfo: OperationInfo = {
                 parameters: [{
                     name: 'test',
@@ -75,9 +76,9 @@ describe('HTTP request mapper', () => {
 
         it('with a form parameter', async () => {
             // given
-            let httpRequest: HttpRequest = new HttpRequest('POST', '/');
-            httpRequest.headers = [new HttpHeader(HEADER_CONTENT_TYPE, FORM_CONTENT_TYPE)];
-            httpRequest.body = 'test=value&other=x&test2=4';
+            let httpHeaders: Array<HttpHeader> = [new HttpHeader(HEADER_CONTENT_TYPE, CONTENT_TYPE_FORM)];
+            let payload: string = 'test=value&other=x&test2=4';
+            let httpRequest: HttpRequest = new HttpRequest('POST', '/', undefined, httpHeaders, undefined, payload);
             let operationInfo: OperationInfo = {
                 parameters: [{
                     name: 'test',
@@ -92,6 +93,7 @@ describe('HTTP request mapper', () => {
             // when
             let operationArguments: any[] = await httpRequestMapper.buildArguments(operationInfo, httpRequest);
             // then
+            console.log('operation arguments: ', operationArguments);
             expect(operationArguments).not.toBeUndefined();
             expect(operationArguments.length).toEqual(2);
             expect(operationArguments[0]).not.toBeUndefined();
@@ -102,8 +104,8 @@ describe('HTTP request mapper', () => {
 
         it('with a header parameter', async () => {
             // given
-            let httpRequest: HttpRequest = new HttpRequest('POST', '/');
-            httpRequest.headers = [new HttpHeader(HEADER_CONTENT_TYPE, 'application/json'), new HttpHeader('test', 'value'), new HttpHeader('test3', 'true'), new HttpHeader('accept', 'application/json'), new HttpHeader('test2', '4')];
+            let httpHeaders: Array<HttpHeader> = [new HttpHeader(HEADER_CONTENT_TYPE, 'application/json'), new HttpHeader('test', 'value'), new HttpHeader('test3', 'true'), new HttpHeader('accept', 'application/json'), new HttpHeader('test2', '4')];
+            let httpRequest: HttpRequest = new HttpRequest('POST', '/', undefined, httpHeaders);
             let operationInfo: OperationInfo = {
                 parameters: [{
                     name: 'test',
@@ -252,9 +254,9 @@ describe('HTTP request mapper', () => {
 
         it('a form parameter is needed but the content type is incorrect', async () => {
             // given
-            let httpRequest: HttpRequest = new HttpRequest('POST', '/');
-            httpRequest.headers = [new HttpHeader(HEADER_CONTENT_TYPE, 'application/json')];
-            httpRequest.body = 'test=value&other=x&test2=4';
+            let httpHeaders: Array<HttpHeader> = [new HttpHeader(HEADER_CONTENT_TYPE, CONTENT_TYPE_JSON)];
+            let payload: string = 'test=value&other=x&test2=4';
+            let httpRequest: HttpRequest = new HttpRequest('POST', '/', undefined, httpHeaders, undefined, payload);
             let operationInfo: OperationInfo = {
                 parameters: [{
                     name: 'test',
@@ -272,8 +274,8 @@ describe('HTTP request mapper', () => {
 
         it('a form parameter is needed but there is no body', async () => {
             // given
-            let httpRequest: HttpRequest = new HttpRequest('POST', '/');
-            httpRequest.headers = [new HttpHeader(HEADER_CONTENT_TYPE, FORM_CONTENT_TYPE)];
+            let httpHeaders: Array<HttpHeader> = [new HttpHeader(HEADER_CONTENT_TYPE, CONTENT_TYPE_FORM)];
+            let httpRequest: HttpRequest = new HttpRequest('POST', '/', undefined, httpHeaders);
             let operationInfo: OperationInfo = {
                 parameters: [{
                     name: 'test',

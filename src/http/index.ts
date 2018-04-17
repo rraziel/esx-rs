@@ -1,5 +1,5 @@
+export {Cookie} from './cookie';
 export {EntityTag} from './entity-tag';
-export {HttpCookie} from './http-cookie';
 export {HttpFile} from './http-file';
 export {HttpHeader} from './http-header';
 export {HttpMethod} from './http-method';

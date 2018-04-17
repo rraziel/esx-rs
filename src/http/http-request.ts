@@ -1,51 +1,55 @@
-import {HttpCookie} from './http-cookie';
+import {AbstractHttpMessage} from './abstract-http-message';
 import {HttpHeader} from './http-header';
+import {Cookie} from './cookie';
 
 /**
  * HTTP request
  */
-class HttpRequest {
+class HttpRequest extends AbstractHttpMessage {
+    queryParameters?: Map<string, string>;
+    cookies?: Array<Cookie>;
     method: string;
     path: string;
-    cookies?: Array<HttpCookie>;
-    headers?: Array<HttpHeader>;
-    queryParameters?: Map<string, string>;
-    body?: string;
 
     /**
      * Class constructor
-     * @param method Method
-     * @param path   Path
+     * @param method          Method
+     * @param path            Path
+     * @param queryParameters Query parameters
+     * @param headers         HTTP headers
+     * @param cookies         Cookies
+     * @param payload         Payload
      */
-    constructor(method: string, path: string) {
+    constructor(method: string, path: string, queryParameters?: Map<string, string>, headers?: Array<HttpHeader>, cookies?: Array<Cookie>, payload?: string) {
+        super(headers, payload);
         this.method = method;
         this.path = path;
+        this.queryParameters = queryParameters;
+        this.cookies = cookies;
     }
 
     /**
-     * Get an HTTP header
-     * @param headerName Header name
-     * @return HTTP header
+     * Get the method
+     * @return Method
      */
-    getHeader(headerName: string): HttpHeader {
-        if (this.headers) {
-            let index: number = this.headers.findIndex(httpHeader => httpHeader.name === headerName);
-            if (index !== -1) {
-                return this.headers[index];
-            }
-        }
-
-        return undefined;
+    getMethod(): string {
+        return this.method;
     }
 
     /**
-     * Get an HTTP header value
-     * @param headerName Header name
-     * @return Header value
+     * Get the path
+     * @return Path
      */
-    getHeaderValue(headerName: string): string {
-        let httpHeader = this.getHeader(headerName);
-        return httpHeader && httpHeader.value;
+    getPath(): string {
+        return this.path;
+    }
+
+    /**
+     * Get all cookies
+     * @return Cookies
+     */
+    getCookies(): Array<Cookie> {
+        return this.cookies;
     }
 
     /**
@@ -53,15 +57,8 @@ class HttpRequest {
      * @param cookieName Cookie name
      * @return Cookie
      */
-    getCookie(cookieName: string): HttpCookie {
-        if (this.cookies) {
-            let index: number = this.cookies.findIndex(httpCookie => httpCookie.name === cookieName);
-            if (index !== -1) {
-                return this.cookies[index];
-            }
-        }
-
-        return undefined;
+    getCookie(cookieName: string): Cookie {
+        return this.cookies && this.cookies.find(cookie => cookie.getName() === cookieName);
     }
 
     /**
@@ -70,8 +67,16 @@ class HttpRequest {
      * @return Cookie value
      */
     getCookieValue(cookieName: string): string {
-        let httpCookie = this.getCookie(cookieName);
-        return httpCookie && httpCookie.value;
+        let cookie: Cookie = this.getCookie(cookieName);
+        return cookie && cookie.getValue();
+    }
+
+    /**
+     * Get all query parameters
+     * @return Query parameters
+     */
+    getQueryParameters(): Map<string, string> {
+        return this.queryParameters;
     }
 
     /**
@@ -80,11 +85,7 @@ class HttpRequest {
      * @return Parameter value
      */
     getQueryParameter(parameterName: string): string {
-        if (this.queryParameters) {
-            return this.queryParameters.get(parameterName);
-        }
-
-        return undefined;
+        return this.queryParameters && this.queryParameters.get(parameterName);
     }
 
 }
