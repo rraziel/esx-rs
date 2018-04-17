@@ -1,3 +1,4 @@
+import {AbstractHttpMessageBuilder} from './abstract-http-message-builder';
 import {Cookie} from './cookie';
 import {HttpHeader} from './http-header';
 import {getStringFromHttpMethod, HttpMethod} from './http-method';
@@ -6,20 +7,25 @@ import {HttpRequest} from './http-request';
 /**
  * HTTP request builder
  */
-class HttpRequestBuilder {
+class HttpRequestBuilder extends AbstractHttpMessageBuilder {
     private queryParameters: Map<string, string> = new Map<string, string>();
-    private httpHeaders: Array<HttpHeader> = new Array<HttpHeader>();
-    private cookies: Array<Cookie> = new Array<Cookie>();
-    private payload: string;
+    private cookies: Array<Cookie>;
     private method: string;
     private path: string;
 
-    withMethod(httpMethod: HttpMethod|string) {
+    /**
+     * Set the method
+     * @param httpMethod HTTP method
+     * @return this
+     */
+    withMethod(httpMethod: HttpMethod|string): HttpRequestBuilder {
         if (typeof(httpMethod) === 'string') {
             this.method = httpMethod;
         } else {
             this.method = getStringFromHttpMethod(httpMethod);
         }
+
+        return this;
     }
 
     /**
@@ -44,40 +50,21 @@ class HttpRequestBuilder {
     }
 
     /**
-     * Add a HTTP header
-     * @param httpHeader HTTP header
-     * @return this
-     */
-    withHeader(httpHeader: HttpHeader): HttpRequestBuilder {
-        this.httpHeaders.push(httpHeader);
-        return this;
-    }
-
-    /**
      * Add a cookie
      * @param cookie Cookie
      */
     withCookie(cookie: Cookie): HttpRequestBuilder {
+        this.cookies = this.cookies || new Array<Cookie>();
         this.cookies.push(cookie);
         return this;
     }
 
     /**
-     * Set the payload
-     * @param payload Payload
-     * @return this
-     */
-    withPayload(payload: string): HttpRequestBuilder {
-        this.payload = payload;
-        return this;
-    }
-
-    /**
      * Build an HTTP request with the set properties
-     * @return HTTP request
+     * @return Built HTTP request
      */
     build(): HttpRequest {
-        return new HttpRequest(this.method, this.path, this.queryParameters, this.httpHeaders, this.cookies, this.payload);
+        return new HttpRequest(this.method, this.path, this.queryParameters, this.headers, this.cookies, this.payload);
     }
 
 }
