@@ -40,11 +40,11 @@ class HttpRequestMapper {
         let parameterClass: Function = operationParameterInfo.class;
         let argumentValue: T;
 
-        if (this.isPrimitiveClass(parameterClass)) {
+        if (!this.isPrimitiveClass(parameterClass)) {
             if (operationParameterInfo.type === ParameterType.CONTEXT) {
                 argumentValue = this.buildContextArgument<T>(operationInfo, operationParameterInfo, httpRequest);
             } else {
-                throw new Error('composite parameters not implemented yet');
+                throw new Error('complex parameters not implemented yet');
             }
         } else {
             let argumentString: string = this.buildPrimitiveArgument<T>(operationInfo, operationParameterInfo, httpRequest);
@@ -76,7 +76,7 @@ class HttpRequestMapper {
         case ParameterType.QUERY:
             return this.buildQueryArgument(operationInfo, operationParameterInfo, httpRequest);
         default:
-            throw new Error('unknwon parameter type ' + operationParameterInfo.type);
+            throw new Error('unknown parameter type ' + operationParameterInfo.type);
         }
     }
 
@@ -213,7 +213,7 @@ class HttpRequestMapper {
      * @return true if the class represents a primitive
      */
     private isPrimitiveClass(parameterClass: Function): boolean {
-        return parameterClass !== String && parameterClass !== Number && parameterClass !== Boolean;
+        return parameterClass === String || parameterClass === Number || parameterClass === Boolean;
     }
 
 }

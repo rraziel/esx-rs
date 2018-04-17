@@ -7,7 +7,7 @@ import {HttpRequest} from './http-request';
 /**
  * HTTP request builder
  */
-class HttpRequestBuilder extends AbstractHttpMessageBuilder {
+class HttpRequestBuilder extends AbstractHttpMessageBuilder<HttpRequest> {
     private queryParameters: Map<string, string> = new Map<string, string>();
     private cookies: Array<Cookie>;
     private method: string;
@@ -52,10 +52,20 @@ class HttpRequestBuilder extends AbstractHttpMessageBuilder {
     /**
      * Add a cookie
      * @param cookie Cookie
+     * @return this
      */
     withCookie(cookie: Cookie): HttpRequestBuilder {
+        return this.withCookies(cookie);
+    }
+
+    /**
+     * Add cookies
+     * @param cookies Cookies
+     * @return this
+     */
+    withCookies(...cookies: Cookie[]): HttpRequestBuilder {
         this.cookies = this.cookies || new Array<Cookie>();
-        this.cookies.push(cookie);
+        this.cookies.push(...cookies);
         return this;
     }
 
@@ -65,6 +75,19 @@ class HttpRequestBuilder extends AbstractHttpMessageBuilder {
      */
     build(): HttpRequest {
         return new HttpRequest(this.method, this.path, this.queryParameters, this.headers, this.cookies, this.payload);
+    }
+
+    /**
+     * Build an HTTP request builder initializer with a method and path
+     * @param httpMethod HTTP method
+     * @param path       Path
+     * @return HTTP request builder
+     */
+    static of(httpMethod: HttpMethod|string, path: string): HttpRequestBuilder {
+        return new HttpRequestBuilder()
+            .withMethod(httpMethod)
+            .withPath(path)
+        ;
     }
 
 }

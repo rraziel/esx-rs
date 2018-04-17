@@ -1,9 +1,10 @@
 import {AbstractHttpMessageBuilder} from './abstract-http-message-builder';
 import {HttpHeader} from './http-header';
 
-class HttpMessageBuilder extends AbstractHttpMessageBuilder {
+class HttpMessageBuilder extends AbstractHttpMessageBuilder<any> {
     getHeaders(): Array<HttpHeader> { return this.headers; }
     getPayload(): string { return this.payload; }
+    build(): any { return null; }
 }
 
 describe('Abstract HTTP message builder', () => {

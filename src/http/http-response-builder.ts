@@ -4,7 +4,7 @@ import {HttpResponse} from './http-response';
 /**
  * HTTP response builder
  */
-class HttpResponseBuilder extends AbstractHttpMessageBuilder {
+class HttpResponseBuilder extends AbstractHttpMessageBuilder<HttpResponse> {
     private status: number;
 
     /**

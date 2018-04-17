@@ -2,8 +2,9 @@ import {HttpHeader} from './http-header';
 
 /**
  * Abstract HTTP message builder
+ * @param <T> Built type
  */
-abstract class AbstractHttpMessageBuilder {
+abstract class AbstractHttpMessageBuilder<T> {
     protected headers?: Array<HttpHeader>;
     protected payload?: string;
 
@@ -12,7 +13,7 @@ abstract class AbstractHttpMessageBuilder {
      * @param httpHeader HTTP header
      * @return this
      */
-    withHeader(httpHeader: HttpHeader): AbstractHttpMessageBuilder {
+    withHeader(httpHeader: HttpHeader): AbstractHttpMessageBuilder<T> {
         return this.withHeaders(httpHeader);
     }
 
@@ -21,9 +22,9 @@ abstract class AbstractHttpMessageBuilder {
      * @param httpHeaders HTTP headers
      * @return this
      */
-    withHeaders(...httpHeaders: HttpHeader[]): AbstractHttpMessageBuilder {
+    withHeaders(...httpHeaders: HttpHeader[]): AbstractHttpMessageBuilder<T> {
         this.headers = this.headers || new Array<HttpHeader>();
-        httpHeaders.forEach(httpHeader => this.headers.push(httpHeader));
+        this.headers.push(...httpHeaders);
         return this;
     }
 
@@ -32,10 +33,16 @@ abstract class AbstractHttpMessageBuilder {
      * @param payload Payload
      * @return this
      */
-    withPayload(payload: string): AbstractHttpMessageBuilder {
+    withPayload(payload: string): AbstractHttpMessageBuilder<T> {
         this.payload = payload;
         return this;
     }
+
+    /**
+     * Build the HTTP message
+     * @return HTTP message
+     */
+    abstract build(): T;
 
 }
 

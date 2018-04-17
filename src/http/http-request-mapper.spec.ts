@@ -1,6 +1,7 @@
 import {HttpRequestMapper} from './http-request-mapper';
 import {Cookie} from './cookie';
 import {HttpHeader} from './http-header';
+import {HttpRequestBuilder} from './http-request-builder';
 import {HttpRequest} from './http-request';
 import {OperationInfo, OperationParameterInfo, ParameterType} from '../metadata';
 import * as pathToRegexp from 'path-to-regexp';
@@ -50,8 +51,10 @@ describe('HTTP request mapper', () => {
 
         it('with a cookie parameter', async() => {
             // given
-            let cookies: Array<Cookie> = [new Cookie('test', 'value'), new Cookie('other', 'x'), new Cookie('test2', '4')];
-            let httpRequest: HttpRequest = new HttpRequest('POST', '/', undefined, undefined, cookies);
+            let httpRequest: HttpRequest = HttpRequestBuilder.of('POST', '/')
+                .withCookies(new Cookie('test', 'value'), new Cookie('other', 'x'), new Cookie('test2', '4'))
+                .build()
+            ;
             let operationInfo: OperationInfo = {
                 parameters: [{
                     name: 'test',
@@ -76,9 +79,11 @@ describe('HTTP request mapper', () => {
 
         it('with a form parameter', async () => {
             // given
-            let httpHeaders: Array<HttpHeader> = [new HttpHeader(HEADER_CONTENT_TYPE, CONTENT_TYPE_FORM)];
-            let payload: string = 'test=value&other=x&test2=4';
-            let httpRequest: HttpRequest = new HttpRequest('POST', '/', undefined, httpHeaders, undefined, payload);
+            let httpRequest: HttpRequest = HttpRequestBuilder.of('POST', '/')
+                .withHeader(new HttpHeader(HEADER_CONTENT_TYPE, CONTENT_TYPE_FORM))
+                .withPayload('test=value&other=x&test2=4')
+                .build()
+            ;
             let operationInfo: OperationInfo = {
                 parameters: [{
                     name: 'test',
@@ -93,7 +98,6 @@ describe('HTTP request mapper', () => {
             // when
             let operationArguments: any[] = await httpRequestMapper.buildArguments(operationInfo, httpRequest);
             // then
-            console.log('operation arguments: ', operationArguments);
             expect(operationArguments).not.toBeUndefined();
             expect(operationArguments.length).toEqual(2);
             expect(operationArguments[0]).not.toBeUndefined();
@@ -104,8 +108,10 @@ describe('HTTP request mapper', () => {
 
         it('with a header parameter', async () => {
             // given
-            let httpHeaders: Array<HttpHeader> = [new HttpHeader(HEADER_CONTENT_TYPE, 'application/json'), new HttpHeader('test', 'value'), new HttpHeader('test3', 'true'), new HttpHeader('accept', 'application/json'), new HttpHeader('test2', '4')];
-            let httpRequest: HttpRequest = new HttpRequest('POST', '/', undefined, httpHeaders);
+            let httpRequest: HttpRequest = HttpRequestBuilder.of('POST', '/')
+                .withHeaders(new HttpHeader(HEADER_CONTENT_TYPE, 'application/json'), new HttpHeader('test', 'value'), new HttpHeader('test3', 'true'), new HttpHeader('accept', 'application/json'), new HttpHeader('test2', '4'))
+                .build()
+            ;
             let operationInfo: OperationInfo = {
                 parameters: [{
                     name: 'test',
@@ -191,9 +197,12 @@ describe('HTTP request mapper', () => {
 
         it('with a query parameter', async () => {
             // given
-            let queryParameters: Map<string, string> = new Map<string, string>();
-            let httpRequest: HttpRequest = new HttpRequest('POST', '/');
-            httpRequest.queryParameters = queryParameters.set('test', 'value').set('other', 'x').set('test2', '4');
+            let httpRequest: HttpRequest = HttpRequestBuilder.of('POST', '/')
+                .withQuery('test', 'value')
+                .withQuery('other', 'x')
+                .withQuery('test2', '4')
+                .build()
+            ;
             let operationInfo: OperationInfo = {
                 parameters: [{
                     name: 'test',
@@ -231,6 +240,48 @@ describe('HTTP request mapper', () => {
 
     describe('cannot build an argument when', () => {
 
+        it('the parameter type is unknown', async () => {
+            // given
+            let httpRequest: HttpRequest = new HttpRequest('POST', '/');
+            let operationInfo: OperationInfo = {
+                parameters: [{
+                    name: 'test',
+                    class: String,
+                    type: <ParameterType.CONTEXT> -1
+                }]
+            };
+            // when
+            let errorMessage: string;
+            try {
+                await httpRequestMapper.buildArguments(operationInfo, httpRequest);
+            } catch (e) {
+                errorMessage = e.message;
+            }
+            // then
+            expect(errorMessage).toEqual('unknown parameter type -1');
+        });
+
+        it('the parameter is a complex parameter', async () => {
+            // given
+            let httpRequest: HttpRequest = new HttpRequest('POST', '/');
+            let operationInfo: OperationInfo = {
+                parameters: [{
+                    name: 'test',
+                    class: TestClass,
+                    type: <ParameterType.CONTEXT> -1
+                }]
+            };
+            // when
+            let errorMessage: string;
+            try {
+                await httpRequestMapper.buildArguments(operationInfo, httpRequest);
+            } catch (e) {
+                errorMessage = e.message;
+            }
+            // then
+            expect(errorMessage).toEqual('complex parameters not implemented yet');
+        });
+
         it('a context class is unknown', async () => {
             // given
             let httpRequest: HttpRequest = new HttpRequest('POST', '/');
@@ -254,9 +305,11 @@ describe('HTTP request mapper', () => {
 
         it('a form parameter is needed but the content type is incorrect', async () => {
             // given
-            let httpHeaders: Array<HttpHeader> = [new HttpHeader(HEADER_CONTENT_TYPE, CONTENT_TYPE_JSON)];
-            let payload: string = 'test=value&other=x&test2=4';
-            let httpRequest: HttpRequest = new HttpRequest('POST', '/', undefined, httpHeaders, undefined, payload);
+            let httpRequest: HttpRequest = HttpRequestBuilder.of('POST', '/')
+                .withHeader(new HttpHeader(HEADER_CONTENT_TYPE, CONTENT_TYPE_JSON))
+                .withPayload('test=value&other=x&test2=4')
+                .build()
+            ;
             let operationInfo: OperationInfo = {
                 parameters: [{
                     name: 'test',
@@ -274,8 +327,10 @@ describe('HTTP request mapper', () => {
 
         it('a form parameter is needed but there is no body', async () => {
             // given
-            let httpHeaders: Array<HttpHeader> = [new HttpHeader(HEADER_CONTENT_TYPE, CONTENT_TYPE_FORM)];
-            let httpRequest: HttpRequest = new HttpRequest('POST', '/', undefined, httpHeaders);
+            let httpRequest: HttpRequest = HttpRequestBuilder.of('POST', '/')
+                .withHeader(new HttpHeader(HEADER_CONTENT_TYPE, CONTENT_TYPE_FORM))
+                .build()
+            ;
             let operationInfo: OperationInfo = {
                 parameters: [{
                     name: 'test',
