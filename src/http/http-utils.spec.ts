@@ -75,6 +75,18 @@ describe('HTTP utility functions', () => {
             expect(parameterValue).toBeUndefined();
         });
 
+        it('returns undefined if the path does not match', () => {
+            // given
+            let pathSpecificationKeys: pathToRegexp.Key[] = [];
+            let pathSpecification: RegExp = pathToRegexp('/a/b/c', pathSpecificationKeys);
+            let path: string = '/x/y/z';
+            let parameterName: string = 'test';
+            // when
+            let parameterValue: string = HttpUtils.getPathParameterValue(path, pathSpecification, pathSpecificationKeys, parameterName);
+            // then
+            expect(parameterValue).toBeUndefined();
+        });
+
     });
 
 });
