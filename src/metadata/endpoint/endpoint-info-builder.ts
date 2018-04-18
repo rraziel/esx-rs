@@ -41,12 +41,11 @@ class EndpointInfoBuilder<C extends Function> {
     /**
      * Add a supported consumed type
      * @param mediaType Media type as a string or as a class
-     * @param <T>       Constructor type
      * @return this
      */
-    consumes<T extends Function>(mediaType: string|T): EndpointInfoBuilder<C> {
+    consumes(mediaType: string): EndpointInfoBuilder<C> {
         return this.update(endpointInfo => {
-            let consumedMediaTypes: Set<string|Function> = endpointInfo.consumedMediaTypes = endpointInfo.consumedMediaTypes || new Set<string|Function>();
+            let consumedMediaTypes: Set<string> = endpointInfo.consumedMediaTypes = endpointInfo.consumedMediaTypes || new Set<string>();
             consumedMediaTypes.add(mediaType);
         });
     }
@@ -54,12 +53,11 @@ class EndpointInfoBuilder<C extends Function> {
     /**
      * Add a supported produced type
      * @param mediaType Media type as a string or as a class
-     * @param <T>       Constructor type
      * @return this
      */
-    produces<T extends Function>(mediaType: string|T): EndpointInfoBuilder<C> {
+    produces(mediaType: string): EndpointInfoBuilder<C> {
         return this.update(endpointInfo => {
-            let producedMediaTypes: Set<string|Function> = endpointInfo.producedMediaTypes = endpointInfo.producedMediaTypes || new Set<string|Function>();
+            let producedMediaTypes: Set<string> = endpointInfo.producedMediaTypes = endpointInfo.producedMediaTypes || new Set<string>();
             producedMediaTypes.add(mediaType);
         });
     }

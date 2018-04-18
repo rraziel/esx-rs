@@ -1,8 +1,8 @@
 import {EndpointInfoBuilder, OperationInfoBuilder} from '../metadata';
 import {ClassOrMethodDecorator, throwInvalidDecoratorUsage} from './helper';
 
-type EndpointCallback = (endpointInfoBuilder: EndpointInfoBuilder<Function>, mediaType: string|Function) => void;
-type OperationCallback = (operationInfoBuilder: OperationInfoBuilder, mediaType: string|Function) => void;
+type EndpointCallback = (endpointInfoBuilder: EndpointInfoBuilder<Function>, mediaType: string) => void;
+type OperationCallback = (operationInfoBuilder: OperationInfoBuilder, mediaType: string) => void;
 
 /**
  * Create a resource type decorator
@@ -12,7 +12,7 @@ type OperationCallback = (operationInfoBuilder: OperationInfoBuilder, mediaType:
  * @param mediaTypes        List of media types
  * @return Decorator
  */
-function createResourceTypeDecorator(decoratorName: string, endpointCallback: EndpointCallback, operationCallback: OperationCallback, ...mediaTypes: (string|Function)[]): ClassOrMethodDecorator {
+function createResourceTypeDecorator(decoratorName: string, endpointCallback: EndpointCallback, operationCallback: OperationCallback, ...mediaTypes: string[]): ClassOrMethodDecorator {
     return (target, propertyKey, propertyDescription) => {
         if (target instanceof Function && propertyKey) {
             throwInvalidDecoratorUsage(target, propertyKey, 'the @' + decoratorName + ' decorator cannot be used on a static method');
@@ -33,7 +33,7 @@ function createResourceTypeDecorator(decoratorName: string, endpointCallback: En
  * @param mediaTypes List of media types
  * @return Consumes decorator
  */
-function Consumes(...mediaTypes: (string|Function)[]): ClassOrMethodDecorator {
+function Consumes(...mediaTypes: string[]): ClassOrMethodDecorator {
     return createResourceTypeDecorator(
         'Consumes',
         (endpointBuilder, mediaType) => endpointBuilder.consumes(mediaType),
@@ -47,7 +47,7 @@ function Consumes(...mediaTypes: (string|Function)[]): ClassOrMethodDecorator {
  * @param mediaTypes List of media types
  * @return Produces decorator
  */
-function Produces(...mediaTypes: (string|Function)[]): ClassOrMethodDecorator {
+function Produces(...mediaTypes: string[]): ClassOrMethodDecorator {
     return createResourceTypeDecorator(
         'Produces',
         (endpointBuilder, mediaType) => endpointBuilder.produces(mediaType),

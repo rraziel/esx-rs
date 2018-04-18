@@ -86,7 +86,7 @@ The HTTP method(s) can be specified using:
 - `@POST`
 - `@PUT`
 
-The resource path can be specified with the [path-to-regexp](https://github.com/pillarjs/path-to-regexp) format using:
+The resource path can be specified with the [path-to-regexp](https://github.com/pillarjs/path-to-regexp) format (e.g.: `/path/to/:resourceId`) using:
 
 - `@Path`
 

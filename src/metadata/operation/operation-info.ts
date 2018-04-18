@@ -53,7 +53,7 @@ function mergeResourcePaths(operationInfo: OperationInfo, endpointInfo: Endpoint
  */
 function mergeConsumedMediaTypes(operationInfo: OperationInfo, endpointInfo: EndpointInfo): OperationInfo {
     if (endpointInfo.consumedMediaTypes) {
-        operationInfo.consumedMediaTypes = operationInfo.consumedMediaTypes || new Set<string|Function>();
+        operationInfo.consumedMediaTypes = operationInfo.consumedMediaTypes || new Set<string>();
         endpointInfo.consumedMediaTypes.forEach(consumedMediaType => operationInfo.consumedMediaTypes.add(consumedMediaType));
     }
 
@@ -68,7 +68,7 @@ function mergeConsumedMediaTypes(operationInfo: OperationInfo, endpointInfo: End
  */
 function mergeProducedMediaTypes(operationInfo: OperationInfo, endpointInfo: EndpointInfo): OperationInfo {
     if (endpointInfo.producedMediaTypes) {
-        operationInfo.producedMediaTypes = operationInfo.producedMediaTypes || new Set<string|Function>();
+        operationInfo.producedMediaTypes = operationInfo.producedMediaTypes || new Set<string>();
         endpointInfo.producedMediaTypes.forEach(producedMediaTypes => operationInfo.producedMediaTypes.add(producedMediaTypes));
     }
 

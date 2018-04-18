@@ -11,8 +11,8 @@ interface EndpointInfo {
     resourcePathRegExp?: RegExp;
     resourcePathKeys?: pathToRegexp.Key[];
     httpMethods?: Set<HttpMethod>;
-    consumedMediaTypes?: Set<string|Function>;
-    producedMediaTypes?: Set<string|Function>;
+    consumedMediaTypes?: Set<string>;
+    producedMediaTypes?: Set<string>;
 }
 
 /**

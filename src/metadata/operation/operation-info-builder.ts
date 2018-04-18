@@ -49,7 +49,7 @@ class OperationInfoBuilder {
      */
     consumes<T extends Function>(mediaType: string|T): OperationInfoBuilder {
         return this.update(operationInfo => {
-            let consumedMediaTypes: Set<string|Function> = operationInfo.consumedMediaTypes = operationInfo.consumedMediaTypes || new Set<string|Function>();
+            let consumedMediaTypes: Set<string|Function> = operationInfo.consumedMediaTypes = operationInfo.consumedMediaTypes || new Set<string>();
             consumedMediaTypes.add(mediaType);
         });
     }
@@ -62,7 +62,7 @@ class OperationInfoBuilder {
      */
     produces<T extends Function>(mediaType: string|T): OperationInfoBuilder {
         return this.update(operationInfo => {
-            let producedMediaTypes: Set<string|Function> = operationInfo.producedMediaTypes = operationInfo.producedMediaTypes || new Set<string|Function>();
+            let producedMediaTypes: Set<string|Function> = operationInfo.producedMediaTypes = operationInfo.producedMediaTypes || new Set<string>();
             producedMediaTypes.add(mediaType);
         });
     }
