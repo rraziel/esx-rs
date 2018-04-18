@@ -1,5 +1,6 @@
 export {Cookie} from './cookie';
 export {EntityTag} from './entity-tag';
+export {HttpEndpointManager} from './http-endpoint-manager';
 export {HttpFile} from './http-file';
 export {HttpHeader} from './http-header';
 export {HttpMethod} from './http-method';

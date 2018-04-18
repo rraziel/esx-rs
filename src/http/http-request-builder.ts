@@ -78,7 +78,7 @@ class HttpRequestBuilder extends AbstractHttpMessageBuilder<HttpRequest> {
     }
 
     /**
-     * Build an HTTP request builder initializer with a method and path
+     * Build an HTTP request builder initialized with a method and path
      * @param httpMethod HTTP method
      * @param path       Path
      * @return HTTP request builder

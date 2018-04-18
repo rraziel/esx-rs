@@ -24,6 +24,15 @@ class HttpResponseBuilder extends AbstractHttpMessageBuilder<HttpResponse> {
         return new HttpResponse(this.status, this.headers, this.payload);
     }
 
+    /**
+     * Build an HTTP response builder initialized with a status code
+     * @param statusCode Status code
+     * @return HTTP response builder
+     */
+    static of(statusCode: number): HttpResponseBuilder {
+        return new HttpResponseBuilder().withStatus(statusCode);
+    }
+
 }
 
 export {
