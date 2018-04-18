@@ -90,19 +90,32 @@ class HttpEndpointManager {
      */
     private matchesOperation(httpRequest: HttpRequest, operationInfo: OperationInfo, matchingResult: MatchingResult): boolean {
         let httpMethod: HttpMethod = getHttpMethodFromString(httpRequest.getMethod());
-        let contentType: string = httpRequest.getHeaderValue(HttpHeaders.CONTENT_TYPE);
-        let accept: string = httpRequest.getHeaderValue(HttpHeaders.ACCEPT);
 
         if (operationInfo.httpMethods.has(httpMethod)) {
             matchingResult.method = true;
+            return this.matchesMediaTypes(httpRequest, operationInfo, matchingResult);
+        }
 
-            if (this.matchesMediaType(contentType, operationInfo.consumedMediaTypes)) {
-                matchingResult.contentType = true;
+        return false;
+    }
 
-                if (this.matchesMediaType(accept, operationInfo.producedMediaTypes)) {
-                    matchingResult.accept = true;
-                    return true;
-                }
+    /**
+     * Test whether an HTTP request matches an operation's produced and consumed media types
+     * @param httpRequest    HTTP request
+     * @param operationInfo  Operation information
+     * @param matchingResult Matching result
+     * @return true if the HTTP request matches the operation's produced and consumed media types
+     */
+    private matchesMediaTypes(httpRequest: HttpRequest, operationInfo: OperationInfo, matchingResult: MatchingResult): boolean {
+        let contentType: string = httpRequest.getHeaderValue(HttpHeaders.CONTENT_TYPE);
+        let accept: string = httpRequest.getHeaderValue(HttpHeaders.ACCEPT);
+
+        if (this.matchesMediaType(contentType, operationInfo.consumedMediaTypes)) {
+            matchingResult.contentType = true;
+
+            if (this.matchesMediaType(accept, operationInfo.producedMediaTypes)) {
+                matchingResult.accept = true;
+                return true;
             }
         }
 
@@ -129,23 +142,29 @@ class HttpEndpointManager {
      * @return HTTP response
      */
     private buildNoMatchingOperationResponse(matchingResult: MatchingResult): HttpResponse {
-        let statusCode: number;
+        let statusCode: number = this.getNoMatchingOperationStatusCode(matchingResult);
+        return HttpResponseBuilder.of(statusCode).build();
+    }
 
-        if (matchingResult.path) {
-            if (matchingResult.method) {
-                if (matchingResult.contentType) {
-                    statusCode = HttpStatuses.NOT_ACCEPTABLE;
-                } else {
-                    statusCode = HttpStatuses.UNSUPPORTED_MEDIA_TYPE;
-                }
-            } else {
-                statusCode = HttpStatuses.METHOD_NOT_ALLOWED;
-            }
-        } else {
-            statusCode = HttpStatuses.NOT_FOUND;
+    /**
+     * Get the status code for a request with no matching operation
+     * @param matchingResult Matching result
+     * @return Status code
+     */
+    private getNoMatchingOperationStatusCode(matchingResult: MatchingResult): number {
+        if (!matchingResult.path) {
+            return HttpStatuses.NOT_FOUND;
         }
 
-        return HttpResponseBuilder.of(statusCode).build();
+        if (!matchingResult.method) {
+            return HttpStatuses.METHOD_NOT_ALLOWED;
+        }
+
+        if (!matchingResult.contentType) {
+            return HttpStatuses.UNSUPPORTED_MEDIA_TYPE;
+        }
+
+        return HttpStatuses.NOT_ACCEPTABLE;
     }
 
     /**
