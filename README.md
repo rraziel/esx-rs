@@ -41,10 +41,12 @@ Or using `yarn`:
 yarn add esx-rs
 ```
 
-Endpoints are described using decorators:
+Endpoints can then be described using decorators:
 
 ```typescript
 @Path('/users')
+@Produces('application/json')
+@Consumes('application/json')
 class UsersEndpoint {
 
     @POST
@@ -72,63 +74,7 @@ class UsersEndpoint {
 
 ## Usage
 
-### Decorators
-
-Various decorators are available, each targetting a subset of the typical REST properties for a services.
-
-The HTTP method(s) can be specified using:
-
-- `@DELETE`
-- `@GET`
-- `@HEAD`
-- `@OPTIONS`
-- `@PATCH`
-- `@POST`
-- `@PUT`
-
-The resource path can be specified with the [path-to-regexp](https://github.com/pillarjs/path-to-regexp) format (e.g.: `/path/to/:resourceId`) using:
-
-- `@Path`
-
-The consumed - mapped to `content-type` - and produced - mapped to `accept` - media types can be specified using:
-
-- `@Consumes`
-- `@Produces`
-
-Operation parameters and resource properties are mapped using a specific decorator for each parameter type:
-
-- `@CookieParam`
-- `@FormParam`
-- `@HeaderParam`
-- `@MatrixParam`
-- `@QueryParam`
-- `@PathParam`
-
-It is also possible to map the following context information to a parameter using `@ContextParam`:
-
-- `HttpContext`
-- `HttpRequest`
-- `HttpResponse`
-
-### Endpoint vs. Operation
-
-Many decorators can be applied to both a class and its methods.
-
-In this scenario, the `OperationInfo` object returned for a method contains merged information that includes both the operation and the endpoint information.
-
-The following decorators can be applied to both classes and methods:
-
-- `@DELETE`, `@GET`, `@HEAD`, `@OPTIONS`, `@PATCH`, `@POST` and `@PUT`
-- `@Consumes` and `@Produces`
-- `@Path`
-
-The `@Path` decorator is handled a bit differently: the operation path is appended to the endpoint path.
-
-## Client Proxy
-
-TODO: `ClientFactory`, `WebClient`.
-
-```typescript
-let usersEndpoint: UsersEndpoint = ClientFactory.create('https://example.org/base/url', UsersEndpoint);
-let user: User = await usersEndpoint.getUser('1234'); // GET https://example.org/base/url/users/1234
-```
+- [ESX-RS Decorators](doc/decorators.md)
+- [ESX-RS for Server Applications](doc/server.md)
+- [ESX-RS for Client Applications](doc/client.md)
+- [Content Negotiation Mechanism](doc/content-negotiation.md)
