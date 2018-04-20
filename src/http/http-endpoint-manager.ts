@@ -1,11 +1,13 @@
 import {HttpHeaders} from './http-headers';
 import {getHttpMethodFromString, HttpMethod} from './http-method';
 import {HttpRequest} from './http-request';
+import {HttpRequestMapper} from './http-request-mapper';
 import {HttpResponse} from './http-response';
 import {HttpResponseBuilder} from './http-response-builder';
+import {HttpResponseMapper} from './http-response-mapper';
 import {HttpStatuses} from './http-statuses';
 import {getFullOperationInfo, OperationInfo} from '../metadata';
-import {ClassUtils} from '../utils';
+import {ClassUtils, MediaTypeUtils} from '../utils';
 
 /**
  * Cached operation information
@@ -31,6 +33,8 @@ interface MatchingResult {
  */
 class HttpEndpointManager {
     private cachedOperationInfos: Array<CachedOperationInfo> = new Array<CachedOperationInfo>();
+    private httpResponseMapper: HttpResponseMapper = new HttpResponseMapper();
+    private httpRequestMapper: HttpRequestMapper = new HttpRequestMapper();
 
     /**
      * Register endpoints
@@ -78,7 +82,18 @@ class HttpEndpointManager {
      * @return Promise that resolves to an HTTP response
      */
     private async invokeCachedOperation(httpRequest: HttpRequest, cachedOperationInfo: CachedOperationInfo): Promise<HttpResponse> {
-        return null;
+        let operationParameters: any[];
+        let operationInfo: OperationInfo = cachedOperationInfo.operationInfo;
+        let httpResponse: HttpResponse;
+        let methodName: string = cachedOperationInfo.methodName;
+        let endpoint: Object = cachedOperationInfo.endpoint;
+        let result: any;
+
+        operationParameters = await this.httpRequestMapper.buildArguments(operationInfo, httpRequest);
+        result = await endpoint[methodName].apply(endpoint, operationParameters);
+        httpResponse = await this.httpResponseMapper.buildHttpResponse(operationInfo, httpRequest, result);
+
+        return httpResponse;
     }
 
     /**
@@ -107,13 +122,12 @@ class HttpEndpointManager {
      * @return true if the HTTP request matches the operation's produced and consumed media types
      */
     private matchesMediaTypes(httpRequest: HttpRequest, operationInfo: OperationInfo, matchingResult: MatchingResult): boolean {
-        let contentType: string = httpRequest.getHeaderValue(HttpHeaders.CONTENT_TYPE);
         let accept: string = httpRequest.getHeaderValue(HttpHeaders.ACCEPT);
 
-        if (this.matchesMediaType(contentType, operationInfo.consumedMediaTypes)) {
+        if (this.supportsPayloadMediaType(httpRequest, operationInfo)) {
             matchingResult.contentType = true;
 
-            if (this.matchesMediaType(accept, operationInfo.producedMediaTypes)) {
+            if (MediaTypeUtils.supportsRequestedMediaTypes(accept, operationInfo.producedMediaTypes)) {
                 matchingResult.accept = true;
                 return true;
             }
@@ -123,17 +137,19 @@ class HttpEndpointManager {
     }
 
     /**
-     * Test whether a media type matches an operation's expected media types
-     * @param mediaType           Media type
-     * @param operationMediaTypes Operation media types
-     * @return true if the media type matches the operation's media types
+     * Test whether an operation supports a payload's media type
+     * @param httpRequest   HTTP request
+     * @param operationInfo Operation information
+     * @return true if the operation supports the payload media type
      */
-    private matchesMediaType(mediaType: string, operationMediaTypes: Set<string|Function>): boolean {
-        if (mediaType && operationMediaTypes) {
-            return operationMediaTypes.has(mediaType); // TODO: should handle Accept properly (wildcards, etc.)
+    private supportsPayloadMediaType(httpRequest: HttpRequest, operationInfo: OperationInfo): boolean {
+        let contentType: string = httpRequest.getHeaderValue(HttpHeaders.CONTENT_TYPE);
+
+        if (!contentType || !operationInfo) {
+            return true;
         }
 
-        return true;
+        return operationInfo.consumedMediaTypes.has(contentType);
     }
 
     /**

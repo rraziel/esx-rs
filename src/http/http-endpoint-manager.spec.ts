@@ -14,6 +14,26 @@ describe('HTTP endpoint manager', () => {
         httpEndpointManager = new HttpEndpointManager();
     });
 
+    describe('can invoke operations based on requests', () => {
+
+        it('with no parameters', async () => {
+            // given
+            let httpRequest: HttpRequest = HttpRequestBuilder.of('GET', '/test').build();
+            class TestClass {
+                @GET @Path('/test')
+                async operation(): Promise<string> { return 'test'; }
+            }
+            httpEndpointManager.registerEndpoints(new TestClass());
+            // when
+            let httpResponse: HttpResponse = await httpEndpointManager.handleRequest(httpRequest);
+            // then
+            expect(httpResponse).not.toBeUndefined();
+            expect(httpResponse.getStatusCode()).toBe(HttpStatuses.OK);
+            expect(httpResponse.getPayload()).toBe('test');
+        });
+
+    });
+
     describe('returns correct HTTP responses when no matching operation is found', () => {
 
         it('404 when no operation is found', async () => {
