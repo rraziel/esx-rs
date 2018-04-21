@@ -31,7 +31,7 @@ abstract class AbstractHttpMessage {
      * @return HTTP header
      */
     getHeader(headerName: string): HttpHeader {
-        return this.headers && this.headers.find(httpHeader => httpHeader.getName() === headerName);
+        return this.headers && this.headers.find(httpHeader => httpHeader.getName().toLowerCase() === headerName.toLowerCase());
     }
 
     /**
