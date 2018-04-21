@@ -5,11 +5,19 @@
   "homepage": "https://github.com/rraziel/esx-rs",
   "bugs": "https://github.com/rraziel/esx-rs/issues",
   "license": "MIT",
+  "keywords": [
+    "typescript",
+    "jax-rs",
+    "rest",
+    "decorator",
+    "ecmascript"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/rraziel/esx-rs.git"
   },
-  "main": "index.js",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "scripts": {
     "build": "tsc -p .",
     "watch": "tsc --watch -p .",
