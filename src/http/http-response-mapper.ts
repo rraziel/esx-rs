@@ -6,8 +6,9 @@ import {HttpRequest} from './http-request';
 import {HttpStatuses} from './http-statuses';
 import {MediaTypeUtils} from '../utils';
 import {OperationInfo} from '../metadata';
+import { HttpHeader } from '.';
 
-const REGEXP_MEDIATYPE_JSON: RegExp = /\+json$/;
+const REGEXP_MEDIATYPE_JSON: RegExp = /[\+\/]json$/;
 
 /**
  * HTTP response mapper
@@ -27,10 +28,13 @@ class HttpResponseMapper {
         let httpMethod: HttpMethod = getHttpMethodFromString(httpRequest.getMethod());
 
         if (result) {
-            let payload: string = this.buildHttpResponsePayload<T>(operationInfo, httpRequest, result);
+            let requestedMediaTypes: string = httpRequest.getHeaderValue(HttpHeaders.ACCEPT);
+            let expectedMediaType: string = MediaTypeUtils.getRequestedMediaType(requestedMediaTypes, operationInfo.producedMediaTypes);
+            let payload: string = this.buildHttpResponsePayload<T>(operationInfo, httpRequest, result, expectedMediaType);
 
             httpResponseBuilder
                 .withStatus(HttpStatuses.OK)
+                .withHeader(new HttpHeader(HttpHeaders.CONTENT_TYPE, expectedMediaType))
                 .withPayload(payload)
             ;
         } else {
@@ -42,16 +46,14 @@ class HttpResponseMapper {
 
     /**
      * Build a response payload from an operation result
-     * @param operationInfo Operation information
-     * @param httpRequest   HTTP request
-     * @param result        Result
-     * @param <T>           Result type
+     * @param operationInfo     Operation information
+     * @param httpRequest       HTTP request
+     * @param result            Result
+     * @param expectedMediaType Expected media type
+     * @param <T>               Result type
      * @return Response payload
      */
-    private buildHttpResponsePayload<T>(operationInfo: OperationInfo, httpRequest: HttpRequest, result: T): string {
-        let requestedMediaTypes: string = httpRequest.getHeaderValue(HttpHeaders.ACCEPT);
-        let expectedMediaType: string = MediaTypeUtils.getRequestedMediaType(requestedMediaTypes, operationInfo.producedMediaTypes);
-
+    private buildHttpResponsePayload<T>(operationInfo: OperationInfo, httpRequest: HttpRequest, result: T, expectedMediaType: string): string {
         if (REGEXP_MEDIATYPE_JSON.test(expectedMediaType)) {
             return JSON.stringify(result);
         } else {
