@@ -5,7 +5,7 @@ import {ClassConstructor} from '../../utils';
  * Operation parameter information
  */
 interface OperationParameterInfo {
-    name: string|ClassConstructor<any>;
+    name?: string|ClassConstructor<any>;
     class: Function;
     type: ParameterType;
 }

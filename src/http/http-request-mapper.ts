@@ -38,17 +38,33 @@ class HttpRequestMapper {
      */
     private buildArgument<T>(operationInfo: OperationInfo, operationParameterInfo: OperationParameterInfo, httpRequest: HttpRequest): T {
         let parameterClass: Function = operationParameterInfo.class;
-        let argumentValue: T;
 
         if (!this.isPrimitiveClass(parameterClass)) {
-            if (operationParameterInfo.type === ParameterType.CONTEXT) {
-                argumentValue = this.buildContextArgument<T>(operationInfo, operationParameterInfo, httpRequest);
-            } else {
-                throw new Error('complex parameters not implemented yet');
-            }
+            return this.buildComplexArgument<T>(operationInfo, operationParameterInfo, httpRequest);
         } else {
             let argumentString: string = this.buildPrimitiveArgument<T>(operationInfo, operationParameterInfo, httpRequest);
-            argumentValue = this.convertPrimitiveArgument<T>(operationInfo, operationParameterInfo, argumentString);
+            return this.convertPrimitiveArgument<T>(operationInfo, operationParameterInfo, argumentString);
+        }
+    }
+
+    /**
+     * Build a complex argument based on an HTTP request
+     * @param operationInfo          Operation information
+     * @param operationParameterInfo Operation parameter information
+     * @param httpRequest            HTTP request
+     * @param <T>                    Argument type
+     * @return Built argument
+     */
+    private buildComplexArgument<T>(operationInfo: OperationInfo, operationParameterInfo: OperationParameterInfo, httpRequest: HttpRequest): T {
+        let argumentValue: T;
+
+        if (operationParameterInfo.type === ParameterType.CONTEXT) {
+            argumentValue = this.buildContextArgument<T>(operationInfo, operationParameterInfo, httpRequest);
+        } else if (operationParameterInfo.type === ParameterType.BODY) {
+            let argumentString: string = this.buildBodyArgument(operationInfo, operationParameterInfo, httpRequest);
+            argumentValue = JSON.parse(argumentString);
+        } else {
+            throw new Error('complex non-payload parameters not implemented yet');
         }
 
         return argumentValue;
@@ -63,6 +79,8 @@ class HttpRequestMapper {
      */
     private buildPrimitiveArgument<T>(operationInfo: OperationInfo, operationParameterInfo: OperationParameterInfo, httpRequest: HttpRequest): string {
         switch (operationParameterInfo.type) {
+        case ParameterType.BODY:
+            return this.buildBodyArgument(operationInfo, operationParameterInfo, httpRequest);
         case ParameterType.COOKIE:
             return this.buildCookieArgument(operationInfo, operationParameterInfo, httpRequest);
         case ParameterType.FORM:
@@ -78,6 +96,17 @@ class HttpRequestMapper {
         default:
             throw new Error('unknown parameter type ' + operationParameterInfo.type);
         }
+    }
+
+    /**
+     * Build an argument based on a request body
+     * @param operationInfo          Operation information
+     * @param operationParameterInfo Operation parameter information
+     * @param httpRequest            HTTP request
+     * @return Built argument
+     */
+    private buildBodyArgument(operationInfo: OperationInfo, operationParameterInfo: OperationParameterInfo, httpRequest: HttpRequest): string {
+        return httpRequest.getPayload();
     }
 
     /**

@@ -1,10 +1,6 @@
 import {PropertyOrParameterDecorator, throwInvalidDecoratorUsage} from './helper';
 import {OperationInfoBuilder, ParameterType, PropertyInfoBuilder} from '../metadata';
-import {ClassConstructor} from '../utils';
-import 'reflect-metadata';
-
-const METADATAKEY_PARAMETERTYPES: string = 'design:paramtypes';
-const METADATAKEY_TYPE: string = 'design:type';
+import {ClassConstructor, TypeUtils} from '../utils';
 
 /**
  * Get a method parameter class
@@ -14,7 +10,7 @@ const METADATAKEY_TYPE: string = 'design:type';
  * @return Parameter class
  */
 function getMethodParameterClass(target: Object, propertyKey: string|symbol, parameterIndex: number): Function {
-    let parameterClasses: Function[] = Reflect.getMetadata(METADATAKEY_PARAMETERTYPES, target, propertyKey);
+    let parameterClasses: Function[] = TypeUtils.getParameterClasses(<ClassConstructor<any>> target.constructor, propertyKey);
     return parameterClasses[parameterIndex];
 }
 
@@ -25,7 +21,7 @@ function getMethodParameterClass(target: Object, propertyKey: string|symbol, par
  * @return Property class
  */
 function getResourcePropertyClass(target: Object, propertyKey: string|symbol): Function {
-    let propertyClass: Function = Reflect.getMetadata(METADATAKEY_TYPE, target, propertyKey);
+    let propertyClass: Function = TypeUtils.getPropertyClass(<ClassConstructor<any>> target.constructor, propertyKey);
     return propertyClass;
 }
 

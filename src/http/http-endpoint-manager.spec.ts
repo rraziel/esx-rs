@@ -5,7 +5,12 @@ import {HttpRequest} from './http-request';
 import {HttpRequestBuilder} from './http-request-builder';
 import {HttpResponse} from './http-response';
 import {HttpStatuses} from './http-statuses';
-import {Consumes, GET, Path, POST, Produces} from '../decorators';
+import {Consumes, GET, Path, POST, Produces, PUT} from '../decorators';
+
+class TestResource {
+    static MEDIA_TYPE: string = 'application/vnd.test.resource+json';
+    value: string;
+}
 
 describe('HTTP endpoint manager', () => {
     let httpEndpointManager: HttpEndpointManager;
@@ -32,6 +37,49 @@ describe('HTTP endpoint manager', () => {
             expect(httpResponse.getPayload()).toBe('test');
         });
 
+        describe('with a body parameter', () => {
+
+            it('for a string', async () => {
+                // given
+                let httpRequest: HttpRequest = HttpRequestBuilder.of('PUT', '/test')
+                    .withPayload('test')
+                    .build()
+                ;
+                class TestClass {
+                    @PUT @Path('/test')
+                    async operation(value: string): Promise<string> { return value; }
+                }
+                httpEndpointManager.registerEndpoints(new TestClass());
+                // when
+                let httpResponse: HttpResponse = await httpEndpointManager.handleRequest(httpRequest);
+                // then
+                expect(httpResponse).not.toBeUndefined();
+                expect(httpResponse.getStatusCode()).toBe(HttpStatuses.OK);
+                expect(httpResponse.getPayload()).toBe('test');
+            });
+
+            it('for an object', async () => {
+                // given
+                let httpRequest: HttpRequest = HttpRequestBuilder.of('PUT', '/test')
+                    .withPayload(JSON.stringify({value:'test'}))
+                    .withHeader(new HttpHeader(HttpHeaders.CONTENT_TYPE, TestResource.MEDIA_TYPE))
+                    .build()
+                ;
+                class TestClass {
+                    @PUT @Path('/test')
+                    @Consumes(TestResource.MEDIA_TYPE)
+                    async operation(obj: TestResource): Promise<string> { return obj.value; }
+                }
+                httpEndpointManager.registerEndpoints(new TestClass());
+                // when
+                let httpResponse: HttpResponse = await httpEndpointManager.handleRequest(httpRequest);
+                // then
+                expect(httpResponse).not.toBeUndefined();
+                expect(httpResponse.getStatusCode()).toBe(HttpStatuses.OK);
+                expect(httpResponse.getPayload()).toBe('test');
+            });
+
+        });
     });
 
     describe('returns correct HTTP responses when no matching operation is found', () => {

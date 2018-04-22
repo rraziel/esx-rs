@@ -149,7 +149,7 @@ class HttpEndpointManager {
             return true;
         }
 
-        return operationInfo.consumedMediaTypes.has(contentType);
+        return operationInfo.consumedMediaTypes && operationInfo.consumedMediaTypes.has(contentType);
     }
 
     /**

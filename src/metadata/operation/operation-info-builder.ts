@@ -96,7 +96,7 @@ class OperationInfoBuilder {
      * @return this
      */
     private update(callback: (operationInfo: OperationInfo) => void): OperationInfoBuilder {
-        let operationInfo: OperationInfo = getOperationInfo(this.target, this.propertyKey) || {};
+        let operationInfo: OperationInfo = getOperationInfo(this.target, this.propertyKey);
         callback(operationInfo);
         setOperationInfo(this.target, this.propertyKey, operationInfo);
         return this;

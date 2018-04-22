@@ -225,6 +225,27 @@ describe('HTTP request mapper', () => {
             expect(operationArguments[1]).toEqual(4);
         });
 
+        it('with a body parameter', async () => {
+            // given
+            let httpRequest: HttpRequest = HttpRequestBuilder.of('POST', '/')
+                .withPayload('value')
+                .build()
+            ;
+            let operationInfo: OperationInfo = {
+                parameters: [{
+                    class: String,
+                    type: ParameterType.BODY
+                }]
+            };
+            // when
+            let operationArguments: any[] = await httpRequestMapper.buildArguments(operationInfo, httpRequest);
+            // then
+            expect(operationArguments).not.toBeUndefined();
+            expect(operationArguments.length).toEqual(1);
+            expect(operationArguments[0]).not.toBeUndefined();
+            expect(operationArguments[0]).toEqual('value');
+        });
+
         it('with no arguments', async () => {
             // given
             let httpRequest: HttpRequest = new HttpRequest('POST', '/');
@@ -279,7 +300,7 @@ describe('HTTP request mapper', () => {
                 errorMessage = e.message;
             }
             // then
-            expect(errorMessage).toEqual('complex parameters not implemented yet');
+            expect(errorMessage).toEqual('complex non-payload parameters not implemented yet');
         });
 
         it('a context class is unknown', async () => {

@@ -1,6 +1,8 @@
+import {ClassConstructor, TypeUtils} from '../../utils';
 import {getEndpointInfo, EndpointInfo} from '../endpoint';
 import {HttpMethod} from '../../http';
 import {OperationParameterInfo} from './operation-parameter-info';
+import {ParameterType} from '../parameter-type';
 import * as pathToRegexp from 'path-to-regexp';
 import 'reflect-metadata';
 
@@ -14,6 +16,7 @@ const OperationInfoMetadata: Symbol = Symbol('esx-rs:operation');
  */
 interface OperationInfo extends EndpointInfo {
     parameters?: OperationParameterInfo[];
+    returnClass?: ClassConstructor<any>;
 }
 
 /**
@@ -95,13 +98,43 @@ function mergeEndpointInfoIntoOperationInfo(operationInfo: OperationInfo, endpoi
 }
 
 /**
+ * Initialize operation information
+ * @param target      Class prototype
+ * @param propertyKey Property key
+ * @return Operation information
+ */
+function initializeOperationInfo(target: Object, propertyKey: string|symbol): OperationInfo {
+    let operationInfo: OperationInfo = {
+        parameters: [],
+        returnClass: TypeUtils.getReturnClass(<ClassConstructor<any>> target.constructor, propertyKey)
+    };
+
+    let parameterClasses: ClassConstructor<any>[] = TypeUtils.getParameterClasses(<ClassConstructor<any>> target.constructor, propertyKey);
+
+    operationInfo.parameters = [];
+    parameterClasses.forEach(parameterClass => {
+        operationInfo.parameters.push({
+            class: parameterClass,
+            type: ParameterType.BODY
+        });
+    });
+
+    return operationInfo;
+}
+
+/**
  * Get an operation information
  * @param target      Class prototype
  * @param propertyKey Property key
  * @return Operation information
  */
 function getOperationInfo(target: Object, propertyKey: string|symbol): OperationInfo {
-    let operationInfo: OperationInfo = Reflect.getMetadata(OperationInfoMetadata, target, propertyKey) || {};
+    let operationInfo: OperationInfo = Reflect.getMetadata(OperationInfoMetadata, target, propertyKey);
+
+    if (!operationInfo) {
+        operationInfo = initializeOperationInfo(target, propertyKey);
+    }
+
     return operationInfo;
 }
 
