@@ -177,8 +177,7 @@ class ServerRequestMapper {
      */
     private buildMatrixArgument(operationInfo: OperationInfo, operationParameterInfo: OperationParameterInfo, httpRequest: HttpRequest): string {
         let parameterName: string = <string> operationParameterInfo.name;
-        // TODO
-        return undefined;
+        return httpRequest.getMatrixParameter(parameterName);
     }
 
     /**

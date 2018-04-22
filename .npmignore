@@ -11,4 +11,3 @@ cc-test-reporter
 test-report.xml
 tsconfig.json
 *.spec.*
-

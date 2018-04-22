@@ -6,6 +6,7 @@ import {Cookie} from './cookie';
  * HTTP request
  */
 class HttpRequest extends AbstractHttpMessage {
+    matrixParameters?: Map<string, string>;
     queryParameters?: Map<string, string>;
     cookies?: Array<Cookie>;
     method: string;
@@ -13,18 +14,20 @@ class HttpRequest extends AbstractHttpMessage {
 
     /**
      * Class constructor
-     * @param method          Method
-     * @param path            Path
-     * @param queryParameters Query parameters
-     * @param headers         HTTP headers
-     * @param cookies         Cookies
-     * @param payload         Payload
+     * @param method           Method
+     * @param path             Path
+     * @param queryParameters  Query parameters
+     * @param matrixParameters Matrix parameters
+     * @param headers          HTTP headers
+     * @param cookies          Cookies
+     * @param payload          Payload
      */
-    constructor(method: string, path: string, queryParameters?: Map<string, string>, headers?: Array<HttpHeader>, cookies?: Array<Cookie>, payload?: string) {
+    constructor(method: string, path: string, queryParameters?: Map<string, string>, matrixParameters?: Map<string, string>, headers?: Array<HttpHeader>, cookies?: Array<Cookie>, payload?: string) {
         super(headers, payload);
         this.method = method;
         this.path = path;
         this.queryParameters = queryParameters;
+        this.matrixParameters = matrixParameters;
         this.cookies = cookies;
     }
 
@@ -86,6 +89,23 @@ class HttpRequest extends AbstractHttpMessage {
      */
     getQueryParameter(parameterName: string): string {
         return this.queryParameters && this.queryParameters.get(parameterName);
+    }
+
+    /**
+     * Get all matrix parameters
+     * @return Matrix parameters
+     */
+    getMatrixParameters(): Map<string, string> {
+        return this.matrixParameters;
+    }
+
+    /**
+     * Get a matrix parameter
+     * @param parameterName Parameter name
+     * @return Parameter value
+     */
+    getMatrixParameter(parameterName: string): string {
+        return this.matrixParameters && this.matrixParameters.get(parameterName);
     }
 
 }

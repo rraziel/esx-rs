@@ -137,10 +137,15 @@ describe('Server request mapper', () => {
             expect(operationArguments[2]).toEqual(true);
         });
 
-        it.skip('with a matrix parameter', async () => { // TODO
+        it('with a matrix parameter', async () => { // TODO
             // given
             let queryParameters: Map<string, string> = new Map<string, string>();
-            let httpRequest: HttpRequest = new HttpRequest('POST', '/path;test=value;other=x;test2=4');
+            let httpRequest: HttpRequest = HttpRequestBuilder.of('GET', '/path')
+                .withMatrix('test', 'value')
+                .withMatrix('other', 'x')
+                .withMatrix('test2', '4')
+                .build()
+            ;
             let operationInfo: OperationInfo = {
                 parameters: [{
                     name: 'test',

@@ -8,6 +8,7 @@ import {HttpRequest} from './http-request';
  * HTTP request builder
  */
 class HttpRequestBuilder extends AbstractHttpMessageBuilder<HttpRequest> {
+    private matrixParameters: Map<string, string> = new Map<string, string>();
     private queryParameters: Map<string, string> = new Map<string, string>();
     private cookies: Array<Cookie>;
     private method: string;
@@ -50,6 +51,16 @@ class HttpRequestBuilder extends AbstractHttpMessageBuilder<HttpRequest> {
     }
 
     /**
+     * Add a matrix parameter
+     * @param parameterName  Parameter name
+     * @param parameterValue Parameter value
+     */
+    withMatrix(parameterName: string, parameterValue: string): HttpRequestBuilder {
+        this.matrixParameters.set(parameterName, parameterValue);
+        return this;
+    }
+
+    /**
      * Add a cookie
      * @param cookie Cookie
      * @return this
@@ -74,7 +85,7 @@ class HttpRequestBuilder extends AbstractHttpMessageBuilder<HttpRequest> {
      * @return Built HTTP request
      */
     build(): HttpRequest {
-        return new HttpRequest(this.method, this.path, this.queryParameters, this.headers, this.cookies, this.payload);
+        return new HttpRequest(this.method, this.path, this.queryParameters, this.matrixParameters, this.headers, this.cookies, this.payload);
     }
 
     /**
