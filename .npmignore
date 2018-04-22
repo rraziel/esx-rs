@@ -9,3 +9,5 @@ src/
 .travis.yml
 test-report.xml
 tsconfig.json
+*.spec.*
+
