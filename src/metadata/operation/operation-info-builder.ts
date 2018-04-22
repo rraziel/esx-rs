@@ -76,13 +76,7 @@ class OperationInfoBuilder {
      */
     parameter(parameterIndex: number, parameterType: ParameterType, parameterClass: Function, parameterName?: string|ClassConstructor<any>): OperationInfoBuilder {
         return this.update(operationInfo => {
-            let parameters: OperationParameterInfo[] = operationInfo.parameters = operationInfo.parameters || [];
-
-            while (!(parameterIndex < parameters.length)) {
-                parameters.push(null);
-            }
-
-            parameters[parameterIndex] = {
+            operationInfo.parameters[parameterIndex] = {
                 name: parameterName,
                 class: parameterClass,
                 type: parameterType

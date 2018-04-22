@@ -50,7 +50,7 @@ describe('HTTP response mapper', () => {
         expect(httpResponse.getPayload()).toBeUndefined();
     });
 
-    it.only('serializes to JSON when required', async () => {
+    it('serializes to JSON when required', async () => {
         // given
         let httpRequest: HttpRequest = HttpRequestBuilder.of('GET', '/')
             .withHeader(new HttpHeader('Accept', 'application/json'))
