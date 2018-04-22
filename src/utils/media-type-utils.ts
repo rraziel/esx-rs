@@ -103,7 +103,7 @@ class MediaTypeUtils {
     }
 
     /**
-     * Given a requested media type - with wildcard(s) - get a media type supported an the operation
+     * Given a requested media type - with wildcard(s) - get a media type supported by the operation
      * @param requestedMediaType  Requested media type
      * @param operationMediaTypes Operation media types
      */

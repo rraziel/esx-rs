@@ -106,6 +106,16 @@ describe('Media type utility functions', () => {
             expect(mediaType).toBe('application/json');
         });
 
+        it('for media types with wildcards and the operation has no matching media types', () => {
+            // given
+            let requestedMediaTypes: string = 'application/*';
+            let operationMediaTypes: Set<string> = new Set<string>(['text/plain']);
+            // when
+            let mediaType: string = MediaTypeUtils.getRequestedMediaType(requestedMediaTypes, operationMediaTypes);
+            // then
+            expect(mediaType).toBeUndefined();
+        });
+
         it('for media types with wildcards and quality', () => {
             // given
             let requestedMediaTypes: string = 'application/*;q=0.5, application/xml;q=0.8';
@@ -114,6 +124,26 @@ describe('Media type utility functions', () => {
             let mediaType: string = MediaTypeUtils.getRequestedMediaType(requestedMediaTypes, operationMediaTypes);
             // then
             expect(mediaType).toBe('application/xml');
+        });
+
+        it('when the request does not specify a media type', () => {
+            // given
+            let requestedMediaTypes: string = undefined;
+            let operationMediaTypes: Set<string> = new Set<string>(['application/json', 'application/xml']);
+            // when
+            let mediaType: string = MediaTypeUtils.getRequestedMediaType(requestedMediaTypes, operationMediaTypes);
+            // then
+            expect(mediaType).toBe('application/json');
+        });
+
+        it('when the operation does not specify a media type', () => {
+            // given
+            let requestedMediaTypes: string = 'application/json';
+            let operationMediaTypes: Set<string> = undefined;
+            // when
+            let mediaType: string = MediaTypeUtils.getRequestedMediaType(requestedMediaTypes, operationMediaTypes);
+            // then
+            expect(mediaType).toBe('application/json');
         });
 
     });
