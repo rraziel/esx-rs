@@ -1,22 +1,18 @@
-import {HttpRequestMapper} from './http-request-mapper';
-import {Cookie} from './cookie';
-import {HttpHeader} from './http-header';
-import {HttpRequestBuilder} from './http-request-builder';
-import {HttpRequest} from './http-request';
+import {ServerRequestMapper} from './server-request-mapper';
+import {Cookie, HttpHeader, HttpHeaders, HttpRequestBuilder, HttpRequest} from '../http';
 import {OperationInfo, OperationParameterInfo, ParameterType} from '../metadata';
 import * as pathToRegexp from 'path-to-regexp';
 
-const HEADER_CONTENT_TYPE: string = 'content-type';
 const CONTENT_TYPE_JSON: string = 'application/json';
 const CONTENT_TYPE_FORM: string = 'application/x-www-form-urlencoded';
 
 class TestClass {}
 
-describe('HTTP request mapper', () => {
-    let httpRequestMapper: HttpRequestMapper;
+describe('Server request mapper', () => {
+    let serverRequestMapper: ServerRequestMapper;
 
     beforeEach(() => {
-        httpRequestMapper = new HttpRequestMapper();
+        serverRequestMapper = new ServerRequestMapper();
     });
 
     describe('can build an argument list from an HTTP request', () => {
@@ -34,7 +30,7 @@ describe('HTTP request mapper', () => {
                     }]
                 };
                 // when
-                let operationArguments: any[] = await httpRequestMapper.buildArguments(operationInfo, httpRequest);
+                let operationArguments: any[] = await serverRequestMapper.buildArguments(operationInfo, httpRequest);
                 // then
                 expect(operationArguments).not.toBeUndefined();
                 expect(operationArguments.length).toEqual(1);
@@ -67,7 +63,7 @@ describe('HTTP request mapper', () => {
                 }]
             };
             // when
-            let operationArguments: any[] = await httpRequestMapper.buildArguments(operationInfo, httpRequest);
+            let operationArguments: any[] = await serverRequestMapper.buildArguments(operationInfo, httpRequest);
             // then
             expect(operationArguments).not.toBeUndefined();
             expect(operationArguments.length).toEqual(2);
@@ -80,7 +76,7 @@ describe('HTTP request mapper', () => {
         it('with a form parameter', async () => {
             // given
             let httpRequest: HttpRequest = HttpRequestBuilder.of('POST', '/')
-                .withHeader(new HttpHeader(HEADER_CONTENT_TYPE, CONTENT_TYPE_FORM))
+                .withHeader(new HttpHeader(HttpHeaders.CONTENT_TYPE, CONTENT_TYPE_FORM))
                 .withPayload('test=value&other=x&test2=4')
                 .build()
             ;
@@ -96,7 +92,7 @@ describe('HTTP request mapper', () => {
                 }]
             };
             // when
-            let operationArguments: any[] = await httpRequestMapper.buildArguments(operationInfo, httpRequest);
+            let operationArguments: any[] = await serverRequestMapper.buildArguments(operationInfo, httpRequest);
             // then
             expect(operationArguments).not.toBeUndefined();
             expect(operationArguments.length).toEqual(2);
@@ -109,7 +105,8 @@ describe('HTTP request mapper', () => {
         it('with a header parameter', async () => {
             // given
             let httpRequest: HttpRequest = HttpRequestBuilder.of('POST', '/')
-                .withHeaders(new HttpHeader(HEADER_CONTENT_TYPE, 'application/json'), new HttpHeader('test', 'value'), new HttpHeader('test3', 'true'), new HttpHeader('accept', 'application/json'), new HttpHeader('test2', '4'))
+                .withHeader(new HttpHeader(HttpHeaders.CONTENT_TYPE, CONTENT_TYPE_JSON))
+                .withHeaders(new HttpHeader('test', 'value'), new HttpHeader('test3', 'true'), new HttpHeader('accept', 'application/json'), new HttpHeader('test2', '4'))
                 .build()
             ;
             let operationInfo: OperationInfo = {
@@ -128,7 +125,7 @@ describe('HTTP request mapper', () => {
                 }]
             };
             // when
-            let operationArguments: any[] = await httpRequestMapper.buildArguments(operationInfo, httpRequest);
+            let operationArguments: any[] = await serverRequestMapper.buildArguments(operationInfo, httpRequest);
             // then
             expect(operationArguments).not.toBeUndefined();
             expect(operationArguments.length).toEqual(3);
@@ -156,7 +153,7 @@ describe('HTTP request mapper', () => {
                 }]
             };
             // when
-            let operationArguments: any[] = await httpRequestMapper.buildArguments(operationInfo, httpRequest);
+            let operationArguments: any[] = await serverRequestMapper.buildArguments(operationInfo, httpRequest);
             // then
             expect(operationArguments).not.toBeUndefined();
             expect(operationArguments.length).toEqual(2);
@@ -185,7 +182,7 @@ describe('HTTP request mapper', () => {
                 }]
             };
             // when
-            let operationArguments: any[] = await httpRequestMapper.buildArguments(operationInfo, httpRequest);
+            let operationArguments: any[] = await serverRequestMapper.buildArguments(operationInfo, httpRequest);
             // then
             expect(operationArguments).not.toBeUndefined();
             expect(operationArguments.length).toEqual(2);
@@ -215,7 +212,7 @@ describe('HTTP request mapper', () => {
                 }]
             };
             // when
-            let operationArguments: any[] = await httpRequestMapper.buildArguments(operationInfo, httpRequest);
+            let operationArguments: any[] = await serverRequestMapper.buildArguments(operationInfo, httpRequest);
             // then
             expect(operationArguments).not.toBeUndefined();
             expect(operationArguments.length).toEqual(2);
@@ -238,7 +235,7 @@ describe('HTTP request mapper', () => {
                 }]
             };
             // when
-            let operationArguments: any[] = await httpRequestMapper.buildArguments(operationInfo, httpRequest);
+            let operationArguments: any[] = await serverRequestMapper.buildArguments(operationInfo, httpRequest);
             // then
             expect(operationArguments).not.toBeUndefined();
             expect(operationArguments.length).toEqual(1);
@@ -251,7 +248,7 @@ describe('HTTP request mapper', () => {
             let httpRequest: HttpRequest = new HttpRequest('POST', '/');
             let operationInfo: OperationInfo = {};
             // when
-            let operationArguments: any[] = await httpRequestMapper.buildArguments(operationInfo, httpRequest);
+            let operationArguments: any[] = await serverRequestMapper.buildArguments(operationInfo, httpRequest);
             // then
             expect(operationArguments).not.toBeUndefined();
             expect(operationArguments.length).toEqual(0);
@@ -274,7 +271,7 @@ describe('HTTP request mapper', () => {
             // when
             let errorMessage: string;
             try {
-                await httpRequestMapper.buildArguments(operationInfo, httpRequest);
+                await serverRequestMapper.buildArguments(operationInfo, httpRequest);
             } catch (e) {
                 errorMessage = e.message;
             }
@@ -295,7 +292,7 @@ describe('HTTP request mapper', () => {
             // when
             let errorMessage: string;
             try {
-                await httpRequestMapper.buildArguments(operationInfo, httpRequest);
+                await serverRequestMapper.buildArguments(operationInfo, httpRequest);
             } catch (e) {
                 errorMessage = e.message;
             }
@@ -316,7 +313,7 @@ describe('HTTP request mapper', () => {
             // when
             let errorMessage: string;
             try {
-                await httpRequestMapper.buildArguments(operationInfo, httpRequest);
+                await serverRequestMapper.buildArguments(operationInfo, httpRequest);
             } catch (e) {
                 errorMessage = e.message;
             }
@@ -337,7 +334,7 @@ describe('HTTP request mapper', () => {
             // when
             let errorMessage: string;
             try {
-                await httpRequestMapper.buildArguments(operationInfo, httpRequest);
+                await serverRequestMapper.buildArguments(operationInfo, httpRequest);
             } catch (e) {
                 errorMessage = e.message;
             }
@@ -348,7 +345,7 @@ describe('HTTP request mapper', () => {
         it('a form parameter is needed but the content type is incorrect', async () => {
             // given
             let httpRequest: HttpRequest = HttpRequestBuilder.of('POST', '/')
-                .withHeader(new HttpHeader(HEADER_CONTENT_TYPE, CONTENT_TYPE_JSON))
+                .withHeader(new HttpHeader(HttpHeaders.CONTENT_TYPE, CONTENT_TYPE_JSON))
                 .withPayload('test=value&other=x&test2=4')
                 .build()
             ;
@@ -360,7 +357,7 @@ describe('HTTP request mapper', () => {
                 }]
             };
             // when
-            let operationArguments: any[] = await httpRequestMapper.buildArguments(operationInfo, httpRequest);
+            let operationArguments: any[] = await serverRequestMapper.buildArguments(operationInfo, httpRequest);
             // then
             expect(operationArguments).not.toBeUndefined();
             expect(operationArguments.length).toEqual(1);
@@ -370,7 +367,7 @@ describe('HTTP request mapper', () => {
         it('a form parameter is needed but there is no body', async () => {
             // given
             let httpRequest: HttpRequest = HttpRequestBuilder.of('POST', '/')
-                .withHeader(new HttpHeader(HEADER_CONTENT_TYPE, CONTENT_TYPE_FORM))
+                .withHeader(new HttpHeader(HttpHeaders.CONTENT_TYPE, CONTENT_TYPE_FORM))
                 .build()
             ;
             let operationInfo: OperationInfo = {
@@ -381,7 +378,7 @@ describe('HTTP request mapper', () => {
                 }]
             };
             // when
-            let operationArguments: any[] = await httpRequestMapper.buildArguments(operationInfo, httpRequest);
+            let operationArguments: any[] = await serverRequestMapper.buildArguments(operationInfo, httpRequest);
             // then
             expect(operationArguments).not.toBeUndefined();
             expect(operationArguments.length).toEqual(1);

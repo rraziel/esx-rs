@@ -1,16 +1,12 @@
-import {HttpResponseMapper} from './http-response-mapper';
-import {HttpHeader} from './http-header';
-import {HttpHeaders} from './http-headers';
-import {HttpRequest} from './http-request';
-import {HttpRequestBuilder} from './http-request-builder';
-import {HttpResponse} from './http-response';
+import {ServerResponseMapper} from './server-response-mapper';
+import {HttpHeader, HttpHeaders, HttpRequest, HttpRequestBuilder, HttpResponse} from '../http';
 import {OperationInfo} from '../metadata';
 
-describe('HTTP response mapper', () => {
-    let httpResponseMapper: HttpResponseMapper;
+describe('Server response mapper', () => {
+    let serverResponseMapper: ServerResponseMapper;
 
     beforeEach(() => {
-        httpResponseMapper = new HttpResponseMapper();
+        serverResponseMapper = new ServerResponseMapper();
     });
 
     it('can build an HTTP response', async () => {
@@ -24,7 +20,7 @@ describe('HTTP response mapper', () => {
         };
         let result: string = 'test-result';
         // when
-        let httpResponse: HttpResponse = await httpResponseMapper.buildHttpResponse(operationInfo, httpRequest, result);
+        let httpResponse: HttpResponse = await serverResponseMapper.buildHttpResponse(operationInfo, httpRequest, result);
         // expect
         expect(httpResponse.getStatusCode()).toBe(200);
         expect(httpResponse.getHeaderValue(HttpHeaders.CONTENT_TYPE)).toBe('text/plain');
@@ -42,7 +38,7 @@ describe('HTTP response mapper', () => {
             producedMediaTypes: new Set<string>('text/plain')
         };
         // when
-        let httpResponse: HttpResponse = await httpResponseMapper.buildHttpResponse(operationInfo, httpRequest);
+        let httpResponse: HttpResponse = await serverResponseMapper.buildHttpResponse(operationInfo, httpRequest);
         // expect
         expect(httpResponse.getStatusCode()).toBe(204);
         expect(httpResponse.getHeaderValue(HttpHeaders.CONTENT_TYPE)).toBeUndefined();
@@ -61,7 +57,7 @@ describe('HTTP response mapper', () => {
         };
         let result: any = {test:'value'};
         // when
-        let httpResponse: HttpResponse = await httpResponseMapper.buildHttpResponse(operationInfo, httpRequest, result);
+        let httpResponse: HttpResponse = await serverResponseMapper.buildHttpResponse(operationInfo, httpRequest, result);
         let responsePayload: string = httpResponse.getPayload();
         // expect
         expect(httpResponse.getStatusCode()).toBe(200);

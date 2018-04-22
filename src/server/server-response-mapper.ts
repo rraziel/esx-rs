@@ -1,19 +1,13 @@
-import {HttpHeaders} from './http-headers';
-import {getHttpMethodFromString, HttpMethod} from './http-method';
-import {HttpResponse} from './http-response';
-import {HttpResponseBuilder} from './http-response-builder';
-import {HttpRequest} from './http-request';
-import {HttpStatuses} from './http-statuses';
-import {MediaTypeUtils} from '../utils';
+import {getHttpMethodFromString, HttpHeader, HttpHeaders, HttpMethod, HttpResponse, HttpResponseBuilder, HttpRequest, HttpStatuses} from '../http';
 import {OperationInfo} from '../metadata';
-import { HttpHeader } from '.';
+import {MediaTypeUtils} from '../utils';
 
 const REGEXP_MEDIATYPE_JSON: RegExp = /[\+\/]json$/;
 
 /**
- * HTTP response mapper
+ * Server response mapper
  */
-class HttpResponseMapper {
+class ServerResponseMapper {
 
     /**
      * Build an HTTP response from an operation result
@@ -64,5 +58,5 @@ class HttpResponseMapper {
 }
 
 export {
-    HttpResponseMapper
+    ServerResponseMapper
 };

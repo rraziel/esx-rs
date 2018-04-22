@@ -1,22 +1,17 @@
-import {HttpEndpointManager} from './http-endpoint-manager';
-import {HttpHeader} from './http-header';
-import {HttpHeaders} from './http-headers';
-import {HttpRequest} from './http-request';
-import {HttpRequestBuilder} from './http-request-builder';
-import {HttpResponse} from './http-response';
-import {HttpStatuses} from './http-statuses';
+import {EndpointManager} from './endpoint-manager';
 import {Consumes, GET, Path, POST, Produces, PUT} from '../decorators';
+import {HttpHeader, HttpHeaders, HttpRequest, HttpRequestBuilder, HttpResponse, HttpStatuses} from '../http';
 
 class TestResource {
     static MEDIA_TYPE: string = 'application/vnd.test.resource+json';
     value: string;
 }
 
-describe('HTTP endpoint manager', () => {
-    let httpEndpointManager: HttpEndpointManager;
+describe('Endpoint manager', () => {
+    let endpointManager: EndpointManager;
 
     beforeEach(() => {
-        httpEndpointManager = new HttpEndpointManager();
+        endpointManager = new EndpointManager();
     });
 
     describe('can invoke operations based on requests', () => {
@@ -28,9 +23,9 @@ describe('HTTP endpoint manager', () => {
                 @GET @Path('/test')
                 async operation(): Promise<string> { return 'test'; }
             }
-            httpEndpointManager.registerEndpoints(new TestClass());
+            endpointManager.registerEndpoints(new TestClass());
             // when
-            let httpResponse: HttpResponse = await httpEndpointManager.handleRequest(httpRequest);
+            let httpResponse: HttpResponse = await endpointManager.handleRequest(httpRequest);
             // then
             expect(httpResponse).not.toBeUndefined();
             expect(httpResponse.getStatusCode()).toBe(HttpStatuses.OK);
@@ -49,9 +44,9 @@ describe('HTTP endpoint manager', () => {
                     @PUT @Path('/test')
                     async operation(value: string): Promise<string> { return value; }
                 }
-                httpEndpointManager.registerEndpoints(new TestClass());
+                endpointManager.registerEndpoints(new TestClass());
                 // when
-                let httpResponse: HttpResponse = await httpEndpointManager.handleRequest(httpRequest);
+                let httpResponse: HttpResponse = await endpointManager.handleRequest(httpRequest);
                 // then
                 expect(httpResponse).not.toBeUndefined();
                 expect(httpResponse.getStatusCode()).toBe(HttpStatuses.OK);
@@ -70,9 +65,9 @@ describe('HTTP endpoint manager', () => {
                     @Consumes(TestResource.MEDIA_TYPE)
                     async operation(obj: TestResource): Promise<string> { return obj.value; }
                 }
-                httpEndpointManager.registerEndpoints(new TestClass());
+                endpointManager.registerEndpoints(new TestClass());
                 // when
-                let httpResponse: HttpResponse = await httpEndpointManager.handleRequest(httpRequest);
+                let httpResponse: HttpResponse = await endpointManager.handleRequest(httpRequest);
                 // then
                 expect(httpResponse).not.toBeUndefined();
                 expect(httpResponse.getStatusCode()).toBe(HttpStatuses.OK);
@@ -88,7 +83,7 @@ describe('HTTP endpoint manager', () => {
             // given
             let httpRequest: HttpRequest = HttpRequestBuilder.of('POST', '/').build();
             // when
-            let httpResponse: HttpResponse = await httpEndpointManager.handleRequest(httpRequest);
+            let httpResponse: HttpResponse = await endpointManager.handleRequest(httpRequest);
             // then
             expect(httpResponse).not.toBeUndefined();
             expect(httpResponse.getStatusCode()).toBe(HttpStatuses.NOT_FOUND);
@@ -101,9 +96,9 @@ describe('HTTP endpoint manager', () => {
                 async operation(): Promise<string> { return 'test'; }
             }
             let httpRequest: HttpRequest = HttpRequestBuilder.of('POST', '/').build();
-            httpEndpointManager.registerEndpoints(new TestClass());
+            endpointManager.registerEndpoints(new TestClass());
             // when
-            let httpResponse: HttpResponse = await httpEndpointManager.handleRequest(httpRequest);
+            let httpResponse: HttpResponse = await endpointManager.handleRequest(httpRequest);
             // then
             expect(httpResponse).not.toBeUndefined();
             expect(httpResponse.getStatusCode()).toBe(HttpStatuses.METHOD_NOT_ALLOWED);
@@ -120,9 +115,9 @@ describe('HTTP endpoint manager', () => {
                 .withHeader(new HttpHeader(HttpHeaders.ACCEPT, 'application/json'))
                 .build()
             ;
-            httpEndpointManager.registerEndpoints(new TestClass());
+            endpointManager.registerEndpoints(new TestClass());
             // when
-            let httpResponse: HttpResponse = await httpEndpointManager.handleRequest(httpRequest);
+            let httpResponse: HttpResponse = await endpointManager.handleRequest(httpRequest);
             // then
             expect(httpResponse).not.toBeUndefined();
             expect(httpResponse.getStatusCode()).toBe(HttpStatuses.NOT_ACCEPTABLE);
@@ -139,9 +134,9 @@ describe('HTTP endpoint manager', () => {
                 .withHeader(new HttpHeader(HttpHeaders.CONTENT_TYPE, 'application/json'))
                 .build()
             ;
-            httpEndpointManager.registerEndpoints(new TestClass());
+            endpointManager.registerEndpoints(new TestClass());
             // when
-            let httpResponse: HttpResponse = await httpEndpointManager.handleRequest(httpRequest);
+            let httpResponse: HttpResponse = await endpointManager.handleRequest(httpRequest);
             // then
             expect(httpResponse).not.toBeUndefined();
             expect(httpResponse.getStatusCode()).toBe(HttpStatuses.UNSUPPORTED_MEDIA_TYPE);

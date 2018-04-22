@@ -1,47 +1,25 @@
-import {HttpHeaders} from './http-headers';
-import {getHttpMethodFromString, HttpMethod} from './http-method';
-import {HttpRequest} from './http-request';
-import {HttpRequestMapper} from './http-request-mapper';
-import {HttpResponse} from './http-response';
-import {HttpResponseBuilder} from './http-response-builder';
-import {HttpResponseMapper} from './http-response-mapper';
-import {HttpStatuses} from './http-statuses';
+import {CachedOperationInfo} from './cached-operation-info';
+import {MatchingResult} from './matching-result';
+import {ServerRequestMapper} from './server-request-mapper';
+import {ServerResponseMapper} from './server-response-mapper';
+import {getHttpMethodFromString, HttpHeaders, HttpMethod, HttpRequest, HttpResponse, HttpResponseBuilder, HttpStatuses} from '../http';
 import {getFullOperationInfo, OperationInfo} from '../metadata';
 import {ClassUtils, MediaTypeUtils} from '../utils';
 
 /**
- * Cached operation information
+ * Endpoint manager
  */
-interface CachedOperationInfo {
-    endpoint: Object;
-    methodName: string;
-    operationInfo: OperationInfo;
-}
-
-/**
- * Matching result
- */
-interface MatchingResult {
-    path?: boolean;
-    method?: boolean;
-    contentType?: boolean;
-    accept?: boolean;
-}
-
-/**
- * HTTP endpoint manager
- */
-class HttpEndpointManager {
+class EndpointManager {
     private cachedOperationInfos: Array<CachedOperationInfo> = new Array<CachedOperationInfo>();
-    private httpResponseMapper: HttpResponseMapper = new HttpResponseMapper();
-    private httpRequestMapper: HttpRequestMapper = new HttpRequestMapper();
+    private serverResponseMapper: ServerResponseMapper = new ServerResponseMapper();
+    private serverRequestMapper: ServerRequestMapper = new ServerRequestMapper();
 
     /**
      * Register endpoints
      * @param endpoints Endpoints
      * @return this
      */
-    registerEndpoints(...endpoints: Object[]): HttpEndpointManager {
+    registerEndpoints(...endpoints: Object[]): EndpointManager {
         endpoints.forEach(endpoint => this.registerEndpoint(endpoint));
         return this;
     }
@@ -89,9 +67,9 @@ class HttpEndpointManager {
         let endpoint: Object = cachedOperationInfo.endpoint;
         let result: any;
 
-        operationParameters = await this.httpRequestMapper.buildArguments(operationInfo, httpRequest);
+        operationParameters = await this.serverRequestMapper.buildArguments(operationInfo, httpRequest);
         result = await endpoint[methodName].apply(endpoint, operationParameters);
-        httpResponse = await this.httpResponseMapper.buildHttpResponse(operationInfo, httpRequest, result);
+        httpResponse = await this.serverResponseMapper.buildHttpResponse(operationInfo, httpRequest, result);
 
         return httpResponse;
     }
@@ -214,17 +192,24 @@ class HttpEndpointManager {
      * @param predicate    Predicate
      */
     private forEachOperationEligibleByPath(resourcePath: string, predicate: (cachedOperationInfo: CachedOperationInfo, pathMatches: RegExpExecArray) => boolean): void {
-        let foundCachedOperationInfo: CachedOperationInfo;
+        this.cachedOperationInfos.some(cachedOperationInfo => this.matchOperationEligibleByPath(cachedOperationInfo, resourcePath, predicate));
+    }
 
-        this.cachedOperationInfos.some(cachedOperationInfo => {
-            let operationInfo: OperationInfo = cachedOperationInfo.operationInfo;
-            let matches: RegExpExecArray = operationInfo.resourcePathRegExp.exec(resourcePath);
-            return matches && predicate(cachedOperationInfo, matches);
-        });
+    /**
+     * Match an operation eligible by path
+     * @param cachedOperationInfo Cached operation information
+     * @param resourcePath        Resource path
+     * @param predicate           Predicate
+     * @return true if there is a match
+     */
+    private matchOperationEligibleByPath(cachedOperationInfo: CachedOperationInfo, resourcePath: string, predicate: (cachedOperationInfo: CachedOperationInfo, pathMatches: RegExpExecArray) => boolean): boolean {
+        let operationInfo: OperationInfo = cachedOperationInfo.operationInfo;
+        let matches: RegExpExecArray = operationInfo.resourcePathRegExp.exec(resourcePath);
+        return matches && predicate(cachedOperationInfo, matches);
     }
 
 }
 
 export {
-    HttpEndpointManager
+    EndpointManager
 };

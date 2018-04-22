@@ -1,17 +1,13 @@
-import {HttpHeader} from './http-header';
-import {HttpRequest} from './http-request';
-import {HttpResponse} from './http-response';
-import {HttpUtils} from './http-utils';
+import {HttpHeader, HttpHeaders, HttpRequest, HttpResponse, HttpUtils} from '../http';
 import {OperationInfo, OperationParameterInfo, ParameterType} from '../metadata';
 import {ClassConstructor} from '../utils';
 
-const HEADER_CONTENT_TYPE: string = 'content-type';
 const FORM_CONTENT_TYPE: string = 'application/x-www-form-urlencoded';
 
 /**
- * HTTP request mapper
+ * Server request mapper
  */
-class HttpRequestMapper {
+class ServerRequestMapper {
 
     /**
      * Build a list of arguments based on an HTTP request
@@ -150,7 +146,7 @@ class HttpRequestMapper {
      */
     private buildFormArgument(operationInfo: OperationInfo, operationParameterInfo: OperationParameterInfo, httpRequest: HttpRequest): string {
         let parameterName: string = <string> operationParameterInfo.name;
-        let contentType: string = httpRequest.getHeaderValue(HEADER_CONTENT_TYPE);
+        let contentType: string = httpRequest.getHeaderValue(HttpHeaders.CONTENT_TYPE);
 
         if (contentType === FORM_CONTENT_TYPE && httpRequest.hasPayload()) {
             let payload: string = httpRequest.getPayload();
@@ -250,5 +246,5 @@ class HttpRequestMapper {
 }
 
 export {
-    HttpRequestMapper
+    ServerRequestMapper
 };

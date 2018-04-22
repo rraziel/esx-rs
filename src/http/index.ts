@@ -1,10 +1,12 @@
 export {Cookie} from './cookie';
 export {EntityTag} from './entity-tag';
-export {HttpEndpointManager} from './http-endpoint-manager';
 export {HttpFile} from './http-file';
 export {HttpHeader} from './http-header';
-export {HttpMethod} from './http-method';
+export {HttpHeaders} from './http-headers';
+export {getHttpMethodFromString, getStringFromHttpMethod, HttpMethod} from './http-method';
 export {HttpRequest} from './http-request';
-export {HttpRequestMapper} from './http-request-mapper';
+export {HttpRequestBuilder} from './http-request-builder';
 export {HttpResponse} from './http-response';
-export {HttpResponseMapper} from './http-response-mapper';
+export {HttpResponseBuilder} from './http-response-builder';
+export {HttpStatuses} from './http-statuses';
+export {HttpUtils} from './http-utils';
