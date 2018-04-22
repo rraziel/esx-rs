@@ -41,9 +41,8 @@ describe('HTTP response mapper', () => {
         let operationInfo: OperationInfo = {
             producedMediaTypes: new Set<string>('text/plain')
         };
-        let result: string = undefined;
         // when
-        let httpResponse: HttpResponse = await httpResponseMapper.buildHttpResponse(operationInfo, httpRequest, result);
+        let httpResponse: HttpResponse = await httpResponseMapper.buildHttpResponse(operationInfo, httpRequest);
         // expect
         expect(httpResponse.getStatusCode()).toBe(204);
         expect(httpResponse.getHeaderValue(HttpHeaders.CONTENT_TYPE)).toBeUndefined();

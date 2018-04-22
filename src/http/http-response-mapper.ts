@@ -23,7 +23,7 @@ class HttpResponseMapper {
      * @param <T>           Result type
      * @return Promise that resolves to an HTTP response
      */
-    async buildHttpResponse<T>(operationInfo: OperationInfo, httpRequest: HttpRequest, result: T): Promise<HttpResponse> {
+    async buildHttpResponse<T>(operationInfo: OperationInfo, httpRequest: HttpRequest, result?: T): Promise<HttpResponse> {
         let httpResponseBuilder: HttpResponseBuilder = new HttpResponseBuilder();
         let httpMethod: HttpMethod = getHttpMethodFromString(httpRequest.getMethod());
 

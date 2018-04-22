@@ -1,5 +1,11 @@
+.circleci/
 conf/
+coverage/
 doc/
 node_modules/
 src/
+.appveyor.yml
+.codeclimate.yml
+.travis.yml
+test-report.xml
 tsconfig.json
