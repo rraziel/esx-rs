@@ -303,6 +303,27 @@ describe('HTTP request mapper', () => {
             expect(errorMessage).toEqual('complex non-payload parameters not implemented yet');
         });
 
+        it('a context class is a primitive', async () => {
+            // given
+            let httpRequest: HttpRequest = new HttpRequest('POST', '/');
+            let operationInfo: OperationInfo = {
+                parameters: [{
+                    name: String,
+                    class: String,
+                    type: ParameterType.CONTEXT
+                }]
+            };
+            // when
+            let errorMessage: string;
+            try {
+                await httpRequestMapper.buildArguments(operationInfo, httpRequest);
+            } catch (e) {
+                errorMessage = e.message;
+            }
+            // then
+            expect(errorMessage).toEqual('unknown context class String');
+        });
+
         it('a context class is unknown', async () => {
             // given
             let httpRequest: HttpRequest = new HttpRequest('POST', '/');

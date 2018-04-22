@@ -81,6 +81,8 @@ class HttpRequestMapper {
         switch (operationParameterInfo.type) {
         case ParameterType.BODY:
             return this.buildBodyArgument(operationInfo, operationParameterInfo, httpRequest);
+        case ParameterType.CONTEXT:
+            return this.buildContextArgument<string>(operationInfo, operationParameterInfo, httpRequest);
         case ParameterType.COOKIE:
             return this.buildCookieArgument(operationInfo, operationParameterInfo, httpRequest);
         case ParameterType.FORM:
