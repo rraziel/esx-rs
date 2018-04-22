@@ -1,6 +1,6 @@
 {
   "name": "esx-rs",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "ECMAScript decorators for REST endpoint declaration, inspired by JAX-RS.",
   "homepage": "https://github.com/rraziel/esx-rs",
   "bugs": "https://github.com/rraziel/esx-rs/issues",
