@@ -19,3 +19,10 @@ script:
 after_script:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
   - greenkeeper-lockfile-upload
+deploy:
+  provider: npm
+  email: raziel@binarygenetics.com
+  api_key: $NPM_TOKEN
+  on:
+    tags: true
+    branch: master
