@@ -7,6 +7,7 @@ src/
 .appveyor.yml
 .codeclimate.yml
 .travis.yml
+cc-test-reporter
 test-report.xml
 tsconfig.json
 *.spec.*
