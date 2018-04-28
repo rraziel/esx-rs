@@ -19,11 +19,12 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "tsc -p .",
-    "watch": "tsc --watch -p .",
-    "test": "./node_modules/.bin/jest --watch --no-cache --verbose",
-    "coverage": "./node_modules/.bin/jest --no-cache --coverage",
-    "tslint": "tslint --project ./tsconfig.json --config ./conf/tslint.json"
+    "compile": "tsc -p .",
+    "compile:watch": "tsc --watch -p .",
+    "quality:lint": "tslint --project ./tsconfig.json --config ./conf/tslint.json",
+    "test": "jest --no-cache --verbose",
+    "test:coverage": "jest --no-cache --coverage",
+    "test:watch": "jest --watch --no-cache --verbose"
   },
   "jest": {
     "collectCoverageFrom": [

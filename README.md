@@ -17,15 +17,17 @@ A library inspired by [JAX-RS](https://en.wikipedia.org/wiki/Java_API_for_RESTfu
 
 It has currently been integrated with:
 
-| Integration                                                                             | Type       | Description                                                                         |
-|:----------------------------------------------------------------------------------------|:-----------|:------------------------------------------------------------------------------------|
-| [esx-rs-client-fetch](https://github.com/rraziel/esx-rs-client-fetch)                   | Client     | Proxy generator for [Fetch](https://fetch.spec.whatwg.org/).                        |
-| [esx-rs-client-http](https://github.com/rraziel/esx-rs-client-http)                     | Client     | Proxy generator for [Node http](https://nodejs.org/api/http.html).                  |
-| [esx-rs-client-xmlhttprequest](https://github.com/rraziel/esx-rs-client-xmlhttprequest) | Client     | Proxy generator for [XMLHttpRequest](https://en.wikipedia.org/wiki/XMLHttpRequest). |
-| [esx-rs-router-express](https://github.com/rraziel/esx-rs-router-express)               | Server     | Router middleware for [Express](https://expressjs.com/).                            |
-| [esx-rs-router-koa](https://github.com/rraziel/esx-rs-router-koa)                       | Server     | Router middleware for [Koa](http://koajs.com/).                                     |
-| [esx-rs-validation](https://github.com/rraziel/esx-rs-validation)                       | Validation | Validation through [es-validation](https://github.com/rraziel/es-validation).       |
-| [esx-rs-schema-openapi](https://github.com/rraziel/esx-rs-schema-openapi)               | Schema     | Schema generation for [OpenAPI 3.0](https://www.openapis.org/).                     |
+| Integration                                                                             | Type       | Description                                                                                                |
+|:----------------------------------------------------------------------------------------|:-----------|:-----------------------------------------------------------------------------------------------------------|
+| [esx-rs-client](https://github.com/rraziel/esx-rs-client)                               | Client     | Proxy generator to access remote ESX-RS endpoints through a class instance.                                |
+| [esx-rs-client-fetch](https://github.com/rraziel/esx-rs-client-fetch)                   | Client     | `esx-rs-client` network transport based on [Fetch](https://fetch.spec.whatwg.org/).                        |
+| [esx-rs-client-http](https://github.com/rraziel/esx-rs-client-http)                     | Client     | `esx-rs-client` network transport based on [Node http](https://nodejs.org/api/http.html).                  |
+| [esx-rs-client-xmlhttprequest](https://github.com/rraziel/esx-rs-client-xmlhttprequest) | Client     | `esx-rs-client` network transport based on [XMLHttpRequest](https://en.wikipedia.org/wiki/XMLHttpRequest). |
+| [esx-rs-server](https://github.com/rraziel/esx-rs-server)                               | Server     | Request dispatcher to process incoming HTTP requests through ESX-RS decorated class instances.             |
+| [esx-rs-router-express](https://github.com/rraziel/esx-rs-router-express)               | Server     | `esx-rs-server`-based router middleware for [Express](https://expressjs.com/).                             |
+| [esx-rs-router-koa](https://github.com/rraziel/esx-rs-router-koa)                       | Server     | `esx-rs-server`-based router middleware for [Koa](http://koajs.com/).                                      |
+| [esx-rs-validation](https://github.com/rraziel/esx-rs-validation)                       | Validation | Validation layer based on [es-validation](https://github.com/rraziel/es-validation).                       |
+| [esx-rs-schema-openapi](https://github.com/rraziel/esx-rs-schema-openapi)               | Schema     | Schema generation for [OpenAPI 3.0](https://www.openapis.org/).                                            |
 
 ## Getting Started
 
@@ -74,7 +76,72 @@ class UsersEndpoint {
 
 ## Usage
 
-- [ESX-RS Decorators](doc/decorators.md)
-- [ESX-RS for Server Applications](doc/server.md)
-- [ESX-RS for Client Applications](doc/client.md)
-- [Content Negotiation Mechanism](doc/content-negotiation.md)
+Various decorators are available, each targetting a subset of the typical REST properties for a service.
+
+### Method
+
+The HTTP method(s) can be specified using:
+
+- `@DELETE`
+- `@GET`
+- `@HEAD`
+- `@OPTIONS`
+- `@PATCH`
+- `@POST`
+- `@PUT`
+
+### Path
+
+The resource path can be specified using:
+
+- `@Path`
+
+Note: the [path-to-regexp](https://github.com/pillarjs/path-to-regexp) format is used, e.g. `/path/to/:resourceId/subpath/:subresourceId`.
+
+### Resource Type
+
+The type of resource, either consumed by the operation (mapped to `content-type`) or produced by the operation (mapped to `accept`), can be specified using:
+
+- `@Consumes`
+- `@Produces`
+
+Multiple media types may be specified.
+
+### Parameters
+
+Operation parameters and resource properties are mapped using a specific decorator for each parameter type:
+
+- `@CookieParam`
+- `@FormParam`
+- `@HeaderParam`
+- `@MatrixParam`
+- `@QueryParam`
+- `@PathParam`
+
+### Context
+
+It is also possible to map the following context information to a parameter using the `@ContextParam` decorator:
+
+- `HttpContext`
+- `HttpRequest`
+- `HttpResponse`
+
+### Endpoint vs. Operation
+
+Many decorators can be applied to both a class and its methods.
+
+In this scenario, the `OperationInfo` object returned for a method contains merged information that includes both the operation and the endpoint information.
+
+The following decorators can be applied to both classes and methods:
+
+- `@DELETE`, `@GET`, `@HEAD`, `@OPTIONS`, `@PATCH`, `@POST` and `@PUT`
+- `@Consumes` and `@Produces`
+- `@Path`
+
+The `@Path` decorator is handled a bit differently: the operation path is appended to the endpoint path.
+
+## Limitations
+
+At the moment, only concrete classes can be decorated.
+
+This is due to the way ECMAScript gets generated, as interfaces no longer exist in the generated code.

@@ -8,9 +8,9 @@ install:
 test_script:
   - node --version
   - npm --version
-  - npm run tslint
-  - npm run build
-  - npm run coverage
+  - npm run quality:lint
+  - npm run compile
+  - npm run test:coverage
 on_finish:
   - ps: (new-object net.webclient).UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\test-report.xml))
 on_success:

@@ -16,10 +16,10 @@ jobs:
           command: npm install
       - run:
           name: 'Lint'
-          command: npm run tslint
+          command: npm run quality:lint
       - run:
           name: 'Build'
-          command: npm run build
+          command: npm run compile
       - run:
           name: 'Unit tests'
-          command: npm run coverage
+          command: npm run test:coverage
