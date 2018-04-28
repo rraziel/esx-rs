@@ -23,7 +23,7 @@ It has currently been integrated with:
 | [esx-rs-client-fetch](https://github.com/rraziel/esx-rs-client-fetch)     | Client     | `esx-rs-client` network transport based on [Fetch](https://fetch.spec.whatwg.org/).                        |
 | [esx-rs-client-http](https://github.com/rraziel/esx-rs-client-http)       | Client     | `esx-rs-client` network transport based on [Node http](https://nodejs.org/api/http.html).                  |
 | [esx-rs-client-xhr](https://github.com/rraziel/esx-rs-client-xhr)         | Client     | `esx-rs-client` network transport based on [XMLHttpRequest](https://en.wikipedia.org/wiki/XMLHttpRequest). |
-| [esx-rs-server](https://github.com/rraziel/esx-rs-server)                 | Server     | Request dispatcher to process incoming HTTP requests through ESX-RS decorated class instances.             |
+| [esx-rs-server](https://github.com/rraziel/esx-rs-server)                 | Server     | Dispatch incoming HTTP requests to ESX-RS decorated class methods.                                         |
 | [esx-rs-router-express](https://github.com/rraziel/esx-rs-router-express) | Server     | `esx-rs-server`-based router middleware for [Express](https://expressjs.com/).                             |
 | [esx-rs-router-koa](https://github.com/rraziel/esx-rs-router-koa)         | Server     | `esx-rs-server`-based router middleware for [Koa](http://koajs.com/).                                      |
 | [esx-rs-validation](https://github.com/rraziel/esx-rs-validation)         | Validation | Validation layer based on [es-validation](https://github.com/rraziel/es-validation).                       |
