@@ -1,4 +1,4 @@
-import {RegExpUtils} from './reg-exp-utils';
+import {RegExpUtils} from './RegExpUtils';
 
 describe('Regular expression utility functions', () => {
 

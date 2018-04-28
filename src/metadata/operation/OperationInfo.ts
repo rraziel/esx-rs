@@ -1,7 +1,7 @@
 import {getEndpointInfo, EndpointInfo} from '../endpoint';
 import {HttpMethod} from '../../http';
 import {OperationParameterInfo} from './OperationParameterInfo';
-import {ParameterType} from '../parameter-type';
+import {ParameterType} from '../ParameterType';
 import {ClassConstructor, TypeUtils} from 'es-decorator-utils';
 import * as pathToRegexp from 'path-to-regexp';
 import 'reflect-metadata';

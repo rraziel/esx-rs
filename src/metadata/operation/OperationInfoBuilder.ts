@@ -1,7 +1,7 @@
 import {HttpMethod} from '../../http';
 import {getOperationInfo, setOperationInfo, OperationInfo} from './OperationInfo';
 import {OperationParameterInfo} from './OperationParameterInfo';
-import {ParameterType} from '../parameter-type';
+import {ParameterType} from '../ParameterType';
 import {ClassConstructor} from 'es-decorator-utils';
 
 /**

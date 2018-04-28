@@ -1,4 +1,4 @@
-import {ParameterType} from '../parameter-type';
+import {ParameterType} from '../ParameterType';
 import {ClassConstructor} from 'es-decorator-utils';
 
 /**

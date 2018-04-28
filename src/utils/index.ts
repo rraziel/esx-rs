@@ -1,2 +1,3 @@
-export {ClassUtils} from './class-utils';
-export {MediaTypeUtils} from './media-type-utils';
+export {ClassUtils} from './ClassUtils';
+export {MediaTypeUtils} from './MediaTypeUtils';
+export {RegExpUtils} from './RegExpUtils';

@@ -1,4 +1,4 @@
-import {RegExpUtils} from './reg-exp-utils';
+import {RegExpUtils} from './RegExpUtils';
 
 const MEDIATYPE_DEFAULT: string = 'text/plain';
 const MEDIATYPE_DEFAULT_REQUESTED: string = '*/*';
