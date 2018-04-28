@@ -1,7 +1,5 @@
-import {EndpointInfo} from './endpoint-info';
-import {EndpointInfoMetadata} from './endpoint-info-metadata';
+import {getEndpointInfo, setEndpointInfo, EndpointInfo} from './EndpointInfo';
 import {HttpMethod} from '../../http';
-import 'reflect-metadata';
 
 /**
  * Endpoint information builder
@@ -68,9 +66,9 @@ class EndpointInfoBuilder<C extends Function> {
      * @return this
      */
     private update(callback: (endpointInfo: EndpointInfo) => void): EndpointInfoBuilder<C> {
-        let operationInfo: EndpointInfo = Reflect.getMetadata(EndpointInfoMetadata, this.target) || {};
-        callback(operationInfo);
-        Reflect.defineMetadata(EndpointInfoMetadata, operationInfo, this.target);
+        let endpointInfo: EndpointInfo = getEndpointInfo(this.target);
+        callback(endpointInfo);
+        setEndpointInfo(this.target, endpointInfo);
         return this;
     }
 

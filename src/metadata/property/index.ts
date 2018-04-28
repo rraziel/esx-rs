@@ -1,2 +1,2 @@
-export {getPropertyInfo, PropertyInfo} from './property-info';
-export {PropertyInfoBuilder} from './property-info-builder';
+export {getPropertyInfo, PropertyInfo} from './PropertyInfo';
+export {PropertyInfoBuilder} from './PropertyInfoBuilder';

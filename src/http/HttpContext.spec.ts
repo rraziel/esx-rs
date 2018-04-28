@@ -1,6 +1,6 @@
-import {HttpContext} from './http-context';
-import {HttpContextResolver} from './http-context-resolver';
-import {ClassConstructor} from '../utils';
+import {HttpContext} from './HttpContext';
+import {HttpContextResolver} from './HttpContextResolver';
+import {ClassConstructor} from 'es-decorator-utils';
 
 class TestHttpContextResolver implements HttpContextResolver {
     resolve<T>(itemClass: ClassConstructor<T>): T {

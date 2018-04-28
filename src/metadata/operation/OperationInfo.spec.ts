@@ -1,4 +1,4 @@
-import {getFullOperationInfo, setOperationInfo, OperationInfo} from './operation-info';
+import {getFullOperationInfo, setOperationInfo, OperationInfo} from './OperationInfo';
 
 describe('Operation information', () => {
 

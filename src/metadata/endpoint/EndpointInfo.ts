@@ -1,7 +1,11 @@
-import {EndpointInfoMetadata} from './endpoint-info-metadata';
 import {HttpMethod} from '../../http';
 import * as pathToRegexp from 'path-to-regexp';
 import 'reflect-metadata';
+
+/**
+ * Endpoint information metadata
+ */
+const EndpointInfoMetadata: Symbol = Symbol('esx-rs:endpoint');
 
 /**
  * Endpoint information
@@ -22,11 +26,22 @@ interface EndpointInfo {
  * @return Endpoint information
  */
 function getEndpointInfo<C extends Function>(classConstructor: C): EndpointInfo {
-    let endpointInfo: EndpointInfo = Reflect.getMetadata(EndpointInfoMetadata, classConstructor);
+    let endpointInfo: EndpointInfo = Reflect.getMetadata(EndpointInfoMetadata, classConstructor) || {};
     return endpointInfo;
+}
+
+/**
+ * Set an operation information
+ * @param classConstructor Class constructor
+ * @param endpointInfo     Endpoint information
+ * @param <C>              Class constructor type
+ */
+function setEndpointInfo<C extends Function>(classConstructor: C, endpointInfo: EndpointInfo): void {
+    Reflect.defineMetadata(EndpointInfoMetadata, endpointInfo, classConstructor);
 }
 
 export {
     EndpointInfo,
-    getEndpointInfo
+    getEndpointInfo,
+    setEndpointInfo
 };

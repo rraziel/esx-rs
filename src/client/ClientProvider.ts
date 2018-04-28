@@ -1,4 +1,4 @@
-import {ClassConstructor} from '../utils';
+import {ClassConstructor} from 'es-decorator-utils';
 
 /**
  * Client provider interface

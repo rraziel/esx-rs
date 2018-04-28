@@ -1,2 +1,2 @@
-export {EndpointInfo, getEndpointInfo} from './endpoint-info';
-export {EndpointInfoBuilder} from './endpoint-info-builder';
+export {EndpointInfo, getEndpointInfo} from './EndpointInfo';
+export {EndpointInfoBuilder} from './EndpointInfoBuilder';

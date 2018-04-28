@@ -1,6 +1,6 @@
-import {ClientFactory} from './client-factory';
-import {ClientProvider} from './client-provider';
-import {ClassConstructor} from '../utils';
+import {ClientFactory} from './ClientFactory';
+import {ClientProvider} from './ClientProvider';
+import {ClassConstructor} from 'es-decorator-utils';
 
 class TestResource {
     value: string;

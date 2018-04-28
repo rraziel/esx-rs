@@ -1,7 +1,7 @@
 import {HttpRequest} from './http-request';
 import {HttpResponse} from './http-response';
-import {HttpContextResolver} from './http-context-resolver';
-import {ClassConstructor} from '../utils';
+import {HttpContextResolver} from './HttpContextResolver';
+import {ClassConstructor} from 'es-decorator-utils';
 
 /**
  * HTTP context

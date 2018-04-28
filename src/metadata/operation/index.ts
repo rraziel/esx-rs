@@ -1,3 +1,3 @@
-export {getFullOperationInfo, OperationInfo} from './operation-info';
-export {OperationInfoBuilder} from './operation-info-builder';
-export {OperationParameterInfo} from './operation-parameter-info';
+export {getFullOperationInfo, OperationInfo} from './OperationInfo';
+export {OperationInfoBuilder} from './OperationInfoBuilder';
+export {OperationParameterInfo} from './OperationParameterInfo';

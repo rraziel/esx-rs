@@ -1,5 +1,5 @@
-import {ClassConstructor} from '../utils';
-import {ClientProvider} from './client-provider';
+import {ClientProvider} from './ClientProvider';
+import {ClassConstructor} from 'es-decorator-utils';
 
 /**
  * Client factory

@@ -1,8 +1,8 @@
-import {ClassConstructor, TypeUtils} from '../../utils';
 import {getEndpointInfo, EndpointInfo} from '../endpoint';
 import {HttpMethod} from '../../http';
-import {OperationParameterInfo} from './operation-parameter-info';
+import {OperationParameterInfo} from './OperationParameterInfo';
 import {ParameterType} from '../parameter-type';
+import {ClassConstructor, TypeUtils} from 'es-decorator-utils';
 import * as pathToRegexp from 'path-to-regexp';
 import 'reflect-metadata';
 
@@ -143,7 +143,6 @@ function getOperationInfo(target: Object, propertyKey: string|symbol): Operation
  * @param target        Class prototype
  * @param propertyKey   Property key
  * @param operationInfo Operation information
- * @return Operation information
  */
 function setOperationInfo(target: Object, propertyKey: string|symbol, operationInfo: OperationInfo): void {
     Reflect.defineMetadata(OperationInfoMetadata, operationInfo, target, propertyKey);

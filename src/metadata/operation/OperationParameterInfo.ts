@@ -1,5 +1,5 @@
 import {ParameterType} from '../parameter-type';
-import {ClassConstructor} from '../../utils';
+import {ClassConstructor} from 'es-decorator-utils';
 
 /**
  * Operation parameter information

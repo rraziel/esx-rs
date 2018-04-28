@@ -1,4 +1,4 @@
-import {ContextParam, CookieParam, FormParam, HeaderParam, MatrixParam, PathParam, QueryParam} from './param';
+import {ContextParam, CookieParam, FormParam, HeaderParam, MatrixParam, PathParam, QueryParam} from './Param';
 import {PropertyOrParameterDecorator} from './helper';
 import {getFullOperationInfo, getPropertyInfo, OperationInfo, ParameterType, PropertyInfo} from '../metadata';
 

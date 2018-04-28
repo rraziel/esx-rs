@@ -1,5 +1,5 @@
 import {Cookie, EntityTag} from '../http';
-import { ClassConstructor } from 'utils';
+import {ClassConstructor} from 'es-decorator-utils';
 
 /**
  * Web client interface

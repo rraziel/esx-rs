@@ -17,17 +17,17 @@ A library inspired by [JAX-RS](https://en.wikipedia.org/wiki/Java_API_for_RESTfu
 
 It has currently been integrated with:
 
-| Integration                                                                             | Type       | Description                                                                                                |
-|:----------------------------------------------------------------------------------------|:-----------|:-----------------------------------------------------------------------------------------------------------|
-| [esx-rs-client](https://github.com/rraziel/esx-rs-client)                               | Client     | Proxy generator to access remote ESX-RS endpoints through a class instance.                                |
-| [esx-rs-client-fetch](https://github.com/rraziel/esx-rs-client-fetch)                   | Client     | `esx-rs-client` network transport based on [Fetch](https://fetch.spec.whatwg.org/).                        |
-| [esx-rs-client-http](https://github.com/rraziel/esx-rs-client-http)                     | Client     | `esx-rs-client` network transport based on [Node http](https://nodejs.org/api/http.html).                  |
-| [esx-rs-client-xmlhttprequest](https://github.com/rraziel/esx-rs-client-xmlhttprequest) | Client     | `esx-rs-client` network transport based on [XMLHttpRequest](https://en.wikipedia.org/wiki/XMLHttpRequest). |
-| [esx-rs-server](https://github.com/rraziel/esx-rs-server)                               | Server     | Request dispatcher to process incoming HTTP requests through ESX-RS decorated class instances.             |
-| [esx-rs-router-express](https://github.com/rraziel/esx-rs-router-express)               | Server     | `esx-rs-server`-based router middleware for [Express](https://expressjs.com/).                             |
-| [esx-rs-router-koa](https://github.com/rraziel/esx-rs-router-koa)                       | Server     | `esx-rs-server`-based router middleware for [Koa](http://koajs.com/).                                      |
-| [esx-rs-validation](https://github.com/rraziel/esx-rs-validation)                       | Validation | Validation layer based on [es-validation](https://github.com/rraziel/es-validation).                       |
-| [esx-rs-schema-openapi](https://github.com/rraziel/esx-rs-schema-openapi)               | Schema     | Schema generation for [OpenAPI 3.0](https://www.openapis.org/).                                            |
+| Integration                                                               | Type       | Description                                                                                                |
+|:--------------------------------------------------------------------------|:-----------|:-----------------------------------------------------------------------------------------------------------|
+| [esx-rs-client](https://github.com/rraziel/esx-rs-client)                 | Client     | Proxy generator to access remote ESX-RS endpoints through a class instance.                                |
+| [esx-rs-client-fetch](https://github.com/rraziel/esx-rs-client-fetch)     | Client     | `esx-rs-client` network transport based on [Fetch](https://fetch.spec.whatwg.org/).                        |
+| [esx-rs-client-http](https://github.com/rraziel/esx-rs-client-http)       | Client     | `esx-rs-client` network transport based on [Node http](https://nodejs.org/api/http.html).                  |
+| [esx-rs-client-xhr](https://github.com/rraziel/esx-rs-client-xhr)         | Client     | `esx-rs-client` network transport based on [XMLHttpRequest](https://en.wikipedia.org/wiki/XMLHttpRequest). |
+| [esx-rs-server](https://github.com/rraziel/esx-rs-server)                 | Server     | Request dispatcher to process incoming HTTP requests through ESX-RS decorated class instances.             |
+| [esx-rs-router-express](https://github.com/rraziel/esx-rs-router-express) | Server     | `esx-rs-server`-based router middleware for [Express](https://expressjs.com/).                             |
+| [esx-rs-router-koa](https://github.com/rraziel/esx-rs-router-koa)         | Server     | `esx-rs-server`-based router middleware for [Koa](http://koajs.com/).                                      |
+| [esx-rs-validation](https://github.com/rraziel/esx-rs-validation)         | Validation | Validation layer based on [es-validation](https://github.com/rraziel/es-validation).                       |
+| [esx-rs-schema-openapi](https://github.com/rraziel/esx-rs-schema-openapi) | Schema     | Schema generation for [OpenAPI 3.0](https://www.openapis.org/).                                            |
 
 ## Getting Started
 

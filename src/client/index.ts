@@ -1,3 +1,4 @@
-export {ClientFactory} from './client-factory';
-export {ClientProvider} from './client-provider';
-export {WebClient} from './web-client';
+export {ClientConfiguration} from './ClientConfiguration';
+export {ClientFactory} from './ClientFactory';
+export {ClientProvider} from './ClientProvider';
+export {WebClient} from './WebClient';

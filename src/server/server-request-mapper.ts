@@ -1,6 +1,6 @@
 import {HttpHeader, HttpHeaders, HttpRequest, HttpResponse, HttpUtils} from '../http';
 import {OperationInfo, OperationParameterInfo, ParameterType} from '../metadata';
-import {ClassConstructor} from '../utils';
+import {ClassConstructor} from 'es-decorator-utils';
 
 const FORM_CONTENT_TYPE: string = 'application/x-www-form-urlencoded';
 
