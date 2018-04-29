@@ -1,5 +1,4 @@
 import {getEndpointInfo, setEndpointInfo, EndpointInfo} from './EndpointInfo';
-import {ClassUtils} from '../../utils';
 
 /**
  * Endpoint information builder
