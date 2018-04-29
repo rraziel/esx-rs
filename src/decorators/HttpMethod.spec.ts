@@ -139,13 +139,13 @@ describe('Multiple HTTP method decorators can be applied to', () => {
 });
 
 const decoratorInfos: DecoratorInfo[] = [
+    {decorator: HttpMethod('TEST'), method: 'TEST', name: 'HttpMethod'},
     {decorator: DELETE, method: HTTP_METHOD_DELETE, name: 'DELETE'},
     {decorator: GET, method: HTTP_METHOD_GET, name: 'GET'},
     {decorator: HEAD, method: HTTP_METHOD_HEAD, name: 'HEAD'},
     {decorator: OPTIONS, method: HTTP_METHOD_OPTIONS, name: 'OPTIONS'},
     {decorator: PATCH, method: HTTP_METHOD_PATCH, name: 'PATCH'},
     {decorator: POST, method:HTTP_METHOD_POST, name: 'POST'},
-    {decorator: PUT, method: HTTP_METHOD_PUT, name: 'PUT'},
-    {decorator: HttpMethod('TEST'), method: 'TEST', name: 'HttpMethod'}
+    {decorator: PUT, method: HTTP_METHOD_PUT, name: 'PUT'}
 ];
 decoratorInfos.forEach(createHttpMethodSpecification);

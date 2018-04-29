@@ -28,7 +28,6 @@ const PATCH: ClassOrMethodDecorator = HttpMethod('PATCH');
 const POST: ClassOrMethodDecorator = HttpMethod('POST');
 const PUT: ClassOrMethodDecorator = HttpMethod('PUT');
 
-
 export {
     DELETE,
     GET,
