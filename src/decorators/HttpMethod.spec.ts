@@ -49,6 +49,34 @@ function createHttpMethodSpecification(decoratorInfo: DecoratorInfo): void {
                 expect(operationInfo.httpMethods).toEqual(new Set<string>([method]));
             });
 
+            describe('a base class', () => {
+                // given
+                @decorator
+                class TestClassBase { }
+                class TestClass extends TestClassBase { }
+                // when
+                let endpointInfo: EndpointInfo = getEndpointInfo(TestClass);
+                // then
+                expect(endpointInfo).not.toBeUndefined();
+                expect(endpointInfo.httpMethods).toEqual(new Set<string>([method]));
+            });
+
+            describe('a base class method', () => {
+                // given
+                class TestClassBase {
+                    @decorator
+                    method(): void { /* empty */ }
+                }
+                class TestClass extends TestClassBase {
+                    method(): void { /* empty */ }
+                }
+                // when
+                let operationInfo: OperationInfo = getFullOperationInfo(new TestClass(), 'method');
+                // then
+                expect(operationInfo).not.toBeUndefined();
+                expect(operationInfo.httpMethods).toEqual(new Set<string>([method]));
+            });
+
         });
 
         describe('throws an exception when', () => {
@@ -117,6 +145,7 @@ const decoratorInfos: DecoratorInfo[] = [
     {decorator: OPTIONS, method: HTTP_METHOD_OPTIONS, name: 'OPTIONS'},
     {decorator: PATCH, method: HTTP_METHOD_PATCH, name: 'PATCH'},
     {decorator: POST, method:HTTP_METHOD_POST, name: 'POST'},
-    {decorator: PUT, method: HTTP_METHOD_PUT, name: 'PUT'}
+    {decorator: PUT, method: HTTP_METHOD_PUT, name: 'PUT'},
+    {decorator: HttpMethod('TEST'), method: 'TEST', name: 'HttpMethod'}
 ];
 decoratorInfos.forEach(createHttpMethodSpecification);
