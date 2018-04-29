@@ -1,18 +1,25 @@
-import {DELETE, GET, HEAD, OPTIONS, PATCH, POST, PUT} from './http-method';
+import {DELETE, GET, HEAD, HttpMethod, OPTIONS, PATCH, POST, PUT} from './HttpMethod';
 import {ClassOrMethodDecorator} from './helper';
-import {HttpMethod} from '../http';
 import {EndpointInfo, getEndpointInfo, getFullOperationInfo, OperationInfo} from '../metadata';
+
+const HTTP_METHOD_DELETE: string = 'DELETE';
+const HTTP_METHOD_GET: string = 'GET';
+const HTTP_METHOD_HEAD: string = 'HEAD';
+const HTTP_METHOD_OPTIONS: string = 'OPTIONS';
+const HTTP_METHOD_PATCH: string = 'PATCH';
+const HTTP_METHOD_POST: string = 'POST';
+const HTTP_METHOD_PUT: string = 'PUT';
 
 class DecoratorInfo {
     decorator: ClassOrMethodDecorator;
-    method: HttpMethod;
+    method: string;
     name: string;
 }
 
 function createHttpMethodSpecification(decoratorInfo: DecoratorInfo): void {
     let decoratorName: string = decoratorInfo.name;
     let decorator: ClassOrMethodDecorator = decoratorInfo.decorator;
-    let method: HttpMethod = decoratorInfo.method;
+    let method: string = decoratorInfo.method;
 
     describe('@' + decoratorName + ' decorator', () => {
 
@@ -26,7 +33,7 @@ function createHttpMethodSpecification(decoratorInfo: DecoratorInfo): void {
                 let endpointInfo: EndpointInfo = getEndpointInfo(TestClass);
                 // then
                 expect(endpointInfo).not.toBeUndefined();
-                expect(endpointInfo.httpMethods).toEqual(new Set<HttpMethod>([method]));
+                expect(endpointInfo.httpMethods).toEqual(new Set<string>([method]));
             });
 
             describe('a method', () => {
@@ -39,7 +46,7 @@ function createHttpMethodSpecification(decoratorInfo: DecoratorInfo): void {
                 let operationInfo: OperationInfo = getFullOperationInfo(new TestClass(), 'method');
                 // then
                 expect(operationInfo).not.toBeUndefined();
-                expect(operationInfo.httpMethods).toEqual(new Set<HttpMethod>([method]));
+                expect(operationInfo.httpMethods).toEqual(new Set<string>([method]));
             });
 
         });
@@ -71,7 +78,7 @@ describe('Multiple HTTP method decorators can be applied to', () => {
         let endpointInfo: EndpointInfo = getEndpointInfo(TestClass);
         // then
         expect(endpointInfo).not.toBeUndefined();
-        expect(endpointInfo.httpMethods).toEqual(new Set<HttpMethod>([HttpMethod.PATCH, HttpMethod.POST, HttpMethod.PUT]));
+        expect(endpointInfo.httpMethods).toEqual(new Set<string>([HTTP_METHOD_PATCH, HTTP_METHOD_POST, HTTP_METHOD_PUT]));
     });
 
     it('the same method', () => {
@@ -84,7 +91,7 @@ describe('Multiple HTTP method decorators can be applied to', () => {
         let operationInfo: OperationInfo = getFullOperationInfo(new TestClass(), 'method');
         // then
         expect(operationInfo).not.toBeUndefined();
-        expect(operationInfo.httpMethods).toEqual(new Set<HttpMethod>([HttpMethod.GET, HttpMethod.DELETE, HttpMethod.OPTIONS]));
+        expect(operationInfo.httpMethods).toEqual(new Set<string>([HTTP_METHOD_GET, HTTP_METHOD_DELETE, HTTP_METHOD_OPTIONS]));
     });
 
     it('a class and a method', () => {
@@ -98,18 +105,18 @@ describe('Multiple HTTP method decorators can be applied to', () => {
         let operationInfo: OperationInfo = getFullOperationInfo(new TestClass(), 'method');
         // then
         expect(operationInfo).not.toBeUndefined();
-        expect(operationInfo.httpMethods).toEqual(new Set<HttpMethod>([HttpMethod.POST, HttpMethod.PUT]));
+        expect(operationInfo.httpMethods).toEqual(new Set<string>([HTTP_METHOD_POST, HTTP_METHOD_PUT]));
     });
 
 });
 
 const decoratorInfos: DecoratorInfo[] = [
-    {decorator: DELETE, method: HttpMethod.DELETE, name: 'DELETE'},
-    {decorator: GET, method: HttpMethod.GET, name: 'GET'},
-    {decorator: HEAD, method: HttpMethod.HEAD, name: 'HEAD'},
-    {decorator: OPTIONS, method: HttpMethod.OPTIONS, name: 'OPTIONS'},
-    {decorator: PATCH, method: HttpMethod.PATCH, name: 'PATCH'},
-    {decorator: POST, method: HttpMethod.POST, name: 'POST'},
-    {decorator: PUT, method: HttpMethod.PUT, name: 'PUT'}
+    {decorator: DELETE, method: HTTP_METHOD_DELETE, name: 'DELETE'},
+    {decorator: GET, method: HTTP_METHOD_GET, name: 'GET'},
+    {decorator: HEAD, method: HTTP_METHOD_HEAD, name: 'HEAD'},
+    {decorator: OPTIONS, method: HTTP_METHOD_OPTIONS, name: 'OPTIONS'},
+    {decorator: PATCH, method: HTTP_METHOD_PATCH, name: 'PATCH'},
+    {decorator: POST, method:HTTP_METHOD_POST, name: 'POST'},
+    {decorator: PUT, method: HTTP_METHOD_PUT, name: 'PUT'}
 ];
 decoratorInfos.forEach(createHttpMethodSpecification);

@@ -1,5 +1,5 @@
 import {getEndpointInfo, setEndpointInfo, EndpointInfo} from './EndpointInfo';
-import {HttpMethod} from '../../http';
+import {ClassUtils} from '../../utils';
 
 /**
  * Endpoint information builder
@@ -20,9 +20,9 @@ class EndpointInfoBuilder<C extends Function> {
      * Add a supported HTTP method
      * @param httpMethod HTTP method
      */
-    method(httpMethod: HttpMethod): EndpointInfoBuilder<C> {
+    method(httpMethod: string): EndpointInfoBuilder<C> {
         return this.update(endpointInfo => {
-            let httpMethods: Set<HttpMethod> = endpointInfo.httpMethods = endpointInfo.httpMethods || new Set<HttpMethod>();
+            let httpMethods: Set<string> = endpointInfo.httpMethods = endpointInfo.httpMethods || new Set<string>();
             httpMethods.add(httpMethod);
         });
     }

@@ -20,6 +20,7 @@ It has currently been integrated with:
 | Integration                                                               | Type       | Description                                                                                                |
 |:--------------------------------------------------------------------------|:-----------|:-----------------------------------------------------------------------------------------------------------|
 | [esx-rs-client](https://github.com/rraziel/esx-rs-client)                 | Client     | Proxy generator to access remote ESX-RS endpoints through a class instance.                                |
+| [esx-rs-client-angular](https://github.com/rraziel/esx-rs-client-angular) | Client     | `esx-rs-client` network transport based on [Angular HttpClient](https://angular.io/guide/http).            |
 | [esx-rs-client-fetch](https://github.com/rraziel/esx-rs-client-fetch)     | Client     | `esx-rs-client` network transport based on [Fetch](https://fetch.spec.whatwg.org/).                        |
 | [esx-rs-client-http](https://github.com/rraziel/esx-rs-client-http)       | Client     | `esx-rs-client` network transport based on [Node http](https://nodejs.org/api/http.html).                  |
 | [esx-rs-client-xhr](https://github.com/rraziel/esx-rs-client-xhr)         | Client     | `esx-rs-client` network transport based on [XMLHttpRequest](https://en.wikipedia.org/wiki/XMLHttpRequest). |
@@ -89,6 +90,7 @@ The HTTP method(s) can be specified using:
 - `@PATCH`
 - `@POST`
 - `@PUT`
+- `@HttpMethod`
 
 ### Path
 

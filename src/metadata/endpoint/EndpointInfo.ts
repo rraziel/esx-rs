@@ -1,5 +1,3 @@
-import {HttpMethod} from '../../http';
-import * as pathToRegexp from 'path-to-regexp';
 import 'reflect-metadata';
 
 /**
@@ -12,9 +10,7 @@ const EndpointInfoMetadata: Symbol = Symbol('esx-rs:endpoint');
  */
 interface EndpointInfo {
     resourcePath?: string;
-    resourcePathRegExp?: RegExp;
-    resourcePathKeys?: pathToRegexp.Key[];
-    httpMethods?: Set<HttpMethod>;
+    httpMethods?: Set<string>;
     consumedMediaTypes?: Set<string>;
     producedMediaTypes?: Set<string>;
 }

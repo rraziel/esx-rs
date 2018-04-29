@@ -1,4 +1,4 @@
-import {Consumes, Produces} from './resource-type';
+import {Consumes, Produces} from './ResourceType';
 import {EndpointInfo, getEndpointInfo, getFullOperationInfo, OperationInfo} from '../metadata';
 import {ClassOrMethodDecorator} from './helper';
 

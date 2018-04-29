@@ -1,4 +1,3 @@
-import {HttpMethod} from '../../http';
 import {getOperationInfo, setOperationInfo, OperationInfo} from './OperationInfo';
 import {OperationParameterInfo} from './OperationParameterInfo';
 import {ParameterType} from '../ParameterType';
@@ -25,9 +24,9 @@ class OperationInfoBuilder {
      * Add a supported HTTP method
      * @param httpMethod HTTP method
      */
-    method(httpMethod: HttpMethod): OperationInfoBuilder {
+    method(httpMethod: string): OperationInfoBuilder {
         return this.update(operationInfo => {
-            let httpMethods: Set<HttpMethod> = operationInfo.httpMethods = operationInfo.httpMethods || new Set<HttpMethod>();
+            let httpMethods: Set<string> = operationInfo.httpMethods = operationInfo.httpMethods || new Set<string>();
             httpMethods.add(httpMethod);
         });
     }

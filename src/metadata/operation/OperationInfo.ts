@@ -1,9 +1,7 @@
 import {getEndpointInfo, EndpointInfo} from '../endpoint';
-import {HttpMethod} from '../../http';
 import {OperationParameterInfo} from './OperationParameterInfo';
 import {ParameterType} from '../ParameterType';
 import {ClassConstructor, TypeUtils} from 'es-decorator-utils';
-import * as pathToRegexp from 'path-to-regexp';
 import 'reflect-metadata';
 
 /**
@@ -27,7 +25,7 @@ interface OperationInfo extends EndpointInfo {
  */
 function mergeHttpMethods(operationInfo: OperationInfo, endpointInfo: EndpointInfo): OperationInfo {
     if (endpointInfo.httpMethods) {
-        operationInfo.httpMethods = operationInfo.httpMethods || new Set<HttpMethod>();
+        operationInfo.httpMethods = operationInfo.httpMethods || new Set<string>();
         endpointInfo.httpMethods.forEach(httpMethod => operationInfo.httpMethods.add(httpMethod));
     }
 
@@ -99,17 +97,18 @@ function mergeEndpointInfoIntoOperationInfo(operationInfo: OperationInfo, endpoi
 
 /**
  * Initialize operation information
- * @param target      Class prototype
- * @param propertyKey Property key
+ * @param endpointClassPrototype Endpoint class prototype
+ * @param propertyKey            Property key
  * @return Operation information
  */
-function initializeOperationInfo(target: Object, propertyKey: string|symbol): OperationInfo {
+function initializeOperationInfo(endpointClassPrototype: Object, propertyKey: string|symbol): OperationInfo {
+    let endpointClass: ClassConstructor<any> = <ClassConstructor<any>> endpointClassPrototype.constructor;
     let operationInfo: OperationInfo = {
         parameters: [],
-        returnClass: TypeUtils.getReturnClass(<ClassConstructor<any>> target.constructor, propertyKey)
+        returnClass: TypeUtils.getReturnClass(endpointClass, propertyKey)
     };
 
-    let parameterClasses: ClassConstructor<any>[] = TypeUtils.getParameterClasses(<ClassConstructor<any>> target.constructor, propertyKey);
+    let parameterClasses: ClassConstructor<any>[] = TypeUtils.getParameterClasses(endpointClass, propertyKey);
 
     operationInfo.parameters = [];
     parameterClasses.forEach(parameterClass => {
@@ -124,15 +123,15 @@ function initializeOperationInfo(target: Object, propertyKey: string|symbol): Op
 
 /**
  * Get an operation information
- * @param target      Class prototype
- * @param propertyKey Property key
+ * @param endpointClassPrototype Endpoint class prototype
+ * @param propertyKey            Property key
  * @return Operation information
  */
-function getOperationInfo(target: Object, propertyKey: string|symbol): OperationInfo {
-    let operationInfo: OperationInfo = Reflect.getMetadata(OperationInfoMetadata, target, propertyKey);
+function getOperationInfo(endpointClassPrototype: Object, propertyKey: string|symbol): OperationInfo {
+    let operationInfo: OperationInfo = Reflect.getMetadata(OperationInfoMetadata, endpointClassPrototype, propertyKey);
 
-    if (!operationInfo) {
-        operationInfo = initializeOperationInfo(target, propertyKey);
+    if (operationInfo === undefined) {
+        operationInfo = initializeOperationInfo(endpointClassPrototype, propertyKey);
     }
 
     return operationInfo;
@@ -140,50 +139,26 @@ function getOperationInfo(target: Object, propertyKey: string|symbol): Operation
 
 /**
  * Set an operation information
- * @param target        Class prototype
- * @param propertyKey   Property key
- * @param operationInfo Operation information
+ * @param endpointClassPrototype Endpoint class prototype
+ * @param propertyKey            Property key
+ * @param operationInfo          Operation information
  */
-function setOperationInfo(target: Object, propertyKey: string|symbol, operationInfo: OperationInfo): void {
-    Reflect.defineMetadata(OperationInfoMetadata, operationInfo, target, propertyKey);
+function setOperationInfo(endpointClassPrototype: Object, propertyKey: string|symbol, operationInfo: OperationInfo): void {
+    Reflect.defineMetadata(OperationInfoMetadata, operationInfo, endpointClassPrototype, propertyKey);
 }
 
 /**
- * Finalize operation information
- * @param classPrototype Class prototype
- * @param methodName     Method name
- * @param operationInfo  Operation information
- * @return Finalized operation information
- */
-function finalizeOperationInfo(classPrototype: Object, methodName: string, operationInfo: OperationInfo): OperationInfo {
-    let endpointClass: Function = classPrototype.constructor;
-    let endpointInfo: EndpointInfo = getEndpointInfo(endpointClass);
-
-    operationInfo = mergeEndpointInfoIntoOperationInfo(operationInfo, endpointInfo);
-    if (operationInfo.resourcePath) {
-        operationInfo.resourcePathKeys = [];
-        operationInfo.resourcePathRegExp = pathToRegexp(operationInfo.resourcePath, operationInfo.resourcePathKeys);
-    }
-
-    setOperationInfo(classPrototype, methodName, operationInfo);
-
-    return operationInfo;
-}
-
-/**
- * Get full operation information for an instance's method
- * @param instance Instance
- * @param <T>      Instance type
+ * Get full operation information, including merged endpoint information
+ * @param target      Class prototype
+ * @param propertyKey Property key
  * @return Full operation information
  */
-function getFullOperationInfo<T extends Object>(instance: T, methodName: string): OperationInfo {
-    let classPrototype: Object = Object.getPrototypeOf(instance);
-    let operationInfo: OperationInfo = getOperationInfo(classPrototype, methodName);
-    if (operationInfo.resourcePathRegExp) {
-        return operationInfo;
-    }
+function getFullOperationInfo(endpointClassPrototype: Object, methodName: string): OperationInfo {
+    let operationInfo: OperationInfo = getOperationInfo(endpointClassPrototype, methodName);
+    let endpointClass: Function = endpointClassPrototype.constructor;
+    let endpointInfo: EndpointInfo = getEndpointInfo(endpointClass);
 
-    return finalizeOperationInfo(classPrototype, methodName, operationInfo);
+    return mergeEndpointInfoIntoOperationInfo(operationInfo, endpointInfo);
 }
 
 export {
