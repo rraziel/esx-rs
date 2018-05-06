@@ -50,7 +50,7 @@
     }
   },
   "dependencies": {
-    "es-decorator-utils": "0.1.1",
+    "es-decorator-utils": "0.1.2",
     "reflect-metadata": "0.1.12"
   },
   "devDependencies": {
