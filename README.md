@@ -13,6 +13,9 @@
 [![Known Vulnerabilities](https://snyk.io/test/github/rraziel/esx-rs/badge.svg)](https://snyk.io/test/github/rraziel/esx-rs)
 [![Greenkeeper](https://badges.greenkeeper.io/rraziel/esx-rs.svg)](https://greenkeeper.io/)
 
+[![Version](https://img.shields.io/npm/v/esx-rs.svg?label=Version&style=flat)](https://www.npmjs.com/package/esx-rs)
+[![Downloads](https://img.shields.io/npm/dt/esx-rs.svg?label=Downloads&style=flat)](https://www.npmjs.com/package/esx-rs)
+
 A library inspired by [JAX-RS](https://en.wikipedia.org/wiki/Java_API_for_RESTful_Web_Services), allowing the description of REST endpoints through simple [TypeScript](https://www.typescriptlang.org/) decorators.
 
 It has currently been integrated with:
@@ -78,19 +81,6 @@ class UsersEndpoint {
 ## Usage
 
 Various decorators are available, each targetting a subset of the typical REST properties for a service.
-
-### Method
-
-The HTTP method(s) can be specified using:
-
-- `@DELETE`
-- `@GET`
-- `@HEAD`
-- `@OPTIONS`
-- `@PATCH`
-- `@POST`
-- `@PUT`
-- `@HttpMethod`
 
 ### Path
 
