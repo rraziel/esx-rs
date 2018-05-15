@@ -1,35 +1,17 @@
 {
-  "name": "esx-rs",
-  "version": "0.1.7",
-  "description": "ECMAScript decorators for REST endpoint declaration, inspired by JAX-RS.",
-  "homepage": "https://github.com/rraziel/esx-rs",
-  "bugs": "https://github.com/rraziel/esx-rs/issues",
-  "license": "MIT",
-  "keywords": [
-    "typescript",
-    "jax-rs",
-    "rest",
-    "decorator",
-    "ecmascript"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/rraziel/esx-rs.git"
-  },
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "private": true,
   "scripts": {
-    "compile": "tsc -p .",
-    "compile:watch": "tsc --watch -p .",
-    "quality:lint": "tslint --project ./tsconfig.json --config ./conf/tslint.json",
+    "bootstrap": "lerna bootstrap",
+    "compile": "lerna run compile",
+    "quality:lint": "lerna run quality:lint",
     "test": "jest --no-cache --verbose",
     "test:coverage": "jest --no-cache --coverage",
     "test:watch": "jest --watch --no-cache --verbose"
   },
   "jest": {
     "collectCoverageFrom": [
-      "src/**/*.ts",
-      "!src/**/index.ts"
+      "packages/*/src/**/*.ts",
+      "!packages/*/src/**/index.ts"
     ],
     "moduleDirectories": [
       "node_modules",
@@ -40,28 +22,30 @@
       "js",
       "json"
     ],
+    "moduleNameMapper": {
+      "@esx-rs/(.+)": "<rootDir>/node_modules/@esx-rs/$1/src/index.ts"
+    },
     "roots": [
-      "<rootDir>/src"
+      "<rootDir>/packages"
     ],
     "testResultsProcessor": "<rootDir>/node_modules/jest-junit-reporter",
-    "testRegex": "\\.spec\\.ts",
+    "testRegex": "\\.spec\\.ts", 
     "transform": {
       "^.+\\.ts$": "ts-jest"
     }
   },
-  "dependencies": {
-    "es-decorator-utils": "0.1.2",
-    "reflect-metadata": "0.1.12"
-  },
   "devDependencies": {
+    "@esx-rs/core": "0.2.0",
+    "@esx-rs/server": "0.2.0",
     "@types/jest": "22.2.3",
     "codecov": "3.0.1",
     "jest": "22.4.3",
     "jest-create-mock-instance": "1.0.3",
     "jest-junit-reporter": "1.1.0",
+    "lerna": "2.11.0",
     "ts-jest": "22.4.4",
     "ts-node": "6.0.3",
     "tslint": "5.9.1",
     "typescript": "2.8.1"
-  }
+	}
 }

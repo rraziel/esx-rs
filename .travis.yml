@@ -6,13 +6,14 @@ node_js:
   - "8"
 before_install:
   - npm install -g greenkeeper-lockfile@1
+  - npm install -g lerna
 before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
   - ./cc-test-reporter before-build
   - greenkeeper-lockfile-update
 script:
-  - npm install
+  - npm run bootstrap
   - npm run quality:lint
   - npm run compile
   - npm run test:coverage

@@ -1,0 +1,7 @@
+# Development
+
+## Initialize
+
+```
+lerna bootstrap
+```

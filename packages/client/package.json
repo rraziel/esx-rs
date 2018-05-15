@@ -1,0 +1,32 @@
+{
+  "name": "@esx-rs/client",
+  "version": "0.2.0",
+  "description": "Proxy generator to access remote ESX-RS endpoints through a class instance.",
+  "repository": "https://github.com/rraziel/esx-rs/tree/master/packages/client",
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "keywords": [
+    "typescript",
+    "ecmascript",
+    "http",
+    "rest",
+    "esx-rs",
+    "client"
+  ],
+  "scripts": {
+    "compile": "tsc -p .",
+    "compile:watch": "tsc --watch -p .",
+    "quality:lint": "tslint --project ./tsconfig.json --config ../../conf/tslint.json"
+  },
+  "dependencies": {
+    "@esx-rs/core": "0.2.0",
+    "@esx-rs/http": "0.2.0"
+  },
+  "devDependencies": {
+    "@esx-rs/core": "0.2.0"
+  },
+  "peerDependencies": {
+    "@esx-rs/core": ">=0.2.0"
+  }
+}

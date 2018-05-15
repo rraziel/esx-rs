@@ -10,10 +10,13 @@ jobs:
           command: |
             node --version
             npm --version
+      - run:
+          name: 'Install lerna'
+          command: sudo npm install -g lerna
       - checkout
       - run:
           name: 'Dependencies'
-          command: npm install
+          command: npm run bootstrap
       - run:
           name: 'Lint'
           command: npm run quality:lint

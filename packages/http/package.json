@@ -1,0 +1,21 @@
+{
+  "name": "@esx-rs/http",
+  "version": "0.2.0",
+  "description": "Common HTTP code for ESX-RS client and server modules.",
+  "repository": "https://github.com/rraziel/esx-rs/tree/master/packages/http",
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "keywords": [
+    "typescript",
+    "ecmascript",
+    "rest",
+    "http",
+    "esx-rs"
+  ],
+  "scripts": {
+    "compile": "tsc -p .",
+    "compile:watch": "tsc --watch -p .",
+    "quality:lint": "tslint --project ./tsconfig.json --config ../../conf/tslint.json"
+  }
+}

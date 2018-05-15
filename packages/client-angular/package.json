@@ -1,0 +1,23 @@
+{
+  "name": "@esx-rs/client-angular",
+  "version": "0.2.0",
+  "private": true,
+  "repository": "https://github.com/rraziel/esx-rs/tree/master/packages/client-angular",
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "keywords": [
+    "typescript",
+    "ecmascript",
+    "rest",
+    "http",
+    "esx-rs",
+    "client",
+    "angular"
+  ],
+  "scripts": {
+    "compile": "tsc -p .",
+    "compile:watch": "tsc --watch -p .",
+    "quality:lint": "tslint --project ./tsconfig.json --config ../../conf/tslint.json"
+  }
+}

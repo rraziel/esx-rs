@@ -1,0 +1,1 @@
+export {ClassConstructor} from './ClassConstructor';

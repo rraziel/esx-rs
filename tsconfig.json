@@ -1,28 +1,3 @@
 {
-    "compileOnSave": false,
-    "compilerOptions": {
-        "allowJs": false,
-        "baseUrl": "src",
-        "declaration": true,
-        "emitDecoratorMetadata": true,
-        "experimentalDecorators": true,
-        "moduleResolution": "node",
-        "module": "commonjs",
-        "noImplicitAny": false,
-        "noImplicitThis": true,
-        "outDir": "./dist",
-        "sourceMap": true,
-        "removeComments": false,
-        "target": "es2015",
-        "typeRoots": [
-            "node_modules/@types"
-        ],
-        "types": [
-            "jest"
-        ]
-    },
-    "exclude": [
-        "dist",
-        "node_modules"
-    ]
+    "extends": "./tsconfig.base.json"
 }

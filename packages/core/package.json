@@ -1,0 +1,24 @@
+{
+  "name": "@esx-rs/core",
+  "version": "0.2.0",
+  "description": "ESX-RS decorators.",
+  "repository": "https://github.com/rraziel/esx-rs/tree/master/packages/core",
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "keywords": [
+    "typescript",
+    "ecmascript",
+    "rest",
+    "decorator"
+  ],
+  "scripts": {
+    "compile": "tsc -p .",
+    "compile:watch": "tsc --watch -p .",
+    "quality:lint": "tslint --project ./tsconfig.json --config ../../conf/tslint.json"
+  },
+  "dependencies": {
+    "es-decorator-utils": "0.1.2",
+    "reflect-metadata": "0.1.12"
+  }
+}

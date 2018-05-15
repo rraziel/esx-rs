@@ -1,0 +1,23 @@
+{
+  "name": "@esx-rs/client-fetch",
+  "version": "0.2.0",
+  "private": true,
+  "repository": "https://github.com/rraziel/esx-rs/tree/master/packages/client-fetch",
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "keywords": [
+    "typescript",
+    "ecmascript",
+    "rest",
+    "http",
+    "esx-rs",
+    "client",
+    "fetch"
+  ],
+  "scripts": {
+    "compile": "tsc -p .",
+    "compile:watch": "tsc --watch -p .",
+    "quality:lint": "tslint --project ./tsconfig.json --config ../../conf/tslint.json"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "name": "@esx-rs/schema-openapi",
+  "version": "0.2.0",
+  "private": true,
+  "repository": "https://github.com/rraziel/esx-rs/tree/master/packages/schema-openapi",
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "keywords": [
+    "typescript",
+    "ecmascript",
+    "rest",
+    "http",
+    "esx-rs",
+    "schema",
+    "openapi",
+    "swagger"
+  ],
+  "scripts": {
+    "compile": "tsc -p .",
+    "compile:watch": "tsc --watch -p .",
+    "quality:lint": "tslint --project ./tsconfig.json --config ../../conf/tslint.json"
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "name": "@esx-rs/server",
+  "version": "0.2.0",
+  "description": "HTTP request dispatch for ESX-RS endpoints.",
+  "repository": "https://github.com/rraziel/esx-rs/tree/master/packages/server",
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "keywords": [
+    "typescript",
+    "ecmascript",
+    "rest",
+    "esx-rs",
+    "http",
+    "server"
+  ],
+  "scripts": {
+    "compile": "tsc -p .",
+    "compile:watch": "tsc --watch -p .",
+    "quality:lint": "tslint --project ./tsconfig.json --config ../../conf/tslint.json"
+  },
+  "dependencies": {
+    "@esx-rs/http": "0.2.0",
+    "path-to-regexp": "2.2.1"
+  },
+  "devDependencies": {
+    "@esx-rs/core": "0.2.0"
+  },
+  "peerDependencies": {
+    "@esx-rs/core": ">=0.2.0"
+  }
+}
