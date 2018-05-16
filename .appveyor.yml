@@ -5,14 +5,13 @@ install:
   - ps: $env:package_version = (Get-Content -Raw -Path package.json | ConvertFrom-Json).version
   - ps: Update-AppveyorBuild -Version "$env:package_version-$env:APPVEYOR_BUILD_NUMBER"
   - npm install -g lerna
-  - npm install -g tslint
-  - npm run bootstrap
+  - yarn run bootstrap
 test_script:
   - node --version
-  - npm --version
-  - npm run quality:lint
-  - npm run compile
-  - npm run test:coverage
+  - yarn --version
+  - yarn run quality:lint
+  - yarn run compile
+  - yarn run test:coverage
 on_finish:
   - ps: (new-object net.webclient).UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\test-report.xml))
 on_success:

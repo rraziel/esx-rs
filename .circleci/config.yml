@@ -16,13 +16,13 @@ jobs:
       - checkout
       - run:
           name: 'Dependencies'
-          command: npm run bootstrap
+          command: yarn run bootstrap
       - run:
           name: 'Lint'
-          command: npm run quality:lint
+          command: yarn run quality:lint
       - run:
           name: 'Build'
-          command: npm run compile
+          command: yarn run compile
       - run:
           name: 'Unit tests'
-          command: npm run test:coverage
+          command: yarn run test:coverage

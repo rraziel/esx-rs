@@ -1,8 +1,5 @@
 # ESX-RS
 
-[![AppVeyor](https://img.shields.io/appveyor/ci/rraziel/esx-rs/master.svg?label=Win32&style=for-the-badge&logo=appveyor)](https://ci.appveyor.com/project/rraziel/esx-rs)
-[![CircleCI](https://img.shields.io/circleci/project/github/rraziel/esx-rs/master.svg?label=MacOS&style=for-the-badge&logo=circleci)](https://circleci.com/gh/rraziel/esx-rs)
-[![Travis CI](https://img.shields.io/travis/rraziel/esx-rs/master.svg?label=Linux&style=for-the-badge&logo=travis)](https://travis-ci.org/rraziel/esx-rs)
 [![Version](https://img.shields.io/npm/v/@esx-rs/core.svg?maxAge=2592000&label=Version&style=for-the-badge&logo=npm)](https://www.npmjs.com/package/@esx-rs/core)
 [![Downloads](https://img.shields.io/npm/dt/@esx-rs/core.svg?maxAge=2592000&label=Downloads&style=for-the-badge&logo=npm)](https://www.npmjs.com/package/@esx-rs/core)
 
@@ -133,6 +130,10 @@ abstract class MyInterface {
 ```
 
 ## Development
+
+[![AppVeyor](https://img.shields.io/appveyor/ci/rraziel/esx-rs/master.svg?label=Win32&style=for-the-badge&logo=appveyor)](https://ci.appveyor.com/project/rraziel/esx-rs)
+[![CircleCI](https://img.shields.io/circleci/project/github/rraziel/esx-rs/master.svg?label=MacOS&style=for-the-badge&logo=circleci)](https://circleci.com/gh/rraziel/esx-rs)
+[![Travis CI](https://img.shields.io/travis/rraziel/esx-rs/master.svg?label=Linux&style=for-the-badge&logo=travis)](https://travis-ci.org/rraziel/esx-rs)
 
 [![AppVeyor tests](https://img.shields.io/appveyor/tests/rraziel/esx-rs/master.svg?label=Tests&style=for-the-badge)](https://ci.appveyor.com/project/rraziel/esx-rs/build/tests)
 [![Codecov](https://img.shields.io/codecov/c/github/rraziel/esx-rs.svg?label=Coverage&style=for-the-badge)](https://codecov.io/gh/rraziel/esx-rs)

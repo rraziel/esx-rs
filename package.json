@@ -8,6 +8,9 @@
     "test:coverage": "jest --no-cache --coverage",
     "test:watch": "jest --watch --no-cache --verbose"
   },
+  "workspaces": [
+    "packages/*"
+  ],
   "jest": {
     "collectCoverageFrom": [
       "packages/*/src/**/*.ts",

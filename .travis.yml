@@ -13,10 +13,10 @@ before_script:
   - ./cc-test-reporter before-build
   - greenkeeper-lockfile-update
 script:
-  - npm run bootstrap
-  - npm run quality:lint
-  - npm run compile
-  - npm run test:coverage
+  - yarn run bootstrap
+  - yarn run quality:lint
+  - yarn run compile
+  - yarn run test:coverage
 after_script:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
   - greenkeeper-lockfile-upload
