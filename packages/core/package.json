@@ -13,9 +13,7 @@
     "decorator"
   ],
   "scripts": {
-    "compile": "tsc -p .",
-    "compile:watch": "tsc --watch -p .",
-    "quality:lint": "tslint --project ./tsconfig.json --config ../../conf/tslint.json"
+    "compile": "tsc -p ."
   },
   "dependencies": {
     "es-decorator-utils": "0.1.2",

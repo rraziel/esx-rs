@@ -1,4 +1,4 @@
-# ESX-RS modules
+# ESX-RS Modules
 
 This directory contains all ESX-RS modules.
 

@@ -1,6 +1,7 @@
 {
     "compilerOptions": {
         "allowJs": false,
+        "baseUrl": "./packages",
         "declaration": true,
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
@@ -9,8 +10,8 @@
         "noFallthroughCasesInSwitch": true,
         "noImplicitAny": false,
         "noImplicitThis": true,
-        "outDir": "./dist",
         "removeComments": false,
+        "rootDir": "./packages",
         "sourceMap": true,
         "target": "es2015",
         "typeRoots": [
@@ -18,15 +19,11 @@
         ],
         "types": [
             "jest"
-        ],
-        "baseUrl": "packages",
-        "paths": {
-            "@esx-rs/*": ["./*/src"]
-        }
+        ]
     },
     "exclude": [
-        "dist",
-        "node_modules",
+        "**/dist",
+        "**/node_modules",
         "*.spec.ts"
     ]
 }

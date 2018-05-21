@@ -3,7 +3,8 @@
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "compile": "lerna run compile",
-    "quality:lint": "lerna run quality:lint",
+    "compile:watch": "tsc -p . --watch",
+    "quality:lint": "tslint --project ./tsconfig.json --config ./conf/tslint.json",
     "test": "jest --no-cache --verbose",
     "test:coverage": "jest --no-cache --coverage",
     "test:watch": "jest --watch --no-cache --verbose"

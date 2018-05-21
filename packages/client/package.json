@@ -15,9 +15,7 @@
     "client"
   ],
   "scripts": {
-    "compile": "tsc -p .",
-    "compile:watch": "tsc --watch -p .",
-    "quality:lint": "tslint --project ./tsconfig.json --config ../../conf/tslint.json"
+    "compile": "tsc -p ."
   },
   "dependencies": {
     "@esx-rs/core": "0.2.0",

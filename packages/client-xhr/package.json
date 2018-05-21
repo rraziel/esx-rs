@@ -17,8 +17,6 @@
     "xmlhttprequest"
   ],
   "scripts": {
-    "compile": "tsc -p .",
-    "compile:watch": "tsc --watch -p .",
-    "quality:lint": "tslint --project ./tsconfig.json --config ../../conf/tslint.json"
+    "compile": "tsc -p ."
   }
 }

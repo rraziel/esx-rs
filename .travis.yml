@@ -22,7 +22,7 @@ after_script:
   - greenkeeper-lockfile-upload
 deploy:
   provider: npm
-  email: raziel@binarygenetics.com
+  email: $NPM_EMAIL
   api_key: $NPM_TOKEN
   skip_cleanup: true
   on:
