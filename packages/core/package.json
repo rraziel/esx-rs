@@ -1,6 +1,6 @@
 {
   "name": "@esx-rs/core",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "ESX-RS decorators.",
   "repository": "https://github.com/rraziel/esx-rs/tree/master/packages/core",
   "license": "MIT",

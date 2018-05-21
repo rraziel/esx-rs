@@ -1,6 +1,6 @@
 {
   "name": "@esx-rs/server",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "HTTP request dispatch for ESX-RS endpoints.",
   "repository": "https://github.com/rraziel/esx-rs/tree/master/packages/server",
   "license": "MIT",
@@ -18,11 +18,11 @@
     "compile": "tsc -p ."
   },
   "dependencies": {
-    "@esx-rs/http": "0.2.0",
+    "@esx-rs/http": "^0.2.1",
     "path-to-regexp": "2.2.1"
   },
   "devDependencies": {
-    "@esx-rs/core": "0.2.0"
+    "@esx-rs/core": "^0.2.1"
   },
   "peerDependencies": {
     "@esx-rs/core": ">=0.2.0"

@@ -1,6 +1,6 @@
 {
   "name": "@esx-rs/router-express",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "ESX-RS router for Express.",
   "repository": "https://github.com/rraziel/esx-rs/tree/master/packages/router-express",
   "license": "MIT",

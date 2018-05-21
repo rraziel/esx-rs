@@ -1,6 +1,6 @@
 {
   "name": "@esx-rs/client",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Proxy generator to access remote ESX-RS endpoints through a class instance.",
   "repository": "https://github.com/rraziel/esx-rs/tree/master/packages/client",
   "license": "MIT",
@@ -18,11 +18,11 @@
     "compile": "tsc -p ."
   },
   "dependencies": {
-    "@esx-rs/core": "0.2.0",
-    "@esx-rs/http": "0.2.0"
+    "@esx-rs/core": "^0.2.1",
+    "@esx-rs/http": "^0.2.1"
   },
   "devDependencies": {
-    "@esx-rs/core": "0.2.0"
+    "@esx-rs/core": "^0.2.1"
   },
   "peerDependencies": {
     "@esx-rs/core": ">=0.2.0"

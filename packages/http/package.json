@@ -1,6 +1,6 @@
 {
   "name": "@esx-rs/http",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Common HTTP code for ESX-RS client and server modules.",
   "repository": "https://github.com/rraziel/esx-rs/tree/master/packages/http",
   "license": "MIT",
