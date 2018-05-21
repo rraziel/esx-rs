@@ -39,8 +39,8 @@
     }
   },
   "devDependencies": {
-    "@esx-rs/core": "0.2.0",
-    "@esx-rs/server": "0.2.0",
+    "@esx-rs/core": "0.2.1",
+    "@esx-rs/server": "0.2.1",
     "@types/jest": "22.2.3",
     "codecov": "3.0.1",
     "jest": "22.4.3",
