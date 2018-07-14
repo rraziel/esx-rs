@@ -41,7 +41,7 @@
   "devDependencies": {
     "@esx-rs/core": "0.2.1",
     "@esx-rs/server": "0.2.1",
-    "@types/jest": "23.1.5",
+    "@types/jest": "23.1.6",
     "codecov": "3.0.4",
     "jest": "22.4.3",
     "jest-create-mock-instance": "1.1.0",
