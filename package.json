@@ -46,7 +46,7 @@
     "jest": "22.4.3",
     "jest-create-mock-instance": "1.1.0",
     "jest-junit-reporter": "1.1.0",
-    "lerna": "2.11.0",
+    "lerna": "3.0.0",
     "ts-jest": "23.0.1",
     "ts-node": "7.0.0",
     "tslint": "5.9.1",
