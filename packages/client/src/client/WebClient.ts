@@ -1,4 +1,4 @@
-import {Cookie, EntityTag} from '@esx-rs/http';
+import { Cookie, EntityTag } from '@esx-rs/http';
 
 /**
  * Web client interface
@@ -10,13 +10,13 @@ abstract class WebClient {
      * @param mediaTypes List of accepted media types
      * @return this
      */
-    abstract accept(...mediaTypes: string[]): WebClient;
+    abstract accept(...mediaTypes: Array<string>): WebClient;
 
     /**
      * Set the HTTP accept-encoding header
      * @param encodings List of accepted encodings
      */
-    abstract acceptEncoding(...encodings: string[]): WebClient;
+    abstract acceptEncoding(...encodings: Array<string>): WebClient;
 
     /**
      * Set the HTTP accept-language header

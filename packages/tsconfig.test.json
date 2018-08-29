@@ -1,0 +1,14 @@
+{
+    "extends": "./tsconfig.base.json",
+    "compilerOptions": {
+        "baseUrl": ".",
+        "composite": false,
+        "paths": {
+            "@esx-rs/*": ["./*/src"]
+        },
+        "rootDir": ".",
+        "types": [
+            "jest"
+        ]
+    }
+}

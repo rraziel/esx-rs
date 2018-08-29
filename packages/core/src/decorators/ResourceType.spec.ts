@@ -1,6 +1,6 @@
-import {Consumes, Produces} from './ResourceType';
-import {EndpointInfo, getEndpointInfo, getFullOperationInfo, OperationInfo} from '../metadata';
-import {ClassOrMethodDecorator} from './helper';
+import { Consumes, Produces } from './ResourceType';
+import { EndpointInfo, getEndpointInfo, getFullOperationInfo, OperationInfo } from '../metadata';
+import { ClassOrMethodDecorator } from './helper';
 
 class DecoratorInfo {
     name: string;

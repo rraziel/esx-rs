@@ -1,7 +1,7 @@
-import {CachedOperationInfo} from './CachedOperationInfo';
-import {HttpHeader, HttpHeaders, HttpResponse, HttpResponseBuilder, HttpRequest, HttpStatuses} from '@esx-rs/http';
-import {OperationInfo} from '@esx-rs/core';
-import {MediaTypeUtils} from '../utils';
+import { CachedOperationInfo } from './CachedOperationInfo';
+import { HttpHeader, HttpHeaders, HttpResponse, HttpResponseBuilder, HttpRequest, HttpStatuses } from '@esx-rs/http';
+import { OperationInfo } from '@esx-rs/core';
+import { MediaTypeUtils } from '../utils';
 
 const REGEXP_MEDIATYPE_JSON: RegExp = /[\+\/]json$/;
 
@@ -20,21 +20,20 @@ class ServerResponseMapper {
      */
     async buildHttpResponse<T>(cachedOperationInfo: CachedOperationInfo, httpRequest: HttpRequest, result?: T): Promise<HttpResponse> {
         let operationInfo: OperationInfo = cachedOperationInfo.operationInfo;
-        let httpResponseBuilder: HttpResponseBuilder = new HttpResponseBuilder();
-        let httpMethod: string = httpRequest.getMethod();
+        let httpResponseBuilder: HttpResponseBuilder;
 
         if (result) {
-            let requestedMediaTypes: string = httpRequest.getHeaderValue(HttpHeaders.ACCEPT);
-            let expectedMediaType: string = MediaTypeUtils.getRequestedMediaType(requestedMediaTypes, operationInfo.producedMediaTypes);
+            let requestedMediaTypes: string|undefined = httpRequest.getHeaderValue(HttpHeaders.ACCEPT);
+            let expectedMediaType: string|undefined = MediaTypeUtils.getRequestedMediaType(requestedMediaTypes, operationInfo.producedMediaTypes as Set<string>); // TODO: support Set<string|Function>
             let payload: string = this.buildHttpResponsePayload<T>(operationInfo, httpRequest, result, expectedMediaType);
 
+            httpResponseBuilder = HttpResponseBuilder.of(HttpStatuses.OK);
             httpResponseBuilder
-                .withStatus(HttpStatuses.OK)
                 .withHeader(new HttpHeader(HttpHeaders.CONTENT_TYPE, expectedMediaType))
                 .withPayload(payload)
             ;
         } else {
-            httpResponseBuilder.withStatus(HttpStatuses.OK_NOCONTENT);
+            httpResponseBuilder = HttpResponseBuilder.of(HttpStatuses.OK_NOCONTENT);
         }
 
         return httpResponseBuilder.build();
@@ -48,7 +47,7 @@ class ServerResponseMapper {
      * @return Promise that resolves to an HTTP response
      */
     async buildHttpErrorResponse(cachedOperationInfo: CachedOperationInfo, httpRequest: HttpRequest, error: any): Promise<HttpResponse> {
-        return null;
+        return null as any as HttpResponse; // TODO
     }
 
     /**
@@ -64,7 +63,7 @@ class ServerResponseMapper {
         if (REGEXP_MEDIATYPE_JSON.test(expectedMediaType)) {
             return JSON.stringify(result);
         } else {
-            return <string><any> result;
+            return result as any as string;
         }
     }
 

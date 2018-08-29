@@ -1,4 +1,4 @@
-import {ClassConstructor} from '@esx-rs/core';
+import { ClassConstructor } from '@esx-rs/core';
 
 /**
  * Client provider interface

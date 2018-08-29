@@ -1,4 +1,4 @@
-import {getEndpointInfo, setEndpointInfo, EndpointInfo} from './EndpointInfo';
+import { getEndpointInfo, setEndpointInfo, EndpointInfo } from './EndpointInfo';
 
 /**
  * Endpoint information builder
@@ -21,8 +21,7 @@ class EndpointInfoBuilder<C extends Function> {
      */
     method(httpMethod: string): EndpointInfoBuilder<C> {
         return this.update(endpointInfo => {
-            let httpMethods: Set<string> = endpointInfo.httpMethods = endpointInfo.httpMethods || new Set<string>();
-            httpMethods.add(httpMethod);
+            endpointInfo.httpMethods.add(httpMethod);
         });
     }
 
@@ -42,8 +41,7 @@ class EndpointInfoBuilder<C extends Function> {
      */
     consumes(mediaType: string): EndpointInfoBuilder<C> {
         return this.update(endpointInfo => {
-            let consumedMediaTypes: Set<string> = endpointInfo.consumedMediaTypes = endpointInfo.consumedMediaTypes || new Set<string>();
-            consumedMediaTypes.add(mediaType);
+            endpointInfo.consumedMediaTypes.add(mediaType);
         });
     }
 
@@ -54,8 +52,7 @@ class EndpointInfoBuilder<C extends Function> {
      */
     produces(mediaType: string): EndpointInfoBuilder<C> {
         return this.update(endpointInfo => {
-            let producedMediaTypes: Set<string> = endpointInfo.producedMediaTypes = endpointInfo.producedMediaTypes || new Set<string>();
-            producedMediaTypes.add(mediaType);
+            endpointInfo.producedMediaTypes.add(mediaType);
         });
     }
 

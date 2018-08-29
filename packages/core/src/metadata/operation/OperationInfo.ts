@@ -1,7 +1,7 @@
-import {getEndpointInfo, EndpointInfo} from '../endpoint';
-import {OperationParameterInfo} from './OperationParameterInfo';
-import {ParameterType} from '../ParameterType';
-import {ClassConstructor, TypeUtils} from 'es-decorator-utils';
+import { getEndpointInfo, EndpointInfo } from '../endpoint';
+import { OperationParameterInfo } from './OperationParameterInfo';
+import { ParameterType } from '../ParameterType';
+import { ClassConstructor, TypeUtils } from 'es-decorator-utils';
 import 'reflect-metadata';
 
 /**
@@ -12,9 +12,19 @@ const OperationInfoMetadata: Symbol = Symbol('esx-rs:operation');
 /**
  * Operation information
  */
-interface OperationInfo extends EndpointInfo {
-    parameters?: OperationParameterInfo[];
-    returnClass?: ClassConstructor<any>;
+class OperationInfo extends EndpointInfo {
+    readonly parameters: Array<OperationParameterInfo> = [];
+    readonly returnClass: ClassConstructor<any>|undefined;
+
+    /**
+     * Class constructor
+     * @param returnClass Return class
+     */
+    constructor(returnClass?: ClassConstructor<any>) {
+        super();
+        this.returnClass = returnClass;
+    }
+
 }
 
 /**
@@ -24,11 +34,7 @@ interface OperationInfo extends EndpointInfo {
  * @return Merged operation information
  */
 function mergeHttpMethods(operationInfo: OperationInfo, endpointInfo: EndpointInfo): OperationInfo {
-    if (endpointInfo.httpMethods) {
-        operationInfo.httpMethods = operationInfo.httpMethods || new Set<string>();
-        endpointInfo.httpMethods.forEach(httpMethod => operationInfo.httpMethods.add(httpMethod));
-    }
-
+    endpointInfo.httpMethods.forEach(httpMethod => operationInfo.httpMethods.add(httpMethod));
     return operationInfo;
 }
 
@@ -53,11 +59,7 @@ function mergeResourcePaths(operationInfo: OperationInfo, endpointInfo: Endpoint
  * @return Merged operation information
  */
 function mergeConsumedMediaTypes(operationInfo: OperationInfo, endpointInfo: EndpointInfo): OperationInfo {
-    if (endpointInfo.consumedMediaTypes) {
-        operationInfo.consumedMediaTypes = operationInfo.consumedMediaTypes || new Set<string>();
-        endpointInfo.consumedMediaTypes.forEach(consumedMediaType => operationInfo.consumedMediaTypes.add(consumedMediaType));
-    }
-
+    endpointInfo.consumedMediaTypes.forEach(consumedMediaType => operationInfo.consumedMediaTypes.add(consumedMediaType));
     return operationInfo;
 }
 
@@ -68,11 +70,7 @@ function mergeConsumedMediaTypes(operationInfo: OperationInfo, endpointInfo: End
  * @return Merged operation information
  */
 function mergeProducedMediaTypes(operationInfo: OperationInfo, endpointInfo: EndpointInfo): OperationInfo {
-    if (endpointInfo.producedMediaTypes) {
-        operationInfo.producedMediaTypes = operationInfo.producedMediaTypes || new Set<string>();
-        endpointInfo.producedMediaTypes.forEach(producedMediaTypes => operationInfo.producedMediaTypes.add(producedMediaTypes));
-    }
-
+    endpointInfo.producedMediaTypes.forEach(producedMediaTypes => operationInfo.producedMediaTypes.add(producedMediaTypes));
     return operationInfo;
 }
 
@@ -103,20 +101,14 @@ function mergeEndpointInfoIntoOperationInfo(operationInfo: OperationInfo, endpoi
  */
 function initializeOperationInfo(endpointClassPrototype: Object, propertyKey: string|symbol): OperationInfo {
     let endpointClass: ClassConstructor<any> = <ClassConstructor<any>> endpointClassPrototype.constructor;
-    let operationInfo: OperationInfo = {
-        parameters: [],
-        returnClass: TypeUtils.getReturnClass(endpointClass, propertyKey)
-    };
+    let returnClass: ClassConstructor<any> = TypeUtils.getReturnClass(endpointClass, propertyKey);
+    let operationInfo: OperationInfo = new OperationInfo(returnClass);
 
-    let parameterClasses: ClassConstructor<any>[] = TypeUtils.getParameterClasses(endpointClass, propertyKey);
+    let operationParameterInfos: Array<OperationParameterInfo> = TypeUtils.getParameterClasses(endpointClass, propertyKey)
+        .map(parameterClass => new OperationParameterInfo(parameterClass, ParameterType.BODY))
+    ;
 
-    operationInfo.parameters = [];
-    parameterClasses.forEach(parameterClass => {
-        operationInfo.parameters.push({
-            class: parameterClass,
-            type: ParameterType.BODY
-        });
-    });
+    operationInfo.parameters.push(...operationParameterInfos);
 
     return operationInfo;
 }

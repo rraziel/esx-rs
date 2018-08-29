@@ -1,19 +1,19 @@
-import {AbstractHttpMessageBuilder} from './AbstractHttpMessageBuilder';
-import {HttpResponse} from './HttpResponse';
+import { AbstractHttpMessageBuilder } from './AbstractHttpMessageBuilder';
+import { HttpResponse } from './HttpResponse';
 
 /**
  * HTTP response builder
  */
 class HttpResponseBuilder extends AbstractHttpMessageBuilder<HttpResponse> {
-    private status: number;
+    private readonly statusCode: number;
 
     /**
-     * Set the status code
+     * Class constructor
      * @param statusCode Status code
      */
-    withStatus(statusCode: number): HttpResponseBuilder {
-        this.status = statusCode;
-        return this;
+    private constructor(statusCode: number) {
+        super();
+        this.statusCode = statusCode;
     }
 
     /**
@@ -21,7 +21,7 @@ class HttpResponseBuilder extends AbstractHttpMessageBuilder<HttpResponse> {
      * @return Built HTTP response
      */
     build(): HttpResponse {
-        return new HttpResponse(this.status, this.headers, this.payload);
+        return new HttpResponse(this.statusCode, this.headers, this.payload);
     }
 
     /**
@@ -30,7 +30,7 @@ class HttpResponseBuilder extends AbstractHttpMessageBuilder<HttpResponse> {
      * @return HTTP response builder
      */
     static of(statusCode: number): HttpResponseBuilder {
-        return new HttpResponseBuilder().withStatus(statusCode);
+        return new HttpResponseBuilder(statusCode);
     }
 
 }

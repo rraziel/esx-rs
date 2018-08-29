@@ -1,4 +1,4 @@
-import {HttpResponse} from '@esx-rs/http';
+import { HttpResponse } from '@esx-rs/http';
 
 /**
  * Exception mapper

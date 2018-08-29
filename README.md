@@ -2,24 +2,64 @@
 
 [![Version](https://img.shields.io/npm/v/@esx-rs/core.svg?maxAge=2592000&label=Version&style=for-the-badge&logo=npm)](https://www.npmjs.com/package/@esx-rs/core)
 [![Downloads](https://img.shields.io/npm/dt/@esx-rs/core.svg?maxAge=2592000&label=Downloads&style=for-the-badge&logo=npm)](https://www.npmjs.com/package/@esx-rs/core)
+[![AppVeyor tests](https://img.shields.io/appveyor/tests/rraziel/esx-rs/master.svg?label=Tests&style=for-the-badge)](https://ci.appveyor.com/project/rraziel/esx-rs/build/tests)
+[![Codecov](https://img.shields.io/codecov/c/github/rraziel/esx-rs.svg?label=Coverage&style=for-the-badge)](https://codecov.io/gh/rraziel/esx-rs)
+[![Code Climate](https://img.shields.io/codeclimate/maintainability/rraziel/esx-rs.svg?label=Maintainability&style=for-the-badge)](https://codeclimate.com/github/rraziel/esx-rs)
+[![Code Climate](https://img.shields.io/codeclimate/issues/rraziel/esx-rs.svg?label=Code%20Issues&style=for-the-badge)](https://codeclimate.com/github/rraziel/esx-rs/issues)
 
 A library inspired by [JAX-RS](https://en.wikipedia.org/wiki/Java_API_for_RESTful_Web_Services), allowing the description of REST endpoints through simple [TypeScript](https://www.typescriptlang.org/) decorators.
 
+- [Getting Started](#getting-started)
+  - [Client-Side](#client-side)
+  - [Server-Side](#server-side)
+- [Usage](#usage)
+  - [Path](#path)
+  - [Resource Type](#resource-type)
+  - [Parameters](#parameters)
+  - [Context](#context)
+  - [Endpoint vs. Operation](#endpoint-vs-operation)
+- [Known Limitations](#known-limitations)
+- [Development](#development)
+
 ## Getting Started
 
-The library can be installed using `npm`:
+### Client-Side
+
+The library can be installed using `npm` or `yarn`:
 
 ```
-npm install esx-rs --save
+npm install @esx-rs/client-<type> --save
+yarn add @esx-rs/client-<type>
 ```
 
-Or using `yarn`:
+Where the module can be one of the following:
+
+| Module                                             | Version                                                                                                                                                           | Description                                                     |
+|:---------------------------------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------|:----------------------------------------------------------------|
+| [@esx-rs/client-angular](/packages/client-angular) | [![npm](https://img.shields.io/npm/v/@esx-rs/client-angular.svg?maxAge=2592000&style=flat-square&logo=npm)](https://www.npmjs.com/package/@esx-rs/client-angular) | [Angular HttpClient](https://angular.io/guide/http).            |
+| [@esx-rs/client-fetch](/packages/client-fetch)     | [![npm](https://img.shields.io/npm/v/@esx-rs/client-fetch.svg?maxAge=2592000&style=flat-square&logo=npm)](https://www.npmjs.com/package/@esx-rs/client-fetch)     | [Fetch](https://fetch.spec.whatwg.org/).                        |
+| [@esx-rs/client-http](/packages/client-http)       | [![npm](https://img.shields.io/npm/v/@esx-rs/client-http.svg?maxAge=2592000&style=flat-square&logo=npm)](https://www.npmjs.com/package/@esx-rs/client-http)       | [Node http](https://nodejs.org/api/http.html).                  |
+| [@esx-rs/client-xhr](/packages/client-xhr)         | [![npm](https://img.shields.io/npm/v/@esx-rs/client-xhr.svg?maxAge=2592000&style=flat-square&logo=npm)](https://www.npmjs.com/package/@esx-rs/client-xhr)         | [XMLHttpRequest](https://en.wikipedia.org/wiki/XMLHttpRequest). |
+
+### Server-Side
+
+The library can be installed using `npm` or `yarn`:
 
 ```
-yarn add esx-rs
+npm install @esx-rs/router-<type> --save
+yarn add @esx-rs/router-<type>
 ```
 
-Endpoints can then be described using decorators:
+Where the module can be one of the following:
+
+| Module                                             | Version                                                                                                                                                           | Description                        |
+|:---------------------------------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-----------------------------------|
+| [@esx-rs/router-express](/packages/router-express) | [![npm](https://img.shields.io/npm/v/@esx-rs/router-express.svg?maxAge=2592000&style=flat-square&logo=npm)](https://www.npmjs.com/package/@esx-rs/router-express) | [Express](https://expressjs.com/). |
+| [@esx-rs/router-koa](/packages/router-koa)         | [![npm](https://img.shields.io/npm/v/@esx-rs/router-koa.svg?maxAge=2592000&style=flat-square&logo=npm)](https://www.npmjs.com/package/@esx-rs/router-koa)         | [Koa](http://koajs.com/).          |
+
+## Usage
+
+Endpoints are described using decorators:
 
 ```typescript
 @Path('/users')
@@ -48,10 +88,6 @@ class UsersEndpoint {
 
 }
 ```
-
-## Usage
-
-Various decorators are available, each targetting a subset of the typical REST properties for a service.
 
 ### Path
 
@@ -105,7 +141,7 @@ The `@Path` decorator is handled a bit differently: the operation path is append
 
 ## Known Limitations
 
-At the moment, only concrete classes can be decorated.
+At the moment, only concrete classes can be decorated in TypeScript.
 
 This is due to the way ECMAScript gets generated, as interfaces no longer exist in the generated code.
 
@@ -134,8 +170,3 @@ abstract class MyInterface {
 [![AppVeyor](https://img.shields.io/appveyor/ci/rraziel/esx-rs/master.svg?label=Win32&style=for-the-badge&logo=appveyor)](https://ci.appveyor.com/project/rraziel/esx-rs)
 [![CircleCI](https://img.shields.io/circleci/project/github/rraziel/esx-rs/master.svg?label=MacOS&style=for-the-badge&logo=circleci)](https://circleci.com/gh/rraziel/esx-rs)
 [![Travis CI](https://img.shields.io/travis/rraziel/esx-rs/master.svg?label=Linux&style=for-the-badge&logo=travis)](https://travis-ci.org/rraziel/esx-rs)
-
-[![AppVeyor tests](https://img.shields.io/appveyor/tests/rraziel/esx-rs/master.svg?label=Tests&style=for-the-badge)](https://ci.appveyor.com/project/rraziel/esx-rs/build/tests)
-[![Codecov](https://img.shields.io/codecov/c/github/rraziel/esx-rs.svg?label=Coverage&style=for-the-badge)](https://codecov.io/gh/rraziel/esx-rs)
-[![Code Climate](https://img.shields.io/codeclimate/maintainability/rraziel/esx-rs.svg?label=Maintainability&style=for-the-badge)](https://codeclimate.com/github/rraziel/esx-rs)
-[![Code Climate](https://img.shields.io/codeclimate/issues/rraziel/esx-rs.svg?label=Code%20Issues&style=for-the-badge)](https://codeclimate.com/github/rraziel/esx-rs/issues)

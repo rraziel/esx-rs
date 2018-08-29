@@ -1,5 +1,5 @@
-import {Path} from './Path';
-import {EndpointInfo, getEndpointInfo, getFullOperationInfo, OperationInfo} from '../metadata';
+import { Path } from './Path';
+import { EndpointInfo, getEndpointInfo, getFullOperationInfo, OperationInfo } from '../metadata';
 
 describe('@Path decorator', () => {
 

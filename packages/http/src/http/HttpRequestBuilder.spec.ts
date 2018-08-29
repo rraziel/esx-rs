@@ -1,6 +1,6 @@
-import {HttpRequestBuilder} from './HttpRequestBuilder';
-import {HttpRequest} from './HttpRequest';
-import { Cookie } from '.';
+import { HttpRequestBuilder } from './HttpRequestBuilder';
+import { Cookie } from './Cookie';
+import { HttpRequest } from './HttpRequest';
 
 describe('HTTP request builder', () => {
     let builder: HttpRequestBuilder;

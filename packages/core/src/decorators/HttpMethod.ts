@@ -1,5 +1,5 @@
-import {ClassOrMethodDecorator, throwInvalidDecoratorUsage} from './helper';
-import {OperationInfoBuilder, EndpointInfoBuilder} from '../metadata';
+import { ClassOrMethodDecorator, throwInvalidDecoratorUsage } from './helper';
+import { OperationInfoBuilder, EndpointInfoBuilder } from '../metadata';
 
 /**
  * Create a decorator for an HTTP method
@@ -15,7 +15,7 @@ function HttpMethod(methodName: string): ClassOrMethodDecorator {
 
             EndpointInfoBuilder.of(target).method(methodName);
         } else {
-            OperationInfoBuilder.of(target, propertyKey).method(methodName);
+            OperationInfoBuilder.of(target, propertyKey!).method(methodName);
         }
     };
 }

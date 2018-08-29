@@ -1,5 +1,5 @@
-import {AbstractHttpMessage} from './AbstractHttpMessage';
-import {HttpHeader} from './HttpHeader';
+import { AbstractHttpMessage } from './AbstractHttpMessage';
+import { HttpHeader } from './HttpHeader';
 
 class HttpMessage extends AbstractHttpMessage {
     constructor(headers?: Array<HttpHeader>, payload?: string) {

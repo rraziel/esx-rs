@@ -13,7 +13,7 @@ before_script:
   - ./cc-test-reporter before-build
   - greenkeeper-lockfile-update
 script:
-  - yarn run bootstrap
+  - yarn bootstrap
   - yarn run quality:lint
   - yarn run compile
   - yarn run test:coverage

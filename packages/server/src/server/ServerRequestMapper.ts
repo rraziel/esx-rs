@@ -1,7 +1,7 @@
-import {CachedOperationInfo} from './CachedOperationInfo';
-import {HttpUtils} from '../utils';
-import {ClassConstructor, OperationInfo, OperationParameterInfo, ParameterType} from '@esx-rs/core';
-import {HttpHeaders, HttpRequest} from '@esx-rs/http';
+import { CachedOperationInfo } from './CachedOperationInfo';
+import { HttpUtils } from '../utils';
+import { ClassConstructor, OperationInfo, OperationParameterInfo, ParameterType } from '@esx-rs/core';
+import { HttpHeaders, HttpRequest } from '@esx-rs/http';
 
 const FORM_CONTENT_TYPE: string = 'application/x-www-form-urlencoded';
 
@@ -34,16 +34,21 @@ class ServerRequestMapper {
      * @param <T>                    Argument type
      * @return Built argument
      */
-    private buildArgument<T>(cachedOperationInfo: CachedOperationInfo, operationParameterInfo: OperationParameterInfo, httpRequest: HttpRequest): T {
+    private buildArgument<T>(cachedOperationInfo: CachedOperationInfo, operationParameterInfo: OperationParameterInfo, httpRequest: HttpRequest): T|undefined {
         let operationInfo: OperationInfo = cachedOperationInfo.operationInfo;
         let parameterClass: Function = operationParameterInfo.class;
+        let argumentValue: T|undefined;
 
         if (!this.isPrimitiveClass(parameterClass)) {
-            return this.buildComplexArgument<T>(cachedOperationInfo, operationParameterInfo, httpRequest);
+            argumentValue = this.buildComplexArgument<T>(cachedOperationInfo, operationParameterInfo, httpRequest);
         } else {
-            let argumentString: string = this.buildPrimitiveArgument<T>(cachedOperationInfo, operationParameterInfo, httpRequest);
-            return this.convertPrimitiveArgument<T>(operationInfo, operationParameterInfo, argumentString);
+            let argumentString: string|undefined = this.buildPrimitiveArgument<T>(cachedOperationInfo, operationParameterInfo, httpRequest);
+            if (argumentString) {
+                argumentValue = this.convertPrimitiveArgument<T>(operationInfo, operationParameterInfo, argumentString);
+            }
         }
+
+        return argumentValue;
     }
 
     /**
@@ -54,14 +59,16 @@ class ServerRequestMapper {
      * @param <T>                    Argument type
      * @return Built argument
      */
-    private buildComplexArgument<T>(cachedOperationInfo: CachedOperationInfo, operationParameterInfo: OperationParameterInfo, httpRequest: HttpRequest): T {
-        let argumentValue: T;
+    private buildComplexArgument<T>(cachedOperationInfo: CachedOperationInfo, operationParameterInfo: OperationParameterInfo, httpRequest: HttpRequest): T|undefined {
+        let argumentValue: T|undefined;
 
         if (operationParameterInfo.type === ParameterType.CONTEXT) {
             argumentValue = this.buildContextArgument<T>(cachedOperationInfo, operationParameterInfo, httpRequest);
         } else if (operationParameterInfo.type === ParameterType.BODY) {
-            let argumentString: string = this.buildBodyArgument(cachedOperationInfo, operationParameterInfo, httpRequest);
-            argumentValue = JSON.parse(argumentString);
+            let argumentString: string|undefined = this.buildBodyArgument(cachedOperationInfo, operationParameterInfo, httpRequest);
+            if (argumentString) {
+                argumentValue = JSON.parse(argumentString);
+            }
         } else {
             throw new Error('complex non-payload parameters not implemented yet');
         }
@@ -76,7 +83,7 @@ class ServerRequestMapper {
      * @param httpRequest            HTTP request
      * @return Built argument string
      */
-    private buildPrimitiveArgument<T>(cachedOperationInfo: CachedOperationInfo, operationParameterInfo: OperationParameterInfo, httpRequest: HttpRequest): string {
+    private buildPrimitiveArgument<T>(cachedOperationInfo: CachedOperationInfo, operationParameterInfo: OperationParameterInfo, httpRequest: HttpRequest): string|undefined {
         let operationInfo: OperationInfo = cachedOperationInfo.operationInfo;
 
         switch (operationParameterInfo.type) {
@@ -108,7 +115,7 @@ class ServerRequestMapper {
      * @param httpRequest            HTTP request
      * @return Built argument
      */
-    private buildBodyArgument(cachedOperationInfo: CachedOperationInfo, operationParameterInfo: OperationParameterInfo, httpRequest: HttpRequest): string {
+    private buildBodyArgument(cachedOperationInfo: CachedOperationInfo, operationParameterInfo: OperationParameterInfo, httpRequest: HttpRequest): string|undefined {
         return httpRequest.getPayload();
     }
 
@@ -121,11 +128,11 @@ class ServerRequestMapper {
      * @return Built argument
      */
     private buildContextArgument<T>(cachedOperationInfo: CachedOperationInfo, operationParameterInfo: OperationParameterInfo, httpRequest: HttpRequest): T {
-        let contextClass: ClassConstructor<T> = <ClassConstructor<T>><any> operationParameterInfo.name;
+        let contextClass: ClassConstructor<T> = operationParameterInfo.name as any as ClassConstructor<T>;
 
         // TODO: use context resolvers
         if (<Function> contextClass === HttpRequest) {
-            return <T><any> httpRequest;
+            return httpRequest as any as T;
         }
 
         throw new Error('unknown context class ' + contextClass.name);
@@ -138,7 +145,7 @@ class ServerRequestMapper {
      * @param httpRequest            HTTP request
      * @return Built argument
      */
-    private buildCookieArgument(operationInfo: OperationInfo, operationParameterInfo: OperationParameterInfo, httpRequest: HttpRequest): string {
+    private buildCookieArgument(operationInfo: OperationInfo, operationParameterInfo: OperationParameterInfo, httpRequest: HttpRequest): string|undefined {
         let cookieName: string = <string> operationParameterInfo.name;
         return httpRequest.getCookieValue(cookieName);
     }
@@ -150,12 +157,12 @@ class ServerRequestMapper {
      * @param httpRequest            HTTP request
      * @return Built argument
      */
-    private buildFormArgument(operationInfo: OperationInfo, operationParameterInfo: OperationParameterInfo, httpRequest: HttpRequest): string {
+    private buildFormArgument(operationInfo: OperationInfo, operationParameterInfo: OperationParameterInfo, httpRequest: HttpRequest): string|undefined {
         let parameterName: string = <string> operationParameterInfo.name;
-        let contentType: string = httpRequest.getHeaderValue(HttpHeaders.CONTENT_TYPE);
+        let contentType: string|undefined = httpRequest.getHeaderValue(HttpHeaders.CONTENT_TYPE);
 
-        if (contentType === FORM_CONTENT_TYPE && httpRequest.hasPayload()) {
-            let payload: string = httpRequest.getPayload();
+        if (contentType && contentType === FORM_CONTENT_TYPE && httpRequest.hasPayload()) {
+            let payload: string = httpRequest.getPayload()!;
             return HttpUtils.getFormParameterValue(payload, parameterName);
         }
 
@@ -169,7 +176,7 @@ class ServerRequestMapper {
      * @param httpRequest            HTTP request
      * @return Built argument
      */
-    private buildHeaderArgument(operationInfo: OperationInfo, operationParameterInfo: OperationParameterInfo, httpRequest: HttpRequest): string {
+    private buildHeaderArgument(operationInfo: OperationInfo, operationParameterInfo: OperationParameterInfo, httpRequest: HttpRequest): string|undefined {
         let headerName: string = <string> operationParameterInfo.name;
         return httpRequest.getHeaderValue(headerName);
     }
@@ -181,7 +188,7 @@ class ServerRequestMapper {
      * @param httpRequest            HTTP request
      * @return Built argument
      */
-    private buildMatrixArgument(operationInfo: OperationInfo, operationParameterInfo: OperationParameterInfo, httpRequest: HttpRequest): string {
+    private buildMatrixArgument(operationInfo: OperationInfo, operationParameterInfo: OperationParameterInfo, httpRequest: HttpRequest): string|undefined {
         let parameterName: string = <string> operationParameterInfo.name;
         return httpRequest.getMatrixParameter(parameterName);
     }
@@ -193,7 +200,7 @@ class ServerRequestMapper {
      * @param httpRequest            HTTP request
      * @return Built argument
      */
-    private buildPathArgument(cachedOperationInfo: CachedOperationInfo, operationParameterInfo: OperationParameterInfo, httpRequest: HttpRequest): string {
+    private buildPathArgument(cachedOperationInfo: CachedOperationInfo, operationParameterInfo: OperationParameterInfo, httpRequest: HttpRequest): string|undefined {
         let parameterName: string = <string> operationParameterInfo.name;
         let resourcePathRegExp: RegExp = cachedOperationInfo.resourcePathRegExp;
         let path: string = httpRequest.path;
@@ -208,7 +215,7 @@ class ServerRequestMapper {
      * @param httpRequest            HTTP request
      * @return Built argument
      */
-    private buildQueryArgument(operationInfo: OperationInfo, operationParameterInfo: OperationParameterInfo, httpRequest: HttpRequest): string {
+    private buildQueryArgument(operationInfo: OperationInfo, operationParameterInfo: OperationParameterInfo, httpRequest: HttpRequest): string|undefined {
         let parameterName: string = <string> operationParameterInfo.name;
         return httpRequest.getQueryParameter(parameterName);
     }
@@ -225,15 +232,15 @@ class ServerRequestMapper {
         let argumentClass: Function = operationParameterInfo.class;
 
         if (argumentClass === String) {
-            return <T><any> argumentString;
+            return argumentString as any as T;
         }
 
         if (argumentClass === Number) {
-            return <T><any> parseInt(argumentString, 10);
+            return parseInt(argumentString, 10) as any as T;
         }
 
         if (argumentClass === Boolean) {
-            return <T><any> (argumentString.toLowerCase() === 'true');
+            return (argumentString.toLowerCase() === 'true') as any as T;
         }
 
         throw new Error('unknown primitive argument class ' + argumentClass.name);

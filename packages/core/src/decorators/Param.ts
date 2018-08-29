@@ -1,6 +1,6 @@
-import {PropertyOrParameterDecorator, throwInvalidDecoratorUsage} from './helper';
-import {OperationInfoBuilder, ParameterType, PropertyInfoBuilder} from '../metadata';
-import {ClassConstructor, TypeUtils} from 'es-decorator-utils';
+import { PropertyOrParameterDecorator, throwInvalidDecoratorUsage } from './helper';
+import { OperationInfoBuilder, ParameterType, PropertyInfoBuilder } from '../metadata';
+import { ClassConstructor, TypeUtils } from 'es-decorator-utils';
 
 /**
  * Get a method parameter class

@@ -1,10 +1,10 @@
-import {HttpContext} from './HttpContext';
-import {HttpContextResolver} from './HttpContextResolver';
-import {ClassConstructor} from '../utils';
+import { HttpContext } from './HttpContext';
+import { HttpContextResolver } from './HttpContextResolver';
+import { ClassConstructor } from '../utils';
 
-const testHttpContextResolver: HttpContextResolver = <T>(itemClass: ClassConstructor<T>): T => {
+const testHttpContextResolver: HttpContextResolver = <T>(itemClass: ClassConstructor<T>): T|undefined => {
     if (<Function> itemClass === String) {
-        return <T><any> 'test';
+        return 'test' as any as T;
     }
 
     return undefined;
@@ -19,14 +19,14 @@ describe('HTTP context', () => {
 
     it('can return a context item', () => {
         // when
-        let item: String = httpContext.get(String);
+        let item: String|undefined = httpContext.get(String);
         // then
-        expect(item).toEqual('test');
+        expect(item).toBe('test');
     });
 
     it('returns undefined for unknown item classes', () => {
         // when
-        let item: Number = httpContext.get(Number);
+        let item: Number|undefined = httpContext.get(Number);
         // then
         expect(item).toBeUndefined();
     });

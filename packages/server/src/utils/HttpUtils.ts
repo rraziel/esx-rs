@@ -14,7 +14,7 @@ class HttpUtils {
      * @param parameterName Parameter name
      * @return Form parameter value
      */
-    static getFormParameterValue(body: string, parameterName: string): string {
+    static getFormParameterValue(body: string, parameterName: string): string|undefined {
         let index: number = body.indexOf(parameterName + FORM_VALUE);
         if (HttpUtils.isFormParameterFound(body, index)) {
             let begin: number = index + parameterName.length + 1;
@@ -33,8 +33,8 @@ class HttpUtils {
      * @param parameterName         Parameter name
      * @return Path parameter value
      */
-    static getPathParameterValue(path: string, pathSpecification: RegExp, pathSpecificationKeys: pathToRegexp.Key[], parameterName: string): string {
-        let pathMatches: string[] = pathSpecification.exec(path);
+    static getPathParameterValue(path: string, pathSpecification: RegExp, pathSpecificationKeys: pathToRegexp.Key[], parameterName: string): string|undefined {
+        let pathMatches: RegExpExecArray|null = pathSpecification.exec(path);
         if (pathMatches === null) {
             return undefined;
         }
@@ -49,7 +49,7 @@ class HttpUtils {
      * @param parameterName         Parameter name
      * @return Path parameter value
      */
-    private static extractPathParameter(pathMatches: string[], pathSpecificationKeys: pathToRegexp.Key[], parameterName: string): string {
+    private static extractPathParameter(pathMatches: string[], pathSpecificationKeys: pathToRegexp.Key[], parameterName: string): string|undefined {
         for (let i: number = 0; i !== pathSpecificationKeys.length; ++i) {
             let pathSpecificationKey: pathToRegexp.Key = pathSpecificationKeys[i];
             if (pathSpecificationKey.name === parameterName) {
@@ -77,8 +77,10 @@ class HttpUtils {
      * @param end   End index
      */
     private static extractParameterValue(str: string, begin: number, end: number): string {
-        if (end === -1) {
-            end = undefined;
+        let endIndex: number|undefined;
+
+        if (end !== -1) {
+            endIndex = end;
         }
 
         return str.substring(begin, end);

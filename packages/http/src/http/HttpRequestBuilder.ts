@@ -1,36 +1,26 @@
-import {AbstractHttpMessageBuilder} from './AbstractHttpMessageBuilder';
-import {Cookie} from './Cookie';
-import {HttpHeader} from './HttpHeader';
-import {HttpRequest} from './HttpRequest';
+import { AbstractHttpMessageBuilder } from './AbstractHttpMessageBuilder';
+import { Cookie } from './Cookie';
+import { HttpRequest } from './HttpRequest';
 
 /**
  * HTTP request builder
  */
 class HttpRequestBuilder extends AbstractHttpMessageBuilder<HttpRequest> {
-    private matrixParameters: Map<string, string> = new Map<string, string>();
-    private queryParameters: Map<string, string> = new Map<string, string>();
-    private cookies: Array<Cookie>;
-    private method: string;
-    private path: string;
+    private readonly matrixParameters: Map<string, string> = new Map<string, string>();
+    private readonly queryParameters: Map<string, string> = new Map<string, string>();
+    private readonly cookies: Array<Cookie> = new Array<Cookie>();
+    private readonly method: string;
+    private readonly path: string;
 
     /**
-     * Set the method
-     * @param httpMethod HTTP method
-     * @return this
+     * Class constructor
+     * @param method Method
+     * @param path   Path
      */
-    withMethod(httpMethod: string): HttpRequestBuilder {
-        this.method = httpMethod;
-        return this;
-    }
-
-    /**
-     * Set the request path
-     * @param path Path
-     * @return this
-     */
-    withPath(path: string): HttpRequestBuilder {
+    private constructor(method: string, path: string) {
+        super();
+        this.method = method;
         this.path = path;
-        return this;
     }
 
     /**
@@ -68,8 +58,7 @@ class HttpRequestBuilder extends AbstractHttpMessageBuilder<HttpRequest> {
      * @param cookies Cookies
      * @return this
      */
-    withCookies(...cookies: Cookie[]): HttpRequestBuilder {
-        this.cookies = this.cookies || new Array<Cookie>();
+    withCookies(...cookies: Array<Cookie>): HttpRequestBuilder {
         this.cookies.push(...cookies);
         return this;
     }
@@ -89,10 +78,7 @@ class HttpRequestBuilder extends AbstractHttpMessageBuilder<HttpRequest> {
      * @return HTTP request builder
      */
     static of(httpMethod: string, path: string): HttpRequestBuilder {
-        return new HttpRequestBuilder()
-            .withMethod(httpMethod)
-            .withPath(path)
-        ;
+        return new HttpRequestBuilder(httpMethod, path);
     }
 
 }

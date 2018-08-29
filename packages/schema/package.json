@@ -4,8 +4,8 @@
   "private": true,
   "repository": "https://github.com/rraziel/esx-rs/tree/master/packages/schema",
   "license": "MIT",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
   "keywords": [
     "typescript",
     "ecmascript",
@@ -14,7 +14,8 @@
     "esx-rs",
     "schema"
   ],
-  "scripts": {
-    "compile": "tsc -p ."
+  "dependencies": {
+    "@esx-rs/core": "0.2.1",
+    "@esx-rs/description": "0.2.1"
   }
 }

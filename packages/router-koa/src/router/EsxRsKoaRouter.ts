@@ -1,7 +1,7 @@
-import {EndpointManager} from '@esx-rs/server';
-import {HttpRequest, HttpResponse} from '@esx-rs/http';
-import {EsxRsKoaUtils} from './EsxRsKoaUtils';
-import {Context, Middleware} from 'koa';
+import { EndpointManager } from '@esx-rs/server';
+import { HttpRequest, HttpResponse } from '@esx-rs/http';
+import { EsxRsKoaUtils } from './EsxRsKoaUtils';
+import { Context, Middleware } from 'koa';
 
 /**
  * ESX-RS Koa router

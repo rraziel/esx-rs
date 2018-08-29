@@ -1,7 +1,7 @@
 {
   "name": "@esx-rs/router-express",
-  "version": "0.2.1",
   "description": "ESX-RS router for Express.",
+  "version": "0.2.1",
   "repository": "https://github.com/rraziel/esx-rs/tree/master/packages/router-express",
   "license": "MIT",
   "main": "./lib/index.js",
@@ -13,7 +13,9 @@
     "router",
     "express"
   ],
-  "scripts": {
-    "compile": "tsc -p ."
+  "peerDependencies": {
+    "@esx-rs/core": ">=0.2.0",
+    "@esx-rs/http": ">=0.2.0",
+    "@esx-rs/server": ">=0.2.0"
   }
 }

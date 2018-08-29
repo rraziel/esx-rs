@@ -1,7 +1,7 @@
-import {getOperationInfo, setOperationInfo, OperationInfo} from './OperationInfo';
-import {OperationParameterInfo} from './OperationParameterInfo';
-import {ParameterType} from '../ParameterType';
-import {ClassConstructor} from 'es-decorator-utils';
+import { getOperationInfo, setOperationInfo, OperationInfo } from './OperationInfo';
+import { OperationParameterInfo } from './OperationParameterInfo';
+import { ParameterType } from '../ParameterType';
+import { ClassConstructor } from 'es-decorator-utils';
 
 /**
  * Operation information builder
@@ -26,8 +26,7 @@ class OperationInfoBuilder {
      */
     method(httpMethod: string): OperationInfoBuilder {
         return this.update(operationInfo => {
-            let httpMethods: Set<string> = operationInfo.httpMethods = operationInfo.httpMethods || new Set<string>();
-            httpMethods.add(httpMethod);
+            operationInfo.httpMethods.add(httpMethod);
         });
     }
 
@@ -48,8 +47,7 @@ class OperationInfoBuilder {
      */
     consumes<T extends Function>(mediaType: string|T): OperationInfoBuilder {
         return this.update(operationInfo => {
-            let consumedMediaTypes: Set<string|Function> = operationInfo.consumedMediaTypes = operationInfo.consumedMediaTypes || new Set<string>();
-            consumedMediaTypes.add(mediaType);
+            operationInfo.consumedMediaTypes.add(mediaType);
         });
     }
 
@@ -61,8 +59,7 @@ class OperationInfoBuilder {
      */
     produces<T extends Function>(mediaType: string|T): OperationInfoBuilder {
         return this.update(operationInfo => {
-            let producedMediaTypes: Set<string|Function> = operationInfo.producedMediaTypes = operationInfo.producedMediaTypes || new Set<string>();
-            producedMediaTypes.add(mediaType);
+            operationInfo.producedMediaTypes.add(mediaType);
         });
     }
 

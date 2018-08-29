@@ -1,16 +1,16 @@
-import {AbstractHttpMessage} from './AbstractHttpMessage';
-import {HttpHeader} from './HttpHeader';
-import {Cookie} from './Cookie';
+import { AbstractHttpMessage } from './AbstractHttpMessage';
+import { HttpHeader } from './HttpHeader';
+import { Cookie } from './Cookie';
 
 /**
  * HTTP request
  */
 class HttpRequest extends AbstractHttpMessage {
-    matrixParameters?: Map<string, string>;
-    queryParameters?: Map<string, string>;
-    cookies?: Array<Cookie>;
-    method: string;
-    path: string;
+    readonly matrixParameters: Map<string, string>;
+    readonly queryParameters: Map<string, string>;
+    readonly cookies: Array<Cookie>;
+    readonly method: string;
+    readonly path: string;
 
     /**
      * Class constructor
@@ -22,7 +22,7 @@ class HttpRequest extends AbstractHttpMessage {
      * @param cookies          Cookies
      * @param payload          Payload
      */
-    constructor(method: string, path: string, queryParameters?: Map<string, string>, matrixParameters?: Map<string, string>, headers?: Array<HttpHeader>, cookies?: Array<Cookie>, payload?: string) {
+    constructor(method: string, path: string, queryParameters: Map<string, string>, matrixParameters: Map<string, string>, headers: Array<HttpHeader>, cookies: Array<Cookie>, payload?: string) {
         super(headers, payload);
         this.method = method;
         this.path = path;
@@ -60,8 +60,8 @@ class HttpRequest extends AbstractHttpMessage {
      * @param cookieName Cookie name
      * @return Cookie
      */
-    getCookie(cookieName: string): Cookie {
-        return this.cookies && this.cookies.find(cookie => cookie.getName() === cookieName);
+    getCookie(cookieName: string): Cookie|undefined {
+        return this.cookies.find(cookie => cookie.getName() === cookieName);
     }
 
     /**
@@ -69,8 +69,8 @@ class HttpRequest extends AbstractHttpMessage {
      * @param cookieName Cookie name
      * @return Cookie value
      */
-    getCookieValue(cookieName: string): string {
-        let cookie: Cookie = this.getCookie(cookieName);
+    getCookieValue(cookieName: string): string|undefined {
+        let cookie: Cookie|undefined = this.getCookie(cookieName);
         return cookie && cookie.getValue();
     }
 
@@ -87,7 +87,7 @@ class HttpRequest extends AbstractHttpMessage {
      * @param parameterName Parameter name
      * @return Parameter value
      */
-    getQueryParameter(parameterName: string): string {
+    getQueryParameter(parameterName: string): string|undefined {
         return this.queryParameters && this.queryParameters.get(parameterName);
     }
 
@@ -104,7 +104,7 @@ class HttpRequest extends AbstractHttpMessage {
      * @param parameterName Parameter name
      * @return Parameter value
      */
-    getMatrixParameter(parameterName: string): string {
+    getMatrixParameter(parameterName: string): string|undefined {
         return this.matrixParameters && this.matrixParameters.get(parameterName);
     }
 

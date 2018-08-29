@@ -1,5 +1,5 @@
-import {ClassOrMethodDecorator, throwInvalidDecoratorUsage} from './helper';
-import {EndpointInfoBuilder, OperationInfoBuilder} from '../metadata';
+import { ClassOrMethodDecorator, throwInvalidDecoratorUsage } from './helper';
+import { EndpointInfoBuilder, OperationInfoBuilder } from '../metadata';
 
 /**
  * Create a path decorator
@@ -15,7 +15,7 @@ function Path(resourcePath: string): ClassOrMethodDecorator {
 
             EndpointInfoBuilder.of(target).path(resourcePath);
         } else {
-            OperationInfoBuilder.of(target, propertyKey).path(resourcePath);
+            OperationInfoBuilder.of(target, propertyKey!).path(resourcePath);
         }
     };
 }

@@ -1,0 +1,21 @@
+{
+  "name": "@esx-rs/description",
+  "description": "ESX-RS description decorators.",
+  "version": "0.2.1",
+  "private": true,
+  "repository": "https://github.com/rraziel/esx-rs/tree/master/packages/description",
+  "license": "MIT",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "keywords": [
+    "typescript",
+    "ecmascript",
+    "rest",
+    "decorator",
+    "description"
+  ],
+  "dependencies": {
+    "es-decorator-utils": "0.1.2",
+    "reflect-metadata": "0.1.12"
+  }
+}

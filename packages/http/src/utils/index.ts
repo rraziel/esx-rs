@@ -1,1 +1,1 @@
-export {ClassConstructor} from './ClassConstructor';
+export { ClassConstructor } from './ClassConstructor';

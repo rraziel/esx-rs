@@ -1,0 +1,25 @@
+{
+  "name": "@esx-rs/schema-cli",
+  "description": "Command-line schema generation for ESX-RS endpoints.",
+  "version": "0.2.1",
+  "private": true,
+  "repository": "https://github.com/rraziel/esx-rs/tree/master/packages/schema-cli",
+  "license": "MIT",
+  "main": "./bin/index.js",
+  "types": "./bin/index.d.ts",
+  "keywords": [
+    "typescript",
+    "ecmascript",
+    "rest",
+    "http",
+    "esx-rs",
+    "schema",
+    "openapi",
+    "swagger",
+    "cli"
+  ],
+  "dependencies": {
+    "@esx-rs/schema": "0.2.1",
+    "@esx-rs/schema-openapi": "0.2.1"
+  }
+}

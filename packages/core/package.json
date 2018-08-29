@@ -1,20 +1,17 @@
 {
   "name": "@esx-rs/core",
-  "version": "0.2.1",
   "description": "ESX-RS decorators.",
+  "version": "0.2.1",
   "repository": "https://github.com/rraziel/esx-rs/tree/master/packages/core",
   "license": "MIT",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
   "keywords": [
     "typescript",
     "ecmascript",
     "rest",
     "decorator"
   ],
-  "scripts": {
-    "compile": "tsc -p ."
-  },
   "dependencies": {
     "es-decorator-utils": "0.1.2",
     "reflect-metadata": "0.1.12"

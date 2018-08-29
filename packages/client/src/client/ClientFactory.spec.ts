@@ -1,6 +1,6 @@
-import {ClientFactory} from './ClientFactory';
-import {ClientProvider} from './ClientProvider';
-import {ClassConstructor} from '@esx-rs/core';
+import { ClientFactory } from './ClientFactory';
+import { ClientProvider } from './ClientProvider';
+import { ClassConstructor } from '@esx-rs/core';
 
 class TestResource {
     value: string;

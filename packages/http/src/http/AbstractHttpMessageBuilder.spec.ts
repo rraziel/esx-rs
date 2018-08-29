@@ -1,5 +1,5 @@
-import {AbstractHttpMessageBuilder} from './AbstractHttpMessageBuilder';
-import {HttpHeader} from './HttpHeader';
+import { AbstractHttpMessageBuilder } from './AbstractHttpMessageBuilder';
+import { HttpHeader } from './HttpHeader';
 
 class HttpMessageBuilder extends AbstractHttpMessageBuilder<any> {
     getHeaders(): Array<HttpHeader> { return this.headers; }

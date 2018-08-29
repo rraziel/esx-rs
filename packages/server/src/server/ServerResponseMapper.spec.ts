@@ -1,7 +1,7 @@
-import {ServerResponseMapper} from './ServerResponseMapper';
-import {CachedOperationInfo} from './CachedOperationInfo';
-import {HttpHeader, HttpHeaders, HttpRequest, HttpRequestBuilder, HttpResponse} from '@esx-rs/http';
-import {OperationInfo} from '@esx-rs/core';
+import { ServerResponseMapper } from './ServerResponseMapper';
+import { CachedOperationInfo } from './CachedOperationInfo';
+import { HttpHeader, HttpHeaders, HttpRequest, HttpRequestBuilder, HttpResponse } from '@esx-rs/http';
+import { OperationInfo } from '@esx-rs/core';
 
 describe('Server response mapper', () => {
     let serverResponseMapper: ServerResponseMapper;
@@ -16,9 +16,8 @@ describe('Server response mapper', () => {
             .withHeader(new HttpHeader('Accept', 'text/plain'))
             .build()
         ;
-        let operationInfo: OperationInfo = {
-            producedMediaTypes: new Set<string>('text/plain')
-        };
+        let operationInfo: OperationInfo = new OperationInfo();
+        operationInfo.producedMediaTypes.add('text/plain');
         let cachedOperationInfo: CachedOperationInfo = <CachedOperationInfo> {
             operationInfo: operationInfo
         };

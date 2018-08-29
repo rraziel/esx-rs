@@ -1,5 +1,5 @@
-import {EndpointInfoBuilder, OperationInfoBuilder} from '../metadata';
-import {ClassOrMethodDecorator, throwInvalidDecoratorUsage} from './helper';
+import { ClassOrMethodDecorator, throwInvalidDecoratorUsage } from './helper';
+import { EndpointInfoBuilder, OperationInfoBuilder } from '../metadata';
 
 type EndpointCallback = (endpointInfoBuilder: EndpointInfoBuilder<Function>, mediaType: string) => void;
 type OperationCallback = (operationInfoBuilder: OperationInfoBuilder, mediaType: string) => void;
@@ -22,7 +22,7 @@ function createResourceTypeDecorator(decoratorName: string, endpointCallback: En
             let endpointInfoBuilder: EndpointInfoBuilder<Function> = EndpointInfoBuilder.of(target);
             mediaTypes.forEach(mediaType => endpointCallback(endpointInfoBuilder, mediaType));
         } else {
-            let operationInfoBuilder: OperationInfoBuilder = OperationInfoBuilder.of(target, propertyKey);
+            let operationInfoBuilder: OperationInfoBuilder = OperationInfoBuilder.of(target, propertyKey!);
             mediaTypes.forEach(mediaType => operationCallback(operationInfoBuilder, mediaType));
         }
     };

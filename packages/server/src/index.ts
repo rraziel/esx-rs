@@ -1,1 +1,1 @@
-export {EndpointManager, ExceptionMapper} from './server';
+export { EndpointManager, ExceptionMapper } from './server';

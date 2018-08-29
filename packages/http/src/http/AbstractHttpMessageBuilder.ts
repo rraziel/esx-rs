@@ -1,12 +1,12 @@
-import {HttpHeader} from './HttpHeader';
+import { HttpHeader } from './HttpHeader';
 
 /**
  * Abstract HTTP message builder
  * @param <T> Built type
  */
 abstract class AbstractHttpMessageBuilder<T> {
-    protected headers?: Array<HttpHeader>;
-    protected payload?: string;
+    protected headers: Array<HttpHeader> = new Array<HttpHeader>();
+    protected payload: string|undefined;
 
     /**
      * Add a HTTP header
@@ -23,7 +23,6 @@ abstract class AbstractHttpMessageBuilder<T> {
      * @return this
      */
     withHeaders(...httpHeaders: HttpHeader[]): AbstractHttpMessageBuilder<T> {
-        this.headers = this.headers || new Array<HttpHeader>();
         this.headers.push(...httpHeaders);
         return this;
     }

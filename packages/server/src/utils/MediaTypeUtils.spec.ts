@@ -1,4 +1,4 @@
-import {MediaTypeUtils} from './MediaTypeUtils';
+import { MediaTypeUtils } from './MediaTypeUtils';
 
 describe('Media type utility functions', () => {
 

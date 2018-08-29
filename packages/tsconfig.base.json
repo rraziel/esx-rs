@@ -1,29 +1,29 @@
 {
+    "compileOnSave": true,
     "compilerOptions": {
         "allowJs": false,
-        "baseUrl": "./packages",
+        "alwaysStrict": true,
+        "composite": true,
         "declaration": true,
+        "declarationMap": true,
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "moduleResolution": "node",
         "module": "commonjs",
+        "newLine": "lf",
         "noFallthroughCasesInSwitch": true,
         "noImplicitAny": false,
+        "noImplicitReturns": true,
         "noImplicitThis": true,
-        "removeComments": false,
-        "rootDir": "./packages",
+        "noUnusedLocals": false,
+        "noUnusedParameters": false,
+        "preserveConstEnums": true,
+        "removeComments": true,
         "sourceMap": true,
+        "strict": true,
         "target": "es2015",
         "typeRoots": [
             "node_modules/@types"
-        ],
-        "types": [
-            "jest"
         ]
-    },
-    "exclude": [
-        "**/dist",
-        "**/node_modules",
-        "*.spec.ts"
-    ]
+    }
 }

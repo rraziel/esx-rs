@@ -1,5 +1,5 @@
-import {Consumes, FormParam, GET, Path, PathParam, POST, Produces, PUT} from '@esx-rs/core';
-import {EsxRsKoaRouter} from './EsxRsKoaRouter';
+import { Consumes, FormParam, GET, Path, PathParam, POST, Produces, PUT } from '@esx-rs/core';
+import { EsxRsKoaRouter } from './EsxRsKoaRouter';
 import * as Application from 'koa';
 import * as http from 'http';
 import * as fetch from 'node-fetch';

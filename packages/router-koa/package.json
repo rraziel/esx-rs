@@ -1,11 +1,11 @@
 {
   "name": "@esx-rs/router-koa",
-  "version": "0.2.1",
   "description": "ESX-RS router for Koa.",
+  "version": "0.2.1",
   "repository": "https://github.com/rraziel/esx-rs/tree/master/packages/router-koa",
   "license": "MIT",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
   "keywords": [
     "typescript",
     "ecmascript",
@@ -15,16 +15,7 @@
     "server",
     "koa"
   ],
-  "scripts": {
-    "compile": "tsc -p ."
-  },
-  "dependencies": {
-    "koa": "2.5.0"
-  },
   "devDependencies": {
-    "@esx-rs/core": "0.2.1",
-    "@esx-rs/http": "0.2.1",
-    "@esx-rs/server": "0.2.1",
     "@types/koa": "2.0.45",
     "@types/koa-bodyparser": "4.2.0",
     "@types/node": "8.10.10",
@@ -35,6 +26,7 @@
   "peerDependencies": {
     "@esx-rs/core": ">=0.2.0",
     "@esx-rs/http": ">=0.2.0",
-    "@esx-rs/server": ">=0.2.0"
+    "@esx-rs/server": ">=0.2.0",
+    "koa": ">=2.5.0"
   }
 }

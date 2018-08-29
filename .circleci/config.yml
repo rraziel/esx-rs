@@ -16,7 +16,7 @@ jobs:
       - checkout
       - run:
           name: 'Dependencies'
-          command: yarn run bootstrap
+          command: yarn bootstrap
       - run:
           name: 'Lint'
           command: yarn run quality:lint

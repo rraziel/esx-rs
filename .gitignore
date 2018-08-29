@@ -1,7 +1,6 @@
 coverage/
-dist/
 node_modules/
 *.cache
 *.log
-package-lock.json
+lerna-debug.log
 test-report.xml

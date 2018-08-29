@@ -30,7 +30,7 @@ class ClassUtils {
      * @return true if the instance prototype has a method with the given name
      */
     static hasMethod(instancePrototype: Object, methodName: string): boolean {
-        let propertyDescriptor: PropertyDescriptor = Object.getOwnPropertyDescriptor(instancePrototype, methodName);
+        let propertyDescriptor: PropertyDescriptor|undefined = Object.getOwnPropertyDescriptor(instancePrototype, methodName);
         return !!(propertyDescriptor && typeof(propertyDescriptor.value) === 'function');
     }
 

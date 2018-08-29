@@ -1,5 +1,5 @@
-import {HttpContextResolver} from './HttpContextResolver';
-import {ClassConstructor} from '../utils';
+import { HttpContextResolver } from './HttpContextResolver';
+import { ClassConstructor } from '../utils';
 
 /**
  * HTTP context
@@ -20,8 +20,8 @@ class HttpContext {
      * @param itemClass Item class
      * @return Context item
      */
-    get<T>(itemClass: ClassConstructor<T>): T {
-        let item: T;
+    get<T>(itemClass: ClassConstructor<T>): T|undefined {
+        let item: T|undefined;
 
         this.httpContextResolvers.some(httpContextResolver => {
             item = httpContextResolver(itemClass);

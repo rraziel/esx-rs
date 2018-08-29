@@ -1,4 +1,4 @@
-import {RegExpUtils} from './RegExpUtils';
+import { RegExpUtils } from './RegExpUtils';
 
 const MEDIATYPE_DEFAULT: string = 'text/plain';
 const MEDIATYPE_DEFAULT_REQUESTED: string = '*/*';
@@ -47,15 +47,19 @@ class MediaTypeUtils {
      * @param operationMediaTypes Operation media types
      * @return Requested media type
      */
-    static getRequestedMediaType(requestedMediaTypes: string, operationMediaTypes: Set<string>): string {
+    static getRequestedMediaType(requestedMediaTypes: string|undefined, operationMediaTypes: Set<string>): string {
         if (!requestedMediaTypes || !operationMediaTypes) {
             return MediaTypeUtils.getDefaultRequestedMediaType(requestedMediaTypes, operationMediaTypes);
         }
 
-        let requestedMediaType: string = MediaTypeUtils.getMostRequestedMediaType(requestedMediaTypes);
+        let requestedMediaType: string|undefined = MediaTypeUtils.getMostRequestedMediaType(requestedMediaTypes);
 
         if (MediaTypeUtils.isWildcardMediaType(requestedMediaType)) {
             requestedMediaType = MediaTypeUtils.getMatchingMediaTypeWithWildcard(requestedMediaType, operationMediaTypes);
+        }
+
+        if (!requestedMediaType) {
+            requestedMediaType = MediaTypeUtils.getDefaultRequestedMediaType(requestedMediaTypes, operationMediaTypes);
         }
 
         return requestedMediaType;
@@ -106,8 +110,9 @@ class MediaTypeUtils {
      * Given a requested media type - with wildcard(s) - get a media type supported by the operation
      * @param requestedMediaType  Requested media type
      * @param operationMediaTypes Operation media types
+     * @return Matching media type, if any
      */
-    private static getMatchingMediaTypeWithWildcard(requestedMediaType: string, operationMediaTypes: Set<string>): string {
+    private static getMatchingMediaTypeWithWildcard(requestedMediaType: string, operationMediaTypes: Set<string>): string|undefined {
         let regExp: RegExp = RegExpUtils.createWildcardRegExp(requestedMediaType);
 
         for (let operationMediaType of operationMediaTypes) {
@@ -144,7 +149,6 @@ class MediaTypeUtils {
         let parsedMediaTypes: Array<ParsedMediaType> = MediaTypeUtils.parseRequestedMediaTypes(requestedMediaTypes);
         let parsedMediaTypesByPriority: Array<ParsedMediaType> = parsedMediaTypes.sort(MediaTypeUtils.mediaTypePrioritySortPredicate);
         let requestedMediaType: string = parsedMediaTypesByPriority[0].mediaType;
-
         return requestedMediaType;
     }
 

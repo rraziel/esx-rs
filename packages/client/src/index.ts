@@ -1,1 +1,1 @@
-export {ClientConfiguration, ClientFactory, ClientProvider, ResponseExceptionMapper, WebClient} from './client';
+export { ClientConfiguration, ClientFactory, ClientProvider, ResponseExceptionMapper, WebClient } from './client';

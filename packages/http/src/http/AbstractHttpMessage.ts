@@ -1,11 +1,11 @@
-import {HttpHeader} from './HttpHeader';
+import { HttpHeader } from './HttpHeader';
 
 /**
  * Abstract HTTP message
  */
 abstract class AbstractHttpMessage {
-    private headers: Array<HttpHeader>;
-    private payload?: string;
+    private readonly headers: Array<HttpHeader>;
+    private readonly payload: string|undefined;
 
     /**
      * Class constructor
@@ -13,7 +13,7 @@ abstract class AbstractHttpMessage {
      * @param payload Payload
      */
     constructor(headers?: Array<HttpHeader>, payload?: string) {
-        this.headers = headers;
+        this.headers = headers || [];
         this.payload = payload;
     }
 
@@ -30,8 +30,8 @@ abstract class AbstractHttpMessage {
      * @param headerName Header name
      * @return HTTP header
      */
-    getHeader(headerName: string): HttpHeader {
-        return this.headers && this.headers.find(httpHeader => httpHeader.getName().toLowerCase() === headerName.toLowerCase());
+    getHeader(headerName: string): HttpHeader|undefined {
+        return this.headers.find(httpHeader => httpHeader.getName().toLowerCase() === headerName.toLowerCase());
     }
 
     /**
@@ -39,8 +39,8 @@ abstract class AbstractHttpMessage {
      * @param headerName Header name
      * @return Header value
      */
-    getHeaderValue(headerName: string): string {
-        let httpHeader: HttpHeader = this.getHeader(headerName);
+    getHeaderValue(headerName: string): string|undefined {
+        let httpHeader: HttpHeader|undefined = this.getHeader(headerName);
         return httpHeader && httpHeader.getValue();
     }
 
@@ -56,7 +56,7 @@ abstract class AbstractHttpMessage {
      * Get the payload
      * @return Payload
      */
-    getPayload(): string {
+    getPayload(): string|undefined {
         return this.payload;
     }
 

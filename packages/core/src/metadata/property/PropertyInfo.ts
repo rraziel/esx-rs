@@ -1,5 +1,5 @@
-import {ParameterType} from '../ParameterType';
-import {ClassConstructor} from 'es-decorator-utils';
+import { ParameterType } from '../ParameterType';
+import { ClassConstructor } from 'es-decorator-utils';
 
 /**
  * Property information metadata

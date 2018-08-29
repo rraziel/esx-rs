@@ -1,4 +1,4 @@
-import {ClassUtils} from './ClassUtils';
+import { ClassUtils } from './ClassUtils';
 
 class TestClass {
     constructor() { /* empty */ }

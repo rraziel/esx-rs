@@ -1,11 +1,10 @@
-import {CachedOperationInfo} from './CachedOperationInfo';
-import {MatchingResult} from './MatchingResult';
-import {ServerRequestMapper} from './ServerRequestMapper';
-import {ServerResponseMapper} from './ServerResponseMapper';
-import {ClassUtils, MediaTypeUtils} from '../utils';
-import {getFullOperationInfo, OperationInfo} from '@esx-rs/core';
-import {HttpHeaders, HttpRequest, HttpResponse, HttpResponseBuilder, HttpStatuses} from '@esx-rs/http';
-import * as pathToRegexp from 'path-to-regexp';
+import { CachedOperationInfo } from './CachedOperationInfo';
+import { MatchingResult } from './MatchingResult';
+import { ServerRequestMapper } from './ServerRequestMapper';
+import { ServerResponseMapper } from './ServerResponseMapper';
+import { ClassUtils, MediaTypeUtils } from '../utils';
+import { getFullOperationInfo, OperationInfo } from '@esx-rs/core';
+import { HttpHeaders, HttpRequest, HttpResponse, HttpResponseBuilder, HttpStatuses } from '@esx-rs/http';
 
 /**
  * Endpoint manager
@@ -31,7 +30,7 @@ class EndpointManager {
      * @return Promise that resolves to an HTTP response
      */
     async handleRequest(httpRequest: HttpRequest): Promise<HttpResponse> {
-        let foundCachedOperationInfo: CachedOperationInfo;
+        let foundCachedOperationInfo: CachedOperationInfo|undefined;
         let matchingResult: MatchingResult = {};
         let resourcePath: string = httpRequest.getPath();
 
@@ -47,11 +46,11 @@ class EndpointManager {
             return foundCachedOperationInfo !== undefined;
         });
 
-        if (!foundCachedOperationInfo) {
-            return this.buildNoMatchingOperationResponse(matchingResult);
+        if (foundCachedOperationInfo) {
+            return await this.invokeCachedOperation(httpRequest, foundCachedOperationInfo);
         }
 
-        return await this.invokeCachedOperation(httpRequest, foundCachedOperationInfo);
+        return this.buildNoMatchingOperationResponse(matchingResult);
     }
 
     /**
@@ -104,12 +103,12 @@ class EndpointManager {
      * @return true if the HTTP request matches the operation's produced and consumed media types
      */
     private matchesMediaTypes(httpRequest: HttpRequest, operationInfo: OperationInfo, matchingResult: MatchingResult): boolean {
-        let accept: string = httpRequest.getHeaderValue(HttpHeaders.ACCEPT);
+        let accept: string|undefined = httpRequest.getHeaderValue(HttpHeaders.ACCEPT);
 
         if (this.supportsPayloadMediaType(httpRequest, operationInfo)) {
             matchingResult.contentType = true;
 
-            if (MediaTypeUtils.supportsRequestedMediaTypes(accept, operationInfo.producedMediaTypes)) {
+            if (MediaTypeUtils.supportsRequestedMediaTypes(accept, operationInfo.producedMediaTypes as Set<string>)) { // TODO: support Set<string|Function>
                 matchingResult.accept = true;
                 return true;
             }
@@ -125,13 +124,13 @@ class EndpointManager {
      * @return true if the operation supports the payload media type
      */
     private supportsPayloadMediaType(httpRequest: HttpRequest, operationInfo: OperationInfo): boolean {
-        let contentType: string = httpRequest.getHeaderValue(HttpHeaders.CONTENT_TYPE);
+        let contentType: string|undefined = httpRequest.getHeaderValue(HttpHeaders.CONTENT_TYPE);
 
         if (!contentType || !operationInfo) {
             return true;
         }
 
-        return operationInfo.consumedMediaTypes && operationInfo.consumedMediaTypes.has(contentType);
+        return operationInfo.consumedMediaTypes.has(contentType);
     }
 
     /**
@@ -181,16 +180,7 @@ class EndpointManager {
      */
     private registerEndpointMethod(endpoint: Object, methodName: string): void {
         let operationInfo: OperationInfo = getFullOperationInfo(endpoint, methodName);
-        let cachedOperationInfo: CachedOperationInfo = {
-            endpoint: endpoint,
-            methodName: methodName,
-            operationInfo: operationInfo,
-            resourcePathRegExp: null,
-            resourcePathKeys: []
-        };
-
-        cachedOperationInfo.resourcePathRegExp = pathToRegexp(operationInfo.resourcePath, cachedOperationInfo.resourcePathKeys);
-
+        let cachedOperationInfo: CachedOperationInfo = new CachedOperationInfo(endpoint, methodName, operationInfo);
         this.cachedOperationInfos.push(cachedOperationInfo);
     }
 
@@ -211,8 +201,12 @@ class EndpointManager {
      * @return true if there is a match
      */
     private matchOperationEligibleByPath(cachedOperationInfo: CachedOperationInfo, resourcePath: string, predicate: (cachedOperationInfo: CachedOperationInfo, pathMatches: RegExpExecArray) => boolean): boolean {
-        let matches: RegExpExecArray = cachedOperationInfo.resourcePathRegExp.exec(resourcePath);
-        return matches && predicate(cachedOperationInfo, matches);
+        let matches: RegExpExecArray|null = cachedOperationInfo.resourcePathRegExp.exec(resourcePath);
+        if (matches) {
+            return predicate(cachedOperationInfo, matches);
+        }
+
+        return false;
     }
 
 }

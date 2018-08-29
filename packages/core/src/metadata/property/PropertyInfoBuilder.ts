@@ -1,6 +1,6 @@
-import {getPropertyInfo, setPropertyInfo, PropertyInfo} from './PropertyInfo';
-import {ParameterType} from '../ParameterType';
-import {ClassConstructor} from 'es-decorator-utils';
+import { getPropertyInfo, setPropertyInfo, PropertyInfo } from './PropertyInfo';
+import { ParameterType } from '../ParameterType';
+import { ClassConstructor } from 'es-decorator-utils';
 
 /**
  * Property information builder

@@ -1,7 +1,7 @@
-import {ServerRequestMapper} from './ServerRequestMapper';
-import {CachedOperationInfo} from './CachedOperationInfo';
-import {OperationInfo, ParameterType} from '@esx-rs/core';
-import {Cookie, HttpHeader, HttpHeaders, HttpRequestBuilder, HttpRequest} from '@esx-rs/http';
+import { ServerRequestMapper } from './ServerRequestMapper';
+import { CachedOperationInfo } from './CachedOperationInfo';
+import { OperationInfo, ParameterType } from '@esx-rs/core';
+import { Cookie, HttpHeader, HttpHeaders, HttpRequestBuilder, HttpRequest } from '@esx-rs/http';
 import * as pathToRegexp from 'path-to-regexp';
 
 const CONTENT_TYPE_JSON: string = 'application/json';
@@ -23,13 +23,12 @@ describe('Server request mapper', () => {
             it('for an HTTP request', async () => {
                 // given
                 let httpRequest: HttpRequest = new HttpRequest('POST', '/');
-                let operationInfo: OperationInfo = {
-                    parameters: [{
-                        name: HttpRequest,
-                        class: HttpRequest,
-                        type: ParameterType.CONTEXT
-                    }]
-                };
+                let operationInfo: OperationInfo = new OperationInfo();
+                operationInfo.parameters.push({
+                    name: HttpRequest,
+                    class: HttpRequest,
+                    type: ParameterType.CONTEXT
+                });
                 let cachedOperationInfo: CachedOperationInfo = <CachedOperationInfo> {
                     operationInfo: operationInfo
                 };
@@ -55,17 +54,16 @@ describe('Server request mapper', () => {
                 .withCookies(new Cookie('test', 'value'), new Cookie('other', 'x'), new Cookie('test2', '4'))
                 .build()
             ;
-            let operationInfo: OperationInfo = {
-                parameters: [{
-                    name: 'test',
-                    class: String,
-                    type: ParameterType.COOKIE
-                }, {
-                    name: 'test2',
-                    class: Number,
-                    type: ParameterType.COOKIE
-                }]
-            };
+            let operationInfo: OperationInfo = new OperationInfo();
+            operationInfo.parameters.push({
+                name: 'test',
+                class: String,
+                type: ParameterType.COOKIE
+            }, {
+                name: 'test2',
+                class: Number,
+                type: ParameterType.COOKIE
+            });
             let cachedOperationInfo: CachedOperationInfo = <CachedOperationInfo> {
                 operationInfo: operationInfo
             };

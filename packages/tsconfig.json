@@ -1,0 +1,19 @@
+{
+    "files": [],
+    "references": [
+        {"path": "./client"},
+        {"path": "./client-angular"},
+        {"path": "./client-fetch"},
+        {"path": "./client-http"},
+        {"path": "./client-xhr"},
+        {"path": "./core"},
+        {"path": "./description"},
+        {"path": "./http"},
+        {"path": "./router-express"},
+        {"path": "./router-koa"},
+        {"path": "./schema"},
+        {"path": "./schema-cli"},
+        {"path": "./schema-openapi"},
+        {"path": "./server"}
+    ]
+}

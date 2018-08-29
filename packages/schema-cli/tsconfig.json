@@ -1,0 +1,14 @@
+{
+    "extends": "../tsconfig.base.json",
+    "compilerOptions": {
+        "outDir": "./bin",
+        "rootDir": "./src"
+    },
+    "exclude": [
+        "**/*.spec.*"
+    ],
+    "references": [
+        {"path": "../schema"},
+        {"path": "../schema-openapi"}
+    ]
+}

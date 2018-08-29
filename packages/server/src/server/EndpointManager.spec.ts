@@ -1,6 +1,6 @@
-import {EndpointManager} from './EndpointManager';
-import {Consumes, GET, Path, POST, Produces, PUT} from '@esx-rs/core';
-import {HttpHeader, HttpHeaders, HttpRequest, HttpRequestBuilder, HttpResponse, HttpStatuses} from '@esx-rs/http';
+import { EndpointManager } from './EndpointManager';
+import { Consumes, GET, Path, POST, Produces, PUT } from '@esx-rs/core';
+import { HttpHeader, HttpHeaders, HttpRequest, HttpRequestBuilder, HttpResponse, HttpStatuses } from '@esx-rs/http';
 
 class TestResource {
     static MEDIA_TYPE: string = 'application/vnd.test.resource+json';

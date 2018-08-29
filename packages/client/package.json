@@ -4,8 +4,8 @@
   "description": "Proxy generator to access remote ESX-RS endpoints through a class instance.",
   "repository": "https://github.com/rraziel/esx-rs/tree/master/packages/client",
   "license": "MIT",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
   "keywords": [
     "typescript",
     "ecmascript",

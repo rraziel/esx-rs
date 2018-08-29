@@ -1,53 +1,54 @@
-import {HttpRequest} from './HttpRequest';
-import {Cookie} from './Cookie';
+import { HttpRequest } from './HttpRequest';
+import { Cookie } from './Cookie';
 
-// TOD: getHeader when there is no header, same for cookies and query params
 describe('HTTP request', () => {
 
-    describe('returns undefined if', () => {
-        let httpRequest: HttpRequest = new HttpRequest('POST', '/test');
+    describe('returns an empty list/map when', () => {
+        let httpRequest: HttpRequest;
 
-        describe('no cookies are present when', () => {
-
-            it('getting all cookies', () => {
-                // when
-                let cookies: Array<Cookie> = httpRequest.getCookies();
-                // then
-                expect(cookies).toBeUndefined();
-            });
-
-            it('getting a cookie', () => {
-                // when
-                let cookie: Cookie = httpRequest.getCookie('test');
-                // then
-                expect(cookie).toBeUndefined();
-            });
-
-            it('getting a cookie value', () => {
-                // when
-                let cookieValue: string = httpRequest.getCookieValue('test');
-                // then
-                expect(cookieValue).toBeUndefined();
-            });
-
+        beforeEach(() => {
+            httpRequest = new HttpRequest('POST', '/test', new Map<string, string>(), new Map<string, string>(), [], []);
         });
 
-        describe('no query parameters are present when', () => {
+        it('getting all query parameters', () => {
+            // when
+            let queryParameters: Map<string, string> = httpRequest.getQueryParameters();
+            // then
+            expect(queryParameters.size).toBe(0);
+        });
 
-            it('getting all query parameters', () => {
-                // when
-                let queryParameters: Map<string, string> = httpRequest.getQueryParameters();
-                // then
-                expect(queryParameters).toBeUndefined();
-            });
+        it('returns an empty list when no cookies are present', () => {
+            // given
+            // when
+            let cookies: Array<Cookie> = httpRequest.getCookies();
+            // then
+            expect(cookies.length).toBe(0);
+        });
 
-            it('getting a query parameter', () => {
-                // when
-                let queryParameter: string = httpRequest.getQueryParameter('test');
-                // then
-                expect(queryParameter).toBeUndefined();
-            });
+    });
 
+    describe('returns undefined when', () => {
+        let httpRequest: HttpRequest = new HttpRequest('POST', '/test', new Map<string, string>(), new Map<string, string>(), [], []);
+
+        it('getting a query parameter that is not present', () => {
+            // when
+            let queryParameter: string|undefined = httpRequest.getQueryParameter('test');
+            // then
+            expect(queryParameter).toBeUndefined();
+        });
+
+        it('getting a cookie that is not present', () => {
+            // when
+            let cookie: Cookie|undefined = httpRequest.getCookie('test');
+            // then
+            expect(cookie).toBeUndefined();
+        });
+
+        it('getting a cookie value that is not present', () => {
+            // when
+            let cookieValue: string|undefined = httpRequest.getCookieValue('test');
+            // then
+            expect(cookieValue).toBeUndefined();
         });
 
     });

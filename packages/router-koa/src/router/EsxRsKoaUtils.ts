@@ -1,5 +1,5 @@
-import {Cookie, HttpHeader, HttpRequest, HttpResponse} from '@esx-rs/http';
-import {Request, Response} from 'koa';
+import { Cookie, HttpHeader, HttpRequest, HttpResponse } from '@esx-rs/http';
+import { Request, Response } from 'koa';
 
 /**
  * ESX-RS with Koa utility functions
@@ -15,10 +15,10 @@ class EsxRsKoaUtils {
         let method: string = request.method;
         let path: string = request.path;
         let queryParameters: Map<string, string> = EsxRsKoaUtils.buildQueryParameters(request);
-        let matrixParameters: Map<string, string> = undefined;
+        let matrixParameters: Map<string, string> = EsxRsKoaUtils.buildMatrixParameters(request);
         let headers: Array<HttpHeader> = this.buildHeaders(request);
         let cookies: Array<Cookie> = this.buildCookies(request);
-        let payload: string = request.rawBody;
+        let payload: string = request['rawBody'];
 
         return new HttpRequest(method, path, queryParameters, matrixParameters, headers, cookies, payload);
     }
@@ -61,7 +61,7 @@ class EsxRsKoaUtils {
      * @return List of cookies
      */
     private static buildCookies(request: Request): Array<Cookie> {
-        return null;
+        return new Array<Cookie>(); // TODO
     }
 
     /**
@@ -70,7 +70,16 @@ class EsxRsKoaUtils {
      * @return Query parameters
      */
     private static buildQueryParameters(request: Request): Map<string, string> {
-        return null;
+        return new Map<string, string>(); // TODO
+    }
+
+    /**
+     * Build matrix parameters from Koa query parameters
+     * @param request Koa request
+     * @return Matrix parameters
+     */
+    private static buildMatrixParameters(request: Request): Map<string, string> {
+        return new Map<string, string>(); // TODO
     }
 
 }

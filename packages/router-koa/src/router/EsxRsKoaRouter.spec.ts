@@ -1,5 +1,5 @@
-import {EsxRsKoaRouter} from './EsxRsKoaRouter';
-import {Context, Middleware, Request, Response} from 'koa';
+import { EsxRsKoaRouter } from './EsxRsKoaRouter';
+import { Context, Middleware, Request, Response } from 'koa';
 
 describe('ESX-RS Koa router', () => {
     let esxRsKoaRouter: EsxRsKoaRouter = new EsxRsKoaRouter();

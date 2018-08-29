@@ -1,4 +1,4 @@
-import {ClassConstructor} from '../utils';
+import { ClassConstructor } from '../utils';
 
 /**
  * HTTP context resolver

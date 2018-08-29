@@ -4,16 +4,13 @@
   "description": "Common HTTP code for ESX-RS client and server modules.",
   "repository": "https://github.com/rraziel/esx-rs/tree/master/packages/http",
   "license": "MIT",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
   "keywords": [
     "typescript",
     "ecmascript",
     "rest",
     "http",
     "esx-rs"
-  ],
-  "scripts": {
-    "compile": "tsc -p ."
-  }
+  ]
 }

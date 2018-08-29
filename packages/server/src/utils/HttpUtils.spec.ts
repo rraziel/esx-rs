@@ -1,4 +1,4 @@
-import {HttpUtils} from './HttpUtils';
+import { HttpUtils } from './HttpUtils';
 import * as pathToRegexp from 'path-to-regexp';
 
 describe('HTTP utility functions', () => {

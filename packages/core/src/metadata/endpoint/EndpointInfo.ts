@@ -8,11 +8,11 @@ const EndpointInfoMetadata: Symbol = Symbol('esx-rs:endpoint');
 /**
  * Endpoint information
  */
-interface EndpointInfo {
+class EndpointInfo {
     resourcePath?: string;
-    httpMethods?: Set<string>;
-    consumedMediaTypes?: Set<string>;
-    producedMediaTypes?: Set<string>;
+    httpMethods: Set<string> = new Set<string>();
+    consumedMediaTypes: Set<string|Function> = new Set<string>();
+    producedMediaTypes: Set<string|Function> = new Set<string>();
 }
 
 /**
@@ -22,7 +22,7 @@ interface EndpointInfo {
  * @return Endpoint information
  */
 function getEndpointInfo<C extends Function>(classConstructor: C): EndpointInfo {
-    let endpointInfo: EndpointInfo = Reflect.getMetadata(EndpointInfoMetadata, classConstructor) || {};
+    let endpointInfo: EndpointInfo = Reflect.getMetadata(EndpointInfoMetadata, classConstructor) || new EndpointInfo();
     return endpointInfo;
 }
 

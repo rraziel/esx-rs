@@ -1,6 +1,6 @@
-import {EsxRsKoaUtils} from './EsxRsKoaUtils';
-import {HttpHeader, HttpResponse} from '@esx-rs/http';
-import {Response} from 'koa';
+import { EsxRsKoaUtils } from './EsxRsKoaUtils';
+import { HttpHeader, HttpResponse } from '@esx-rs/http';
+import { Response } from 'koa';
 
 describe('ESX-RS with Koa utility functions', () => {
 
