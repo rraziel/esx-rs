@@ -642,10 +642,17 @@
   resolved "https://registry.yarnpkg.com/@nodelib/fs.stat/-/fs.stat-1.1.3.tgz#2b5a3ab3f918cca48a8c754c08168e3f03eba61b"
   integrity sha512-shAmDyaQC4H92APFoIaVDHCx5bStIocgvbwQyxPRrbUY20V1EYTbSDchWbuwlMG3V17cprZhA6+78JfB+3DTPw==
 
-"@types/jest@23.3.1":
-  version "23.3.1"
-  resolved "https://registry.yarnpkg.com/@types/jest/-/jest-23.3.1.tgz#a4319aedb071d478e6f407d1c4578ec8156829cf"
-  integrity sha512-/UMY+2GkOZ27Vrc51pqC5J8SPd39FKt7kkoGAtWJ8s4msj0b15KehDWIiJpWY3/7tLxBQLLzJhIBhnEsXdzpgw==
+"@types/jest-diff@*":
+  version "20.0.1"
+  resolved "https://registry.yarnpkg.com/@types/jest-diff/-/jest-diff-20.0.1.tgz#35cc15b9c4f30a18ef21852e255fdb02f6d59b89"
+  integrity sha512-yALhelO3i0hqZwhjtcr6dYyaLoCHbAMshwtj6cGxTvHZAKXHsYGdff6E8EPw3xLKY0ELUTQ69Q1rQiJENnccMA==
+
+"@types/jest@24.0.11":
+  version "24.0.11"
+  resolved "https://registry.yarnpkg.com/@types/jest/-/jest-24.0.11.tgz#1f099bea332c228ea6505a88159bfa86a5858340"
+  integrity sha512-2kLuPC5FDnWIDvaJBzsGTBQaBbnDweznicvK7UGYzlIJP4RJR2a4A/ByLUXEyEgag6jz8eHdlWExGDtH3EYUXQ==
+  dependencies:
+    "@types/jest-diff" "*"
 
 JSONStream@^1.0.4:
   version "1.3.2"
@@ -1390,13 +1397,14 @@ code-point-at@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/code-point-at/-/code-point-at-1.1.0.tgz#0d070b4d043a5bea33a2f1a40e2edb3d9a4ccf77"
 
-codecov@3.0.4:
-  version "3.0.4"
-  resolved "https://registry.yarnpkg.com/codecov/-/codecov-3.0.4.tgz#37f2bf9ed71086923aac7496d982e32e5899dfd8"
-  integrity sha512-KJyzHdg9B8U9LxXa7hS6jnEW5b1cNckLYc2YpnJ1nEFiOW+/iSzDHp+5MYEIQd9fN3/tC6WmGZmYiwxzkuGp/A==
+codecov@3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/codecov/-/codecov-3.1.0.tgz#340bd968d361f256976b5af782dd8ba9f82bc849"
+  integrity sha512-aWQc/rtHbcWEQLka6WmBAOpV58J2TwyXqlpAQGhQaSiEUoigTTUk6lLd2vB3kXkhnDyzyH74RXfmV4dq2txmdA==
   dependencies:
     argv "^0.0.2"
     ignore-walk "^3.0.1"
+    js-yaml "^3.12.0"
     request "^2.87.0"
     urlgrey "^0.4.4"
 
@@ -3331,6 +3339,14 @@ jest@22.4.3:
 js-tokens@^3.0.0, js-tokens@^3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-3.0.2.tgz#9866df395102130e38f7f996bceb65443209c25b"
+
+js-yaml@^3.12.0:
+  version "3.12.2"
+  resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-3.12.2.tgz#ef1d067c5a9d9cb65bd72f285b5d8105c77f14fc"
+  integrity sha512-QHn/Lh/7HhZ/Twc7vJYQTkjuCa0kaCcDcjK5Zlk2rvnUpy7DxMJ23+Jc2dcyvltwQVg1nygAVlB2oRDFHoRS5Q==
+  dependencies:
+    argparse "^1.0.7"
+    esprima "^4.0.0"
 
 js-yaml@^3.7.0:
   version "3.11.0"
